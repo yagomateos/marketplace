@@ -15,3 +15,19 @@ export const getFeaturedCategories = async (limit) => {
         throw error;
     }
 }
+
+export const getSubCategories = async (parent) => {
+    try {
+        const db = await dbConnection();
+        const [results] = await db.execute(`select * from product_categories ${parent ? `where parent_category=${parent}` : ''}`);
+        await db.end();
+
+        if (results.length > 0) {
+            return results;
+        } else {
+            throw new Error('no sub categories found');
+        }
+    } catch (error) {
+        throw error;
+    }
+}
