@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 
 
-export default function layout({ children }) {
+export default function Layout({ children }) {
     const router = useRouter();
     const { data: session } = useSession()
 
