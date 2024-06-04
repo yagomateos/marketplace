@@ -23,7 +23,7 @@ export default function Footer() {
                 <h4 className="font-bold mb-4">Customer Service</h4>
                 <ul>
                     <li><a href="#" className="text-gray-600 hover:text-gray-800">Help Center</a></li>
-                    <li><a href="#" className="text-gray-600 hover:text-gray-800">FAQ's</a></li>
+                    <li><a href="#" className="text-gray-600 hover:text-gray-800">FAQ&apos;s</a></li>
                     <li><a href="#" className="text-gray-600 hover:text-gray-800">Accessibility</a></li>
                     <li><a href="#" className="text-gray-600 hover:text-gray-800">Feedback</a></li>
                     <li><a href="#" className="text-gray-600 hover:text-gray-800">Size Guide</a></li>
