@@ -13,7 +13,7 @@ export default function HomeProductColumns() {
                     <ProductList label="mostViewed" />
                 </div>
                 <div className='w-full pt-4 lg:pt-0'>
-                    <h3 className="font-semibold text-lg">We Think You'll Love</h3>
+                    <h3 className="font-semibold text-lg">We Think You&apos;ll Love</h3>
                     <ProductList label="recommanded" />
                 </div>
             </div>
