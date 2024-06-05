@@ -31,29 +31,35 @@ export default function FeaturedProducts() {
 
     }, [])
 
-    const swiper = new Swiper('.featured-products-slider', {
-        loop: true,
-        slidesPerView: 2,
-        spaceBetween: 15,
-        autoplay: {
-            delay: 3000, // Autoplay delay in milliseconds
-            disableOnInteraction: false, // Keep autoplay running after user interaction
-        },
-        navigation: {
-            nextEl: '.swiper-button-next', // Class for the next button
-            prevEl: '.swiper-button-prev', // Class for the previous button
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 2, // Show 2 items on mobile devices
-                spaceBetween: 15
-            },
-            768: {
-                slidesPerView: 4, // Show 4 items on desktop devices
-                spaceBetween: 20
-            },
-        },
-    });
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const swiper = new Swiper('.featured-products-slider', {
+                loop: true,
+                slidesPerView: 2,
+                spaceBetween: 15,
+                autoplay: {
+                    delay: 3000, // Autoplay delay in milliseconds
+                    disableOnInteraction: false, // Keep autoplay running after user interaction
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next', // Class for the next button
+                    prevEl: '.swiper-button-prev', // Class for the previous button
+                },
+                breakpoints: {
+                    0: {
+                        slidesPerView: 2, // Show 2 items on mobile devices
+                        spaceBetween: 15
+                    },
+                    768: {
+                        slidesPerView: 4, // Show 4 items on desktop devices
+                        spaceBetween: 20
+                    },
+                },
+            });
+        }
+      }, []);
+
+
     
 
 
