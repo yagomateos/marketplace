@@ -33,7 +33,7 @@ export default function FeaturedProducts() {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const swiper = new Swiper('.featured-products-slider', {
+            new Swiper('.featured-products-slider', {
                 loop: true,
                 slidesPerView: 2,
                 spaceBetween: 15,
@@ -57,10 +57,10 @@ export default function FeaturedProducts() {
                 },
             });
         }
-      }, []);
+    }, [featuredProducts]);
 
 
-    
+
 
 
     return (
@@ -106,7 +106,7 @@ export default function FeaturedProducts() {
                         ))}
                     </div>
                     <div className="navigation-wrapper">
-                    <a className="swiper-button-prev h-10 w-10 bg-white text-xs text-gray-500 shadow-sm shadow-slate-500 rounded-full flex items-center justify-center"></a>
+                        <a className="swiper-button-prev h-10 w-10 bg-white text-xs text-gray-500 shadow-sm shadow-slate-500 rounded-full flex items-center justify-center"></a>
                         <a className="swiper-button-next"></a>
                     </div>
                 </div>
