@@ -29,9 +29,13 @@ export default function Homeslider() {
     }, [])
 
     // init Swiper:
-    const swiper = new Swiper('.home-slider-wrapper', {
-        loop: true,
-    });
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+          new Swiper('.home-slider-wrapper', {
+            loop: true,
+          });
+        }
+      }, []);
 
 
     return (
