@@ -1,0 +1,14 @@
+.search-submit-btn{
+    top: 5px;
+    right: 5px;
+    height: calc(100% - 10px);
+    width: 38px;
+}
+
+.kd-navbar-search-form:hover .search-submit-btn{
+    border-radius: 0 !important;
+    top: 0;
+    right: 0;
+    height: 48px;
+    width: 48px;
+}

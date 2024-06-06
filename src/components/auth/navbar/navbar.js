@@ -17,11 +17,11 @@ export default function Navbar() {
                 <div className="right">
                     <nav>
                         <ul className="flex space-x-4">
-                            {pathname === '/login' && (
-                                <li className="text-sm font-medium text-gray-600 hover:text-gray-800 cursor-pointer"><a onClick={() => router.push('/register')}>Register</a></li>
+                            {pathname === '/inicio' && (
+                                <li className="text-sm font-medium text-gray-600 hover:text-gray-800 cursor-pointer"><a onClick={() => router.push('/registro')}>Registro</a></li>
                             )}
-                            {pathname === '/register' && (
-                                <li className="text-sm font-medium text-gray-600 hover:text-gray-800 cursor-pointer"><a onClick={() => router.push('/login')}>Login</a></li>
+                            {pathname === '/registro' && (
+                                <li className="text-sm font-medium text-gray-600 hover:text-gray-800 cursor-pointer"><a onClick={() => router.push('/entrar')}>Entrar</a></li>
                             )}
 
                         </ul>

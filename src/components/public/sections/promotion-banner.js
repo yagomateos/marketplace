@@ -23,7 +23,7 @@ export default function PromotionBanner({ location }) {
 
 
     return (
-        <div className="container mx-auto my-6 px-4 max-w-7xl sm:px-6 lg:px-8 hidden lg:block">
+        <div className="container mx-auto mb-6 px-4 max-w-7xl sm:px-6 lg:px-8 hidden lg:block">
             <div
                 className="banner-container relative bg-cover bg-center p-8"
                 style={{
