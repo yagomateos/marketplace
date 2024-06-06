@@ -99,7 +99,7 @@ export default function PublicNavbar({ categoriesMenuOpen, setCatMenuOpen }) {
                     <div className='center flex justify-center w-full'>
                         <ul className="text-sm flex items-center justify-center gap-8">
                             <li><a href="">Gift Mode</a></li>
-                            <li><a href="">Father's Day deals</a></li>
+                            <li><a href="">Father&apos;s Day deals</a></li>
                             <li><a href="">Home favorites</a></li>
                             <li><a href="">Fashion Finds</a></li>
                             <li><a href="">Registry</a></li>
