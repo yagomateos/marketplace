@@ -1,13 +1,12 @@
-import PublicNavbar from "../components/public/navbar/page"
-import Footer from "../components/public/footer/page";
+
 import Homepage from "../components/public/homepage/homepage";
+import PublicPageContainer from "../components/containers/publicPageContainer"
 
 export default function Home() {
+
   return (
-    <>
-      <PublicNavbar />
-      <Homepage/>
-      <Footer/>
-    </>
+    <PublicPageContainer>
+      <Homepage />
+    </PublicPageContainer>
   );
 }

@@ -8,13 +8,11 @@ export default function SubCategories({ parentId }) {
     const [categoryList, setCategoryList] = useState(null);
 
     useEffect(() => {
-        console.clear();
-        console.log(parentId)
+       
         const getSubCatFunc = async () => {
             try {
                 const subCategories = await getSubCats(parentId)
-                console.clear();
-                console.log(subCategories)
+            
                 setCategoryList(subCategories)
             } catch (error) {
                 console.log(error)
