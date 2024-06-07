@@ -11,14 +11,16 @@ export default function PublicPageContainer({ children }) {
 
     return (
         <>
-            <PublicNavbar categoriesMenuOpen={categoriesMenuOpen} setCatMenuOpen={setCatMenuOpen} />
-            <div className="py-6 relative">
-                {categoriesMenuOpen&&(
-                    <div className='dropdownOverlay' onClick={()=>{setCatMenuOpen(false)}}></div>
+            <div className="pb-6 relative">
+                {categoriesMenuOpen && (
+                    <div className='dropdownOverlay' onClick={() => { setCatMenuOpen(false) }}></div>
                 )}
+                <PublicNavbar categoriesMenuOpen={categoriesMenuOpen} setCatMenuOpen={setCatMenuOpen} />
+
                 {children}
+
+                <Footer />
             </div>
-            <Footer />
         </>
     )
 }
