@@ -12,3 +12,31 @@
     height: 48px;
     width: 48px;
 }
+
+.kd-tooltip{
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: all .6s ease;
+   z-index: 123;
+}
+
+.tooltip-trigger{
+    cursor: pointer;
+}
+
+
+.tooltip-trigger:hover + .kd-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.kd-tooltip:after{
+    position: absolute;
+    content: "";
+    transform: rotate(45deg);
+    background: inherit;
+    width: calc(6px* 1.5);
+    height: calc(6px* 1.5);
+    top: calc(-1* 3px);
+    left: calc(50% - (6px* 0.75));
+}

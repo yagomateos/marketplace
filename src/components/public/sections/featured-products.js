@@ -34,6 +34,7 @@ export default function FeaturedProducts() {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             new Swiper('.featured-products-slider', {
+                modules: [Navigation, Pagination],
                 loop: true,
                 slidesPerView: 2,
                 spaceBetween: 15,
@@ -42,8 +43,8 @@ export default function FeaturedProducts() {
                     disableOnInteraction: false, // Keep autoplay running after user interaction
                 },
                 navigation: {
-                    nextEl: '.swiper-button-next', // Class for the next button
-                    prevEl: '.swiper-button-prev', // Class for the previous button
+                    nextEl: '.feature-carousel-next', // Class for the next button
+                    prevEl: '.feature-carousel-prev', // Class for the previous button
                 },
                 breakpoints: {
                     0: {
@@ -65,51 +66,58 @@ export default function FeaturedProducts() {
 
     return (
         <div className="container mx-auto my-8 px-4 max-w-7xl sm:px-6 lg:px-8">
-            {/* header */}
-            <div className="flex justify-between align-center">
-                <div>
-                    <h2 className="text-2xl font-medium">Popular Products</h2>
-                </div>
-                <div>
-                    <a href="#" className="text-sm underline">See all products</a>
-                </div>
-            </div>
 
-            {/* content */}
 
             {featuredProducts && (
-                <div className="featured-products-slider overflow-hidden w-full py-4 relative">
-                    <div className="swiper-wrapper">
-                        {featuredProducts && featuredProducts.map((featuredProduct, key) => (
-                            <div className="swiper-slide" key={key}>
-                                <div className="single-featured-product-inner">
-                                    {featuredProduct.main_image_url && (<img className="w-full h-36 lg:h-80 object-cover" src={featuredProduct.main_image_url} />)}
-                                    {featuredProduct.category_name && (
-                                        <p className="text-sm p-1">{featuredProduct.category_name}</p>
-                                    )}
-                                    {featuredProduct.name && (
-                                        <p className="p-1">{featuredProduct.name}</p>
-                                    )}
-                                    {featuredProduct.username && (
-                                        <p className="p-1 text-sm">{featuredProduct.username}</p>
-                                    )}
+                <>
+                    {/* header */}
+                    <div className="flex justify-between align-center">
+                        <div>
+                            <h2 className="text-2xl font-medium">Popular Products</h2>
+                        </div>
+                        <div>
+                            <a href="#" className="text-sm underline">See all products</a>
+                        </div>
+                    </div>
 
-                                    {featuredProduct.sale_price && (
-                                        <div className="flex justify-start gap-2 items-center">
-                                            <p className="p-1 text-red-800">{featuredProduct.sale_price}</p>
-                                            <p className="line-through">{featuredProduct.regular_price}</p>
+                    {/* content */}
+                    <div className=" w-full py-4 px-5 lg:px-0 relative">
+                        <div className="featured-products-slider w-full overflow-hidden">
+                            <div className="swiper-wrapper">
+                                {featuredProducts && featuredProducts.map((featuredProduct, key) => (
+                                    <div className="swiper-slide" key={key}>
+                                        <div className="single-featured-product-inner">
+                                            {featuredProduct.main_image_url && (<img className="w-full h-36 lg:h-80 object-cover" src={featuredProduct.main_image_url} />)}
+                                            {featuredProduct.category_name && (
+                                                <p className="text-sm p-1">{featuredProduct.category_name}</p>
+                                            )}
+                                            {featuredProduct.name && (
+                                                <p className="p-1">{featuredProduct.name}</p>
+                                            )}
+                                            {featuredProduct.username && (
+                                                <p className="p-1 text-sm">{featuredProduct.username}</p>
+                                            )}
+
+                                            {featuredProduct.sale_price && (
+                                                <div className="flex justify-start gap-2 items-center">
+                                                    <p className="p-1 text-red-800">{featuredProduct.sale_price}</p>
+                                                    <p className="line-through">{featuredProduct.regular_price}</p>
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
 
+                                    </div>
+                                ))}
                             </div>
-                        ))}
+                        </div>
+
+                        <div className='featured-product-navigation absolute bottom-1/2 left-0 flex gap-4 z-10 justify-between w-full'>
+                            <a className='feature-carousel-prev w-10 h-10 bg-white shadow-sm shadow-gray-500 rounded-full text-gray-500 flex justify-center items-center cursor-pointer text-lg lg:-ml-8'><img className="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/caret-left.svg" /></a>
+                            <a className='feature-carousel-next w-10 h-10 bg-white shadow-sm shadow-gray-500 rounded-full text-gray-500 flex justify-center items-center cursor-pointer text-lg lg:-mr-8'><img className="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/caret-right.svg" /></a>
+                        </div>
                     </div>
-                    <div className="navigation-wrapper">
-                        <a className="swiper-button-prev h-10 w-10 bg-white text-xs text-gray-500 shadow-sm shadow-slate-500 rounded-full flex items-center justify-center"></a>
-                        <a className="swiper-button-next"></a>
-                    </div>
-                </div>
+                </>
+
             )}
 
         </div>

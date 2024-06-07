@@ -7,12 +7,15 @@ import HomeProductColumns from '../sections/home-product-columns'
 export default function Homepage() {
     return (
         <>
-            <PromotionBanner location="homepage-upper" />
+        <div className="pt-6">
+        <PromotionBanner location="homepage-upper" layout="inline" />
             <Homeslider />
             <FeaturedProducts/>
             <FeaturedCategories/>
-            <PromotionBanner location="homepage-middle" />
+            <PromotionBanner location="homepage-middle" layout="vertical"/>
             <HomeProductColumns/>
+        </div>
+
         </>
     )
 }
