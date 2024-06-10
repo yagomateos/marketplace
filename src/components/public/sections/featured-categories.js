@@ -42,19 +42,19 @@ export default function FeaturedCategories() {
 
             {categories && (
                 <div className="featured-categories-wrapper overflow-hidden w-full py-4 relative">
-                    <div className="featured-categories-inner flex justify-between items-center gap-8">
+                    <div className="featured-categories-inner flex justify-between items-center flex-wrap lg:gap-8">
                         {categories && categories.map((category, key) => (
-                            <div className="single-category-item  text-center" key={key}>
-                                <div className="single-category-inner">
+                            <div className="single-category-item  text-center w-1/2 lg:w-auto p-4 lg:p-0" key={key}>
+                                <div className="single-category-inner flex justify-center flex-col items-center">
                                     {category.category_image && (
-                                        <img className=" rounded-full h-24 w-24 lg:h-60 lg:w-60" src={category.category_image} />
+                                        <img className=" rounded-full h-32 w-32 lg:h-60 lg:w-60" src={category.category_image} />
                                     )}
 
                                     {category.category_name && (
-                                        <p className="text-xl">{category.category_name}</p>
+                                        <p className="text-sm mt-5 leading-3 font-semibold lg:text-xl">{category.category_name}</p>
                                     )}
 
-                                    <a className='text-sm underline'>Shop Now</a>
+                                    <a className='text-sm underline mt-3'>Shop Now</a>
                                 </div>
 
                             </div>

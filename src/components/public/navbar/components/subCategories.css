@@ -1,0 +1,5 @@
+@media(min-width : 768px) {
+    .kd-sub-category-single-item {
+        max-width: calc(33.3% - 12px);
+    }
+}

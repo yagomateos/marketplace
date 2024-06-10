@@ -1,0 +1,16 @@
+@media(max-width : 767px){
+    .footer-subscribe-form{
+        box-sizing : border-box;
+        position : relative;
+    }
+    
+    .footer-subscribe-form button{
+        position: absolute;
+        margin: 0 !important;
+        height: 80%;
+        right: 7%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
