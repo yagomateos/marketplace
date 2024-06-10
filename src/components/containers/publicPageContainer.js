@@ -11,7 +11,7 @@ export default function PublicPageContainer({ children }) {
 
     return (
         <>
-            <div className="pb-6 relative">
+            <div className="relative">
                 {categoriesMenuOpen && (
                     <div className='dropdownOverlay' onClick={() => { setCatMenuOpen(false) }}></div>
                 )}

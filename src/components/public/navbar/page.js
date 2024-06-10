@@ -52,7 +52,7 @@ export default function PublicNavbar({ categoriesMenuOpen, setCatMenuOpen }) {
                     </div>
                     <div className='hidden lg:block w-full lg:w-auto px-4'>
                         {/* categories hamburger */}
-                        <button onClick={() => setCatMenuOpen(!categoriesMenuOpen)} className='transition-all flex justify-between items-center text-sm font-medium py-2  px-3 rounded-full hover:bg-gray-200 min-w-max box-border'><img className='w-5' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/hamburger.svg" />&nbsp; <span>categorías</span></button>
+                        <button onClick={() => setCatMenuOpen(!categoriesMenuOpen)} className='transition-all flex justify-between items-center text-sm font-medium py-2  px-3 rounded-full hover:bg-gray-200 min-w-max box-border'><img className='w-5' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/hamburger.svg" />&nbsp; <span>Categorías</span></button>
 
                         {/* categories menu  */}
 
@@ -94,7 +94,7 @@ export default function PublicNavbar({ categoriesMenuOpen, setCatMenuOpen }) {
                 {/* Bottom Section for Desktop */}
                 <div className='hidden lg:flex justify-center items-center w-full px-0 py-4'>
                     <div className='center flex justify-center w-full'>
-                        <ul className="text-sm font-semibold flex items-center justify-center gap-8">
+                        <ul className="text-sm items-center font-semibold flex items-center justify-center gap-8">
                             <li><a className='inline-flex w-max py-2 px-3 hover:bg-gray-200 rounded-full' href=""><img className="w-5" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/gift.svg" /> &nbsp;Buscador de regalos</a></li>
                             <li><a className='inline-flex w-max py-2 px-3 hover:bg-gray-200 rounded-full' href="">Ofertas por el Día del Padre</a></li>
                             <li><a className='inline-flex w-max py-2 px-3 hover:bg-gray-200 rounded-full' href="">Favoritos para el hogar</a></li>

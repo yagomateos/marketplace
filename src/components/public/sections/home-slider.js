@@ -10,10 +10,12 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './home-slider.css'
+import SliderCountdown from './snippets/slider-countdown'
 
 export default function Homeslider() {
 
     const [slider, setSlider] = useState(null)
+
 
     useEffect(() => {
 
@@ -86,24 +88,8 @@ export default function Homeslider() {
                         </div>
                     </div>
                 </div>
-                <div className="right hidden lg:block lg:w-1/3 flex-grow">
-                    <div className='rounded-lg bg-orange-100 text-center text-amber-900 h-full p-8 flex flex-col items-center'>
-                        <p className='text-sm font-semibold'>Oferta de tiempo limitado</p>
-                        <div className='bg-white rounded-md py-3 px-8 w-max shadow-sm shadow-gray-200 mt-4 mb-2'>
-                            <p className=' text-lg font-semibold'>02 &nbsp;:&nbsp; 20 &nbsp;:&nbsp; 42</p>
-                        </div>
-                        <p className='text-xs'>Horas &nbsp;&nbsp; minutos &nbsp;&nbsp; Segundos</p>
-
-                        <div className='my-4'>
-                            <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/products/homev5-limited-time-offer.png" />
-                        </div>
-
-                        <div>
-                            <h3 className='text-3xl text-orange-950 font-semibold mb-2'>Jogger nocturno</h3>
-                            <p className='text-sm mb-4'>Hasta 40% de descuento en zapatillas deportivas para mujer</p>
-                            <a href="" className='text-sm underline'>Compra ahora</a>
-                        </div>
-                    </div>
+                <div className="right lg:w-1/3 flex-grow">
+                    <SliderCountdown />
                 </div>
             </div>
         </div>
