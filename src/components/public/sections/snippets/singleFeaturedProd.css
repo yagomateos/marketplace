@@ -1,0 +1,4 @@
+.single-featured-product-inner:hover .favorite-product{
+     opacity: 1;
+     transform: translateY(0);
+}

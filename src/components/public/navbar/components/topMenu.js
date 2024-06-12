@@ -1,10 +1,22 @@
-import React from 'react'
+'use client'
 
-export default function TopMenu({ session }) {
+import React, { useState } from 'react'
+import { signOut } from 'next-auth/react';
+
+export default function TopMenu({ session, setOpenedPopup }) {
+
+    const signOutUser = async (e) => {
+        e.preventDefault();
+        signOut({ redirect: false });
+    }
+
+    const [userPopupOpen , setUserPopupOpen] = useState(false)
+
+
     return (
-        <ul className="flex space-x-1 lg:space-x-4 text-sm font-semibold">
+        <ul className="flex space-x-1 lg:space-x-4 text-sm font-semibold items-center">
             {!session ? (
-                <li><a className='py-2 px-3 rounded-full hover:bg-gray-200 block' href="/" >Entrar</a></li>
+                <li><a className='py-2 px-3 rounded-full hover:bg-gray-200 block' href='/' onClick={(e) => { e.preventDefault(); setOpenedPopup('login') }} >Entrar</a></li>
             ) : ''}
 
             <li>
@@ -23,10 +35,33 @@ export default function TopMenu({ session }) {
                     </span>
                 </span>
             </li>
+            {
+                session && (
+                    <>
+                        <li>
+                            <a onClick={(e)=>{e.preventDefault(); setUserPopupOpen(!userPopupOpen)}} className='flex w-7 h-7 justify-center items-center' href=""><img className='w-12 rounded-full border-2 border-green-500' src="https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg" /></a>
+                            {userPopupOpen &&
+                                <span className='absolute right-0 top-[90%] shadow-md shadow-[#00000035] block rounded-xl bg z-50 min-w-64 kd-user-popup'>
+                                    <div className='p-4 bg-green-500 flex gap-3 rounded-t-lg'>
+                                        <img className='w-5' src="https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg" /> <h2 className='ml-1'>Kamindu</h2>
+                                    </div>
+                                    <div className='p-4 bg-white rounded-b-lg'>
+                                        <ul>
+                                            <li><a href="/" onClick={(event) => { signOutUser(event) }}>cerrar sesión</a></li>
+                                        </ul>
+                                    </div>
+                                </span>
+                            }
+                        </li>
+
+                    </>
+                )
+            }
+
             <li>
                 <a className="tooltip-trigger flex items-center justify-center w-10 h-10 rounded-full hover:bg-green-200"><img className="w-5" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/cart.svg" /></a>
 
             </li>
-        </ul>
+        </ul >
     )
 }

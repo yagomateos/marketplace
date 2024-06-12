@@ -40,3 +40,14 @@
     top: calc(-1* 3px);
     left: calc(50% - (6px* 0.75));
 }
+
+.kd-user-popup:after{
+    position: absolute;
+    content: "";
+    transform: rotate(45deg);
+    background: #22c55e;
+    width: calc(6px* 1.5);
+    height: calc(6px* 1.5);
+    top: calc(-1* 3px);
+    left: calc(75% - (6px* 0.75));
+}

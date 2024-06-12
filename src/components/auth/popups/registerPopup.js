@@ -1,17 +1,20 @@
-'use client';
+import React from 'react'
+import RegisterForm from '../forms/registerForm';
+import GoogleButton from '../social/googleButton'
+import FacebookButton from '../social/facebookButton'
 
-import LoginForm from '../../../components/auth/forms/loginForm';
-import GoogleButton from '../../../components/auth/social/googleButton';
-import FacebookButton from "../../../components/auth/social/facebookButton";
-
-const LoginPage = () => {
-
+export default function RegisterPopup() {
     return (
-        <>
-            <div className="sign-in-wrapper px-4 py-12 mx-auto max-w-3xl sm:px-6 lg:px-8">
-                <div className="manual-sign-in bg-white shadow-md rounded-lg p-8">
-                    <h2 className="text-xl leading-6 font-medium text-gray-900">Inicia sesión para continuar</h2>
-                    <LoginForm />
+        <div>
+            <div className="sign-in-popup px-4 py-8 mx-auto w-full sm:px-6 lg:px-8">
+                <div className='w-full flex justify-between items-center pb-4'>
+                    <div>
+                        <h2 className='text-lg font-semibold'>Crea tu cuenta</h2>
+                    </div>
+                    
+                </div>
+                <div className="manual-sign-in bg-white">
+                    <RegisterForm />
                 </div>
                 <div className="separator my-8 text-center">
                     <p className="text-sm text-gray-500">O</p>
@@ -25,8 +28,6 @@ const LoginPage = () => {
                     <p><small>El mercado puede enviarte comunicaciones; puedes cambiar tus preferencias en la configuración de tu cuenta. Nunca publicaremos sin tu permiso.</small></p>
                 </div>
             </div>
-        </>
-    );
-};
-
-export default LoginPage;
+        </div>
+    )
+}

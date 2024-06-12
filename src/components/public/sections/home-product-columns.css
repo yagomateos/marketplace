@@ -1,0 +1,12 @@
+.product-columns-mobile::-webkit-scrollbar {
+    height: 1px;
+}
+
+.product-columns-mobile::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.product-columns-mobile::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 1px;
+}

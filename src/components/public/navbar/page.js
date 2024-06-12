@@ -1,6 +1,6 @@
 'use client'
 
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import Featuredcategories from './components/featuredCategories'
 import { useEffect, useState } from 'react';
 import { getfeaturedCategories } from '../../../lib/actions/products/categories'
@@ -8,17 +8,13 @@ import TopMenu from './components/topMenu'
 import './navbar.css'
 
 
-export default function PublicNavbar({ categoriesMenuOpen, setCatMenuOpen }) {
+export default function PublicNavbar({ categoriesMenuOpen, setCatMenuOpen , setOpenedPopup }) {
     const { data: session } = useSession()
 
     const [menuOpen, setMenuOpen] = useState(false);
 
     const [featuredCategories, setFeaturedcategories] = useState(null);
 
-    const signOutUser = async (e) => {
-        e.preventDefault();
-        signOut({ redirect: true, callbackUrl: '/login' });
-    }
 
     // getting featured categories
     useEffect(() => {
@@ -46,7 +42,7 @@ export default function PublicNavbar({ categoriesMenuOpen, setCatMenuOpen }) {
                         <h2 className="text-xl font-semibold ml-0 lg:ml-0"><img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/logo.svg" className='w-32 lg:w-48 max-w-full' /></h2>
 
                         <div className='lg:hidden'>
-                            <TopMenu session={session} />
+                            <TopMenu session={session} setOpenedPopup={setOpenedPopup} />
                         </div>
 
                     </div>
@@ -78,7 +74,7 @@ export default function PublicNavbar({ categoriesMenuOpen, setCatMenuOpen }) {
                     </div>
                     <div className="hidden lg:flex lg:w-auto lg:pl-4">
                         <nav>
-                            <TopMenu session={session} />
+                            <TopMenu session={session} setOpenedPopup={setOpenedPopup}/>
                         </nav>
                     </div>
                 </div>
