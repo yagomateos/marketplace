@@ -8,6 +8,7 @@ import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import SingleFeaturedProduct from './snippets/singleFeaturedProduct'
 
 
 export default function FeaturedProducts() {
@@ -62,8 +63,6 @@ export default function FeaturedProducts() {
 
 
 
-
-
     return (
         <div className="container mx-auto my-8 px-4 max-w-7xl sm:px-6 lg:px-8">
 
@@ -86,25 +85,7 @@ export default function FeaturedProducts() {
                             <div className="swiper-wrapper">
                                 {featuredProducts && featuredProducts.map((featuredProduct, key) => (
                                     <div className="swiper-slide" key={key}>
-                                        <div className="single-featured-product-inner">
-                                            {featuredProduct.main_image_url && (<img className="w-full h-36 lg:h-80 object-cover" src={featuredProduct.main_image_url} />)}
-                                            {featuredProduct.category_name && (
-                                                <p className="text-sm p-1">{featuredProduct.category_name}</p>
-                                            )}
-                                            {featuredProduct.name && (
-                                                <p className="p-1">{featuredProduct.name}</p>
-                                            )}
-                                            {featuredProduct.username && (
-                                                <p className="p-1 text-sm">{featuredProduct.username}</p>
-                                            )}
-
-                                            {featuredProduct.sale_price && (
-                                                <div className="flex justify-start gap-2 items-center">
-                                                    <p className="p-1 text-red-800">{featuredProduct.sale_price}</p>
-                                                    <p className="line-through">{featuredProduct.regular_price}</p>
-                                                </div>
-                                            )}
-                                        </div>
+                                        <SingleFeaturedProduct featuredProduct={featuredProduct}/>
 
                                     </div>
                                 ))}
