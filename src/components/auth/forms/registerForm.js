@@ -15,6 +15,7 @@ export default function RegisterForm() {
             const newUser = await registerUser(formData);
             if (newUser) {
                 console.log('registered successfully')
+                
                 const result = await signIn('credentials', {
                     redirect: false,
                     email,

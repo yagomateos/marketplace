@@ -10,8 +10,7 @@ export default function SingleFeaturedProduct({ featuredProduct }) {
     const [favourites, setFavourites] = useState([]);
 
     useEffect(() => {
-        console.clear();
-        console.log('comes here');
+
         try {
             const favouriteProds = getFavorites();
             console.log(favouriteProds);
