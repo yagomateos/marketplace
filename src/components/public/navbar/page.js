@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import Featuredcategories from './components/featuredCategories'
 import { useEffect, useState } from 'react';
 import { getfeaturedCategories } from '../../../lib/actions/products/categories'
+import SearchForm from './components/searchForm'
 import TopMenu from './components/topMenu'
 import './navbar.css'
 
@@ -22,7 +23,6 @@ export default function PublicNavbar({ categoriesMenuOpen, setCatMenuOpen , setO
             try {
                 const categories = await getfeaturedCategories(8);
                 setFeaturedcategories(categories);
-                console.log('here')
             } catch (error) {
                 console.log(error);
             }
@@ -33,7 +33,7 @@ export default function PublicNavbar({ categoriesMenuOpen, setCatMenuOpen , setO
 
 
     return (
-        <div className="border-b border-gray-300 relative lg:z-20 bg-white">
+        <div className="border-b border-gray-300 relative lg:z-20 bg-white" >
 
             <div className='container mx-auto px-4 max-w-7xl sm:px-6 lg:px-8 '>
                 {/* Center Section */}
@@ -58,18 +58,13 @@ export default function PublicNavbar({ categoriesMenuOpen, setCatMenuOpen , setO
                         }
 
                     </div>
-                    <div className="flex justify-center w-full mt-4 lg:mt-0 px-0 lg:px-8">
+                    <div className="flex justify-center w-full mt-4 lg:mt-0 px-0 lg:px-8 relative">
                         <button className="lg:hidden mr-4" onClick={() => setCatMenuOpen(!categoriesMenuOpen)}>
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                             </svg>
                         </button>
-                        <form className="w-full relative kd-navbar-search-form rounded-full overflow-hidden">
-                            <input type="text" placeholder="Busca lo que se te ocurra" className="border-2 border-zinc-950 rounded px-3 py-2 w-full h-12 rounded-full" />
-                            <button type="submit" class="search-submit-btn p-1  rounded-full bg-green-500 text-white absolute flex justify-center items-center">
-                                <img className='w-4' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/search.svg" />
-                            </button>
-                        </form>
+                        <SearchForm/>
 
                     </div>
                     <div className="hidden lg:flex lg:w-auto lg:pl-4">

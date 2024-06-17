@@ -10,8 +10,6 @@ export default function PublicPageContainer({ children }) {
     const [categoriesMenuOpen, setCatMenuOpen] = useState(false)
     const [openedPopup, setOpenedPopup] = useState(false)
 
-    console.clear()
-    console.log(openedPopup)
 
     return (
         <>
