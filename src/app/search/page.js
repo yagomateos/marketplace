@@ -42,7 +42,7 @@ export default function SearchResult() {
                 <div className='flex items-center gap-5 w-full'>
                     {result && result.map((rst, key) => {
 
-                        return <SingleFeaturedProduct featuredProduct={rst} />
+                        return <SingleFeaturedProduct key={key} featuredProduct={rst} />
 
                     })}
                 </div>
