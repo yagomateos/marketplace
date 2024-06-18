@@ -35,8 +35,8 @@ export default function SearchForm() {
             {searchResults && (
                 <div className="bg-white py-4 overflow-hidden rounded-2xl absolute w-[90%] top-[120%] shadow-xl shadow-[#00000025]">
                     <ul>
-                        {searchResults.map((res) => {
-                            return (<li><a className="py-3 px-6 block hover:bg-[#00000025]" href="/">{res.category_name}</a></li>)
+                        {searchResults.map((res , key) => {
+                            return (<li key={key}><a className="py-3 px-6 block hover:bg-[#00000025]" href="/">{res.category_name}</a></li>)
                         })}
                     </ul>
 
