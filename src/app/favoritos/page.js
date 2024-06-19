@@ -60,8 +60,8 @@ export default function FavoritesComponent() {
                 <div className='flex items-center gap-5 w-8/12'>
 
                     {/* if favourite products are there */}
-                    {favouriteProducts && favouriteProducts.map(favouriteprod => (
-                            <SingleFeaturedProduct featuredProduct={favouriteprod} />
+                    {favouriteProducts && favouriteProducts.map((favouriteprod, key) => (
+                            <SingleFeaturedProduct key={key} featuredProduct={favouriteprod} />
 
                     ))}
 
