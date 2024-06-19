@@ -1,6 +1,6 @@
 'use server'
 
-import { getProducts } from '../../middleware/products/getProducts.js';
+import { getProducts , getProductsByIds } from '../../middleware/products/getProducts.js';
 
 
 export const gtProducts = async (category, label, limit) => {
@@ -10,6 +10,15 @@ export const gtProducts = async (category, label, limit) => {
     } catch (error) {
         throw error;
     }
+}
+
+export const gtProductsByIds = async (productIds = null) => {
+    try {
+        const products = await getProductsByIds(productIds);
+        return products;
+    } catch (error) {
+        throw error;
+    } 
 }
 
 

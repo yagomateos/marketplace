@@ -8,6 +8,7 @@ import SingleFeaturedProduct from '../../components/public/sections/snippets/sin
 
 function SearchResultComponent() {
     const [result, setResult] = useState(null);
+    const [err, setErr] = useState(null)
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -22,9 +23,17 @@ function SearchResultComponent() {
                 try {
                     const searchResult = await searchProducts(searchQuery);
                     console.log(searchResult);
-                    searchResult && searchResult != '' ? setResult(searchResult) : setResult(null);
+                    if (searchResult && searchResult != '') {
+                        setResult(searchResult)
+                        setErr(null)
+                    } else {
+                        setResult(null);
+                        setErr('no products found')
+                    }
                 } catch (error) {
-                    console.log(error);
+                    console.log(error.message);
+                    setResult(null)
+                    setErr(error.message)
                 }
             };
 
@@ -38,9 +47,21 @@ function SearchResultComponent() {
         <PublicPageContainer>
             <div className='container mx-auto my-8 px-4 max-w-7xl sm:px-6 lg:px-8'>
                 <div className='flex items-center gap-5 w-full'>
+                    {/* if we have result */}
                     {result && result.map((rst, key) => (
                         <SingleFeaturedProduct key={key} featuredProduct={rst} />
                     ))}
+
+                    {/* if there's an error */}
+                    {err && (
+                        <div className='container flex justify-center w-full'>
+                            <div className='w-full lg:w-8/12 py-14 lg:py-[60px] px-4'>
+                                <img className='w-full mb-6' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/desert.jpg" />
+                                <p className='font-medium text-2xl leading-snug lg:text-3xl mb-4'>No hemos encontrado resultados para {(searchQuery)}</p>
+                                <p>Prueba a buscar otra cosa</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </PublicPageContainer>

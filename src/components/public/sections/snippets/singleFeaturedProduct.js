@@ -20,11 +20,8 @@ export default function SingleFeaturedProduct({ featuredProduct }) {
         }
     }, []);
 
-    console.log(favourites);
 
     const favouritesSet = (what = 'add', product_id) => {
-        console.log(what, product_id);
-
         setFavourites((prevFavourites) => {
             let newFavourites;
             if (what === 'add') {

@@ -2,8 +2,11 @@
 
 import React, { useState } from 'react'
 import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function TopMenu({ session, setOpenedPopup }) {
+
+    const router = useRouter();
 
     const signOutUser = async (e) => {
         e.preventDefault();
@@ -21,7 +24,7 @@ export default function TopMenu({ session, setOpenedPopup }) {
 
             <li>
                 <span className='tooltip-nav-item relative'>
-                    <a className="tooltip-trigger flex items-center justify-center w-10 h-10 rounded-full hover:bg-green-200"><img className="w-5" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/favorite.svg" /></a>
+                    <a href='#' onClick={(e) => { e.preventDefault(); router.push('/favoritos'); }} className="tooltip-trigger flex items-center justify-center w-10 h-10 rounded-full hover:bg-green-200"><img className="w-5" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/favorite.svg" /></a>
                     <span className='kd-tooltip absolute left-1/2 bg-green-500 text-white rounded-lg p-3 -bottom-12 w-max'>
                         Favoritos
                     </span>
@@ -47,7 +50,7 @@ export default function TopMenu({ session, setOpenedPopup }) {
                                     </div>
                                     <div className='p-4 bg-white rounded-b-lg'>
                                         <ul>
-                                            <li><a href="/" onClick={(event) => { signOutUser(event) }}>cerrar sesión</a></li>
+                                            <li><a href="/" onClick={(event) => { signOutUser(event) }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/logout.svg" /> &nbsp;cerrar sesión</a></li>
                                         </ul>
                                     </div>
                                 </span>
