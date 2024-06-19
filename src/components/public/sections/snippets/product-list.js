@@ -5,7 +5,6 @@ import { gtProducts } from '../../../../lib/actions/products/getProducts'
 
 
 export default function ProductList({ label }) {
-    console.log(label)
 
     const [products, setProducts] = useState(null)
 

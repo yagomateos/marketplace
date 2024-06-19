@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { quickSearch } from '../../../../lib/actions/search/quickSearch'
 
-export default function SearchForm() {
+export default function SearchForm({searchMenuOpen, setSearchMenuOpen}) {
 
     const [searchResults, setSearchResults] = useState(null)
+
 
     const quickSearchHandler = async (e) => {
         e.preventDefault();
@@ -14,14 +15,22 @@ export default function SearchForm() {
         if (e.target.value) {
             try {
                 let searchResult = await quickSearch(e.target.value);
-                searchResult &&  searchResult!=='' ? setSearchResults(searchResult) : setSearchResults(null)
+                searchResult && searchResult !== '' ? setSearchResults(searchResult) : setSearchResults(null)
+                searchResult && searchResult !== '' ? setSearchMenuOpen(true) : setSearchMenuOpen(false)
                 console.log(searchResult)
             } catch (error) {
-                console.log(error)
+                setSearchResults(null)
+                setSearchMenuOpen(false)
+                console.log(error.message)
             }
+        } else {
+            setSearchResults(null)
+            setSearchMenuOpen(false)
         }
 
     }
+
+
 
     return (
         <>
@@ -32,10 +41,10 @@ export default function SearchForm() {
                 </button>
             </form>
 
-            {searchResults && (
-                <div className="bg-white py-4 overflow-hidden rounded-2xl absolute w-[90%] top-[120%] shadow-xl shadow-[#00000025]">
+            {searchMenuOpen && (
+                <div className="bg-white py-4 overflow-hidden rounded-2xl absolute w-[90%] top-[120%] shadow-xl shadow-[#00000025] z-50 left-[10%] lg:left-[5%] h-[80vh] overflow-y-auto">
                     <ul>
-                        {searchResults.map((res , key) => {
+                        {searchResults && searchResults.map((res, key) => {
                             return (<li key={key}><a className="py-3 px-6 block hover:bg-[#00000025]" href="/">{res.category_name}</a></li>)
                         })}
                     </ul>

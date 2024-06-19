@@ -2,6 +2,7 @@ import React from 'react'
 import LoginForm from '../forms/loginForm';
 import GoogleButton from '../social/googleButton'
 import FacebookButton from '../social/facebookButton'
+import './enter-popup.css'
 
 export default function LoginPopup({ setOpenedPopup }) {
     return (
@@ -18,16 +19,17 @@ export default function LoginPopup({ setOpenedPopup }) {
                 <div className="manual-sign-in bg-white">
                     <LoginForm />
                 </div>
-                <div className="separator my-8 text-center">
+                <div className="separator my-8 text-center relative">
                     <p className="text-sm text-gray-500">O</p>
                 </div>
                 <div className="social-sign-in space-y-4">
                     <GoogleButton />
                     <FacebookButton />
                 </div>
-                <div className="agreement text-sm mt-6 text-gray-600">
+                <div className="agreement text-sm mt-6 text-gray-950">
                     <p>Al hacer clic en Continuar con Google o Facebook, aceptas los Términos de Uso y la Política de Privacidad del mercado.</p>
-                    <p><small>El mercado puede enviarte comunicaciones; puedes cambiar tus preferencias en la configuración de tu cuenta. Nunca publicaremos sin tu permiso.</small></p>
+                    <br/>
+                    <p>El mercado puede enviarte comunicaciones; puedes cambiar tus preferencias en la configuración de tu cuenta. Nunca publicaremos sin tu permiso.</p>
                 </div>
             </div>
         </div>

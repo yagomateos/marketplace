@@ -1,0 +1,23 @@
+.separator:before{
+    content: "";
+    height: 1px;
+    display: block;
+    background: #ccc;
+    position: absolute;
+    left: 0;
+    width: 40%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.separator:after{
+    content: "";
+   height: 1px;
+    display: block;
+    background: #ccc;
+    position: absolute;
+    right: 0;
+    width: 40%;
+    top: 50%;
+    transform: translateY(-50%);
+}
