@@ -2,9 +2,8 @@
 
 import { findUser, createNew } from '../../middleware/user';
 
-export const registerUser = async (formData) => {
 
-    console.log(formData)
+export const registerUser = async (formData) => {
 
     const username = formData.get('username')
     const email = formData.get('email')
@@ -42,6 +41,9 @@ export const registerUser = async (formData) => {
                 const newUser = await createNew(username, email, password, userType)
                 console.log(newUser)
                 if (newUser) {
+
+                    // send en email
+                    sendEmail()
                     return true;
                 }
             } catch (error) {

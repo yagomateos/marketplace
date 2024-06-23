@@ -7,10 +7,10 @@ import {findUser} from "../lib/middleware/user";
 const userLogin = async (credentials) => {
     try {
         const user = await findUser(credentials.email, credentials.password);
-        console.log('comes here');
-        console.log(user)
+        // console.log('comes here');
+        // console.log(user)
         if(user){
-            return true;
+            return user;
         }
     } catch (error) {
         console.log(error.message)
@@ -48,7 +48,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                     const userav = await userLogin(credentials);
 
                     if (userav) {
-                        const user = { id: 1, name: credentials.username, email: credentials.email }
+                        const user = { id: 1, name: userav.username, email: credentials.email }
 
                         if (user) {
                             return Promise.resolve(user)
@@ -72,6 +72,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
         },
         async session({ session, user, token }) {
             // Custom session handling
+
             if (token) {
                 session.user.id = token.id;
                 session.user.username = token.name;
