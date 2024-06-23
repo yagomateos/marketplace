@@ -40,7 +40,7 @@ export default function RegisterForm() {
   return (
     <form onSubmit={handleRegister} className="mt-4">
     <div className="form-group mb-4">
-        <label htmlFor="username" className="block text-sm font-medium text-black">nombre de usuario</label>
+        <label htmlFor="username" className="block text-sm font-medium text-black">Nombre de usuario</label>
         <input type="text" id="username" name="username" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
     </div>
     <div className="form-group mb-4">
@@ -72,7 +72,7 @@ export default function RegisterForm() {
 
 
     <div className="form-group">
-        <button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-gray-950 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Registrarse</button>
+        <button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-gray-950 hover:bg-[#0009] hover:scale-[102%] transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Registrarse</button>
     </div>
 </form>
   )

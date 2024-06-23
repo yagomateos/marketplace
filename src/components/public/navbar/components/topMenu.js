@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
@@ -14,6 +14,13 @@ export default function TopMenu({ session, setOpenedPopup }) {
     }
 
     const [userPopupOpen , setUserPopupOpen] = useState(false)
+
+
+
+useEffect(() => {
+    console.log(session)
+    session&&setOpenedPopup(false)
+}, [session])
 
 
     return (
@@ -42,15 +49,17 @@ export default function TopMenu({ session, setOpenedPopup }) {
                 session && (
                     <>
                         <li>
-                            <a onClick={(e)=>{e.preventDefault(); setUserPopupOpen(!userPopupOpen)}} className='flex w-7 h-7 justify-center items-center' href=""><img className='w-12 rounded-full border-2 border-green-500' src="https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg" /></a>
+                            <a onClick={(e)=>{e.preventDefault(); setUserPopupOpen(!userPopupOpen)}} className='flex w-7 h-7 justify-center items-center' href=""><img className='w-12 rounded-full border-2 border-green-500' src={session?.user?.image? session.user.image : 'https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg'} /></a>
                             {userPopupOpen &&
                                 <span className='absolute right-0 top-[90%] shadow-md shadow-[#00000035] block rounded-xl bg z-50 min-w-64 kd-user-popup'>
                                     <div className='p-4 bg-green-500 flex gap-3 rounded-t-lg'>
-                                        <img className='w-5' src="https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg" /> <h2 className='ml-1'>Kamindu</h2>
+                                        <img className='w-5' src={session?.user?.image? session.user.image : 'https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg'} /> <h2 className='ml-1'>{session.user.name}</h2>
                                     </div>
+
                                     <div className='p-4 bg-white rounded-b-lg'>
-                                        <ul>
-                                            <li><a href="/" onClick={(event) => { signOutUser(event) }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/logout.svg" /> &nbsp;cerrar sesión</a></li>
+                                        <ul className='leading-8'>
+                                        <li className='mb-3'><a href="/" onClick={(event) => { event.preventDefault(); router.push('/vender')  }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/shop.svg" /> &nbsp;Vender en Vendalia</a></li>
+                                        <li><a href="/" onClick={(event) => { signOutUser(event) }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/logout.svg" /> &nbsp;cerrar sesión</a></li>
                                         </ul>
                                     </div>
                                 </span>

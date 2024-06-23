@@ -14,6 +14,7 @@ export default function PublicNavbar({ checkPopups, categoriesMenuOpen, setCatMe
    
     const router = useRouter();
     const { data: session } = useSession()
+    
 
     // const [menuOpen, setMenuOpen] = useState(false);
 

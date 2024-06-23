@@ -1,0 +1,39 @@
+.seller-landing-header {
+    background-image: url('https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/seller-landing-page.jpg');
+}
+
+.secondpage-left {
+    background-image: url('https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/welcome-to-selling.jpg')
+}
+
+.thirdpage-left{
+    background-image: url('https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/welcome-to-selling-2.jpg')
+}
+
+.single-exp-step{
+    position: relative;
+}
+
+.single-exp-step:before{
+    content: "";
+    display: block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #22c55e;
+    border: 1px solid #fff;
+    position: absolute;
+    top: 13px;
+    left: -1.2rem;
+    z-index: 1;
+}
+
+.single-exp-step:not(.last):after{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 2px;
+    background-color: #22c55e;
+    top: 25px;
+    left: -11.25px;
+}

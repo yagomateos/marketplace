@@ -19,8 +19,8 @@ export default function Popup({ openedPopup, setOpenedPopup }) {
     return (
         <>
             {openedPopup && (
-                <div className='kd-general-popup-wrapper fixed left-0 top-0 w-full h-full bg-[#00000068] flex justify-center items-center z-50'>
-                    <div className='general-popup-inner max-w-full lg:max-w-[384px] bg-white rounded-3xl shadow-lg shadow-[#00000060] relative'>
+                <div className='kd-general-popup-wrapper fixed left-0 top-0 w-full h-full bg-[#00000068] flex justify-center items-start lg:items-center z-50 py-6'>
+                    <div className='general-popup-inner max-w-[90%] mt-12 lg:max-w-[384px] bg-white rounded-3xl shadow-lg shadow-[#00000060] relative'>
                         <span
                             className='close-popup absolute right-0 lg:-right-16 -top-12 lg:top-0 rounded-full w-12 h-12 hover:bg-[#ffffff45] flex justify-center items-center cursor-pointer'
                             onClick={() => setOpenedPopup(false)}
