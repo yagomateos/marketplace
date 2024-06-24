@@ -10,6 +10,10 @@
     background-image: url('https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/welcome-to-selling-2.jpg')
 }
 
+.fourthpage-left{
+    background-image: url('https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/welcome-to-selling-3.jpg')
+}
+
 .single-exp-step{
     position: relative;
 }
@@ -36,4 +40,13 @@
     background-color: #22c55e;
     top: 25px;
     left: -11.25px;
+}
+
+.single-help-box{
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.single-help-box:hover{
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.05);
 }

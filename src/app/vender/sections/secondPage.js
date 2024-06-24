@@ -1,13 +1,13 @@
 import React from 'react'
 
-export default function SecondPage({setStep}) {
+export default function SecondPage({ setStep , user}) {
     return (
         <div className='flex'>
             <div className='w-[50%] secondpage-left bg-cover bg-center'>
 
             </div>
             <div className='w-[50%] py-12 px-[12%]'>
-                <h2 className='text-3xl'>¡Hola,</h2>
+                <h2 className='text-3xl'>¡Hola, {user&& (user.name)}</h2>
                 <p className='mt-3'>Nos ilusiona que te unas a nuestro mercado de artículos únicos y creativos, donde brillan los artículos especiales con un toque humano. ¿Todo listo para darle vida a tu tienda?</p>
                 <div className='exp-speps-wrapper mt-4'>
                     <div className='single-exp-step pb-8 pl-4'>
@@ -28,7 +28,7 @@ export default function SecondPage({setStep}) {
                     </div>
                 </div>
                 <a href="/" className=' min-w-[60%] inline-flex justify-center items-center py-3 px-6 bg-black rounded-full text-white my-6' onClick={(e) => { e.preventDefault(); setStep(2) }}>Vamos!</a>
-                <p className='text-sm'>Al hacer clic en "Vamos" y abrir una tienda de Vendalia.es, aceptas nuestras condiciones de uso, incluyendo la política del vendedor y la política de Etsy Payments, además de nuestra política de privacidad.</p>
+                <p className='text-sm'>Al hacer clic en "Vamos" y abrir una tienda de Vendalia.es, aceptas nuestras <a className='text-blue-700' href="">condiciones de uso</a>, incluyendo la <a className='text-blue-700' href="/">política del vendedor</a> y la <a className='text-blue-700' href='/'>política de Payments</a>, además de nuestra <a className='text-blue-700' href="/">política de privacidad.</a></p>
             </div>
         </div>
     )
