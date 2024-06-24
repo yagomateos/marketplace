@@ -27,7 +27,7 @@ export default function LoginPopup({ setOpenedPopup }) {
                     <FacebookButton />
                 </div>
                 <div className="agreement text-sm mt-6 text-gray-950">
-                    <p>Al hacer clic en "Iniciar sesión" Continuar con Google, Facebook, o Apple, aceptas las <a className='text-blue-700' href="/">condiciones de uso</a> y la <a className='text-blue-700' href="/">política de privacidad</a> de vendalia.es.</p>
+                    <p>Al hacer clic en &quot;Iniciar sesión&quot; Continuar con Google, Facebook, o Apple, aceptas las <a className='text-blue-700' href="/">condiciones de uso</a> y la <a className='text-blue-700' href="/">política de privacidad</a> de vendalia.es.</p>
                     <br/>
                     <p>Vendalia.es podría enviarte mensajes y notificaciones. Puedes cambiar tus preferencias en la configuración de tu cuenta. Nunca publicaremos sin tu permiso.</p>
                 </div>
