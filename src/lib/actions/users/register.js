@@ -9,7 +9,7 @@ export const registerUser = async (formData) => {
     const email = formData.get('email')
     const password = formData.get('password')
     const repeatPassword = formData.get('password-again')
-    const userType = formData.get('user-type')
+    const userType = 'buyer'
 
     console.log(username, email, password, repeatPassword, userType)
 

@@ -24,7 +24,7 @@ export default function RegisterPopup() {
                     <FacebookButton />
                 </div>
                 <div className="agreement text-sm mt-6 text-gray-600">
-                    <p>Al hacer clic en Continuar con Google o Facebook, aceptas los Términos de Uso y la Política de Privacidad del mercado.</p><br/>
+                    <p>Vendalia.es podría enviarte mensajes y notificaciones. Puedes cambiar tus preferencias en la configuración de tu cuenta. Nunca publicaremos sin tu permiso.</p><br/>
                     {/* <p>El mercado puede enviarte comunicaciones; puedes cambiar tus preferencias en la configuración de tu cuenta. Nunca publicaremos sin tu permiso.</p> */}
                 </div>
             </div>
