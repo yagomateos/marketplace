@@ -3,10 +3,10 @@ import React from 'react'
 export default function SecondPage({ setStep , user}) {
     return (
         <div className='flex'>
-            <div className='w-[50%] secondpage-left bg-cover bg-center'>
+            <div className='w-[50%] secondpage-left bg-cover bg-center hidden lg:block'>
 
             </div>
-            <div className='w-[50%] py-12 px-[12%]'>
+            <div className='w-full lg:w-[50%] py-12 px-[12%]'>
                 <h2 className='text-3xl'>¡Hola, {user&& (user.name)}</h2>
                 <p className='mt-3'>Nos ilusiona que te unas a nuestro mercado de artículos únicos y creativos, donde brillan los artículos especiales con un toque humano. ¿Todo listo para darle vida a tu tienda?</p>
                 <div className='exp-speps-wrapper mt-4'>

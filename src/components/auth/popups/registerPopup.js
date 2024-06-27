@@ -7,9 +7,10 @@ export default function RegisterPopup() {
     return (
         <div>
             <div className="sign-in-popup px-4 py-8 mx-auto w-full sm:px-6 lg:px-8">
-                <div className='w-full flex justify-between items-center pb-2'>
+                <div className='w-full flex justify-between items-center pb-1'>
                     <div>
                         <h2 className='text-lg font-semibold'>Crea tu cuenta</h2>
+                        <p>Registrarse es muy fácil.</p>
                     </div>
                     
                 </div>

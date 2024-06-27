@@ -6,6 +6,8 @@ import FirstPage from './sections/firstPage'
 import SecondPage from './sections/secondPage'
 import ThirdPage from './sections/thirdPage'
 import FourthPage from './sections/fourthPage'
+import FifthPage from './sections/fifthPage'
+import Storesetup from './sections/store-setup'
 import './vender.css'
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation'
@@ -29,6 +31,8 @@ export default function Vender() {
             {step === 1 && (<SecondPage setStep={setStep}  user={session.user} />)}
             {step === 2 && (<ThirdPage setStep={setStep} />)}
             {step === 3 && (<FourthPage setStep={setStep} />)}
+            {step === 4 && (<FifthPage setStep={setStep} />)}
+            {step === 5 && (<Storesetup/>)}
         </PublicPageContainer>
     )
 }
