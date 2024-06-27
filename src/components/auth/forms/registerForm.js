@@ -40,21 +40,21 @@ export default function RegisterForm() {
     return (
         <form onSubmit={handleRegister} className="mt-4">
             <div className="form-group mb-4">
-                <label htmlFor="username" className="block text-sm font-medium text-black">Nombre de usuario</label>
-                <input type="text" id="username" name="username" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-            </div>
-            <div className="form-group mb-4">
-                <label htmlFor="email-address" className="block text-sm font-medium text-black">Dirección de correo electrónico</label>
+                <label htmlFor="email-address" className="block text-sm font-medium text-black">Dirección de correo electrónico <span className='text-red-700'>*</span></label>
                 <input type="email" id="email-address" name="email" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
             </div>
+            <div className="form-group mb-4">
+                <label htmlFor="username" className="block text-sm font-medium text-black">Nombre <span className='text-red-700'>*</span></label>
+                <input type="text" id="username" name="username" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+            </div>
             <div className="form-group mb-6">
-                <label htmlFor="password" className="block text-sm font-medium text-black">Contraseña</label>
+                <label htmlFor="password" className="block text-sm font-medium text-black">Contraseña <span className='text-red-700'>*</span></label>
                 <input type="password" id="password" name="password" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
             </div>
-            <div className="form-group mb-6">
+            {/* <div className="form-group mb-6">
                 <label htmlFor="password" className="block text-sm font-medium text-black">Confirmar contraseña</label>
                 <input type="password" id="password-again" name="password-again" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-            </div>
+            </div> */}
 
             {/* <div>
         <label className="mb-4 block text-lg">¿Quién eres? </label>

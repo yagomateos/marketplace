@@ -42,7 +42,7 @@ export default function LoginForm() {
                     </div>
                 </div>
                 <div className="form-group">
-                    <button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-gray-950 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-[#0009] hover:scale-[102%] transition-all">Iniciar sesión</button>
+                    <button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-gray-950 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-[#0009] hover:scale-[102%] transition-all">Entrar</button>
                 </div>
             </form>
             <a href="/" className='block text-center text-sm underline'>¿Tienes problemas para iniciar sesión?</a>

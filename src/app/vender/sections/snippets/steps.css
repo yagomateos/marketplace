@@ -1,0 +1,53 @@
+ul.store-setup-heading-list li.before-enabled:before {
+    content: '';
+    height: 1.5px;
+    background-color: #f2f2f2;
+    position: absolute;
+    left: 0;
+    transform: translateX(-50%);
+    width: 100%;
+    top: 5px;
+    z-index: 0;
+}
+
+ul.store-setup-heading-list li span.active-round {
+    width: 25px;
+    height: 25px;
+    transform: translateY(-30%);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 2px;
+}
+
+ul.store-setup-heading-list li span.active-round:before {
+    content: "";
+    position: absolute;
+    background-color: #f2f2f2e3;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: -1; /* Ensure it stays behind the parent */
+    transition: transform 0.3s ease; /* Smooth scaling transition */
+    opacity: 0;
+}
+
+ul.store-setup-heading-list li span.active-round:after{
+    content: "";
+    background-color: rgba(0, 0, 0, 0.829);
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 1;
+    position: absolute;
+}
+
+ul.store-setup-heading-list li span.active-round:hover:before {
+    transform: translate(-50%, -50%) scale(1.4); /* Scale up on hover */
+    opacity: 1;
+}

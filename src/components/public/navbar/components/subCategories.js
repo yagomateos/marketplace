@@ -26,7 +26,7 @@ export default function SubCategories({ parentId }) {
     return (
         <div className="flex gap-4 p-4">
             {categoryList && categoryList.map((cat, key) => (
-                <div key={key} className="rounded-xl  p-3 cursor-pointer kd-single-sub-category">
+                <div key={key} className="rounded-xl  p-3 cursor-pointer kd-single-sub-category lg:w-[33%]">
                     <img className="w-full" src={cat.category_image} />
                     <p className="text-sm mt-3">{cat.category_name}</p>
                 </div>

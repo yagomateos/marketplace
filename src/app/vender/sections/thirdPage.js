@@ -3,10 +3,10 @@ import React from 'react'
 export default function ThirdPage({ setStep }) {
     return (
         <div className='flex'>
-            <div className='w-[50%] thirdpage-left bg-cover bg-center'>
+            <div className='w-[50%] thirdpage-left bg-cover bg-center hidden lg:block'>
 
             </div>
-            <div className='w-[50%] py-12 px-[12%] min-h-[80vh] flex justify-center flex-col'>
+            <div className='w-full lg:w-[50%] py-12 px-[12%] min-h-[80vh] flex justify-center flex-col'>
                 <h2 className='text-3xl'>¿Por qué estás en Etsy?</h2>
                 <p className='mt-3'>Te guiaremos para que tu tienda vaya sobre ruedas, tanto si tienes experiencia en esto como si es la primera vez que vendes.</p>
 
@@ -19,9 +19,9 @@ export default function ThirdPage({ setStep }) {
                     </form>
                 </div>
 
-                <div className='flex justify-end gap-2'>
-                    <a href="/" className=' inline-flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black my-6' onClick={(e) => { e.preventDefault(); setStep(3) }}>Omitir esta pregunta</a>
-                    <a href="/" className=' inline-flex justify-center items-center py-3 px-6 bg-black rounded-full text-white my-6' onClick={(e) => { e.preventDefault(); }}>Siguiente</a>
+                <div className='flex justify-end gap-2 flex-col lg:flex-row'>
+                    <a href="/" className=' inline-flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black lg:my-6' onClick={(e) => { e.preventDefault(); setStep(3) }}>Omitir esta pregunta</a>
+                    <a href="/" className=' inline-flex justify-center items-center py-3 px-6 bg-black rounded-full text-white lg:my-6' onClick={(e) => { e.preventDefault(); }}>Siguiente</a>
                 </div>
 
 
