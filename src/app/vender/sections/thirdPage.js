@@ -7,7 +7,7 @@ export default function ThirdPage({ setStep }) {
 
             </div>
             <div className='w-full lg:w-[50%] py-12 px-[12%] min-h-[80vh] flex justify-center flex-col'>
-                <h2 className='text-3xl'>¿Por qué estás en Etsy?</h2>
+                <h2 className='text-3xl'>¿Por qué estás en Vendalia?</h2>
                 <p className='mt-3'>Te guiaremos para que tu tienda vaya sobre ruedas, tanto si tienes experiencia en esto como si es la primera vez que vendes.</p>
 
                 <div className='my-6'>

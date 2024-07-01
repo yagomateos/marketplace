@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { getfeaturedCategories } from '../../../lib/actions/products/categories';
+import { useRouter } from 'next/navigation';
 
 export default function FeaturedCategories() {
 
     const [categories, setCategories] = useState();
+    const router = useRouter()
 
     useEffect(() => {
         const getCats = async () => {
@@ -54,7 +56,7 @@ export default function FeaturedCategories() {
                                         <p className="text-sm mt-5 leading-3 font-semibold lg:text-xl">{category.category_name}</p>
                                     )}
 
-                                    <a className='text-sm underline mt-3'>Shop Now</a>
+                                    <a className='text-sm underline mt-3 cursor-pointer' onClick={(e)=>{e.preventDefault(); router.push(`/categorias?catid=${category.id}`)}}>Shop Now</a>
                                 </div>
 
                             </div>
