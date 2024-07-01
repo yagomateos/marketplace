@@ -14,7 +14,7 @@ export default function ThirdPage({ setStep }) {
                     <form>
                         <div className='mb-5'><input type="radio" /> &nbsp; Acabo de empezar</div>
                         <div className='mb-5'><input type="radio" /> &nbsp; Tengo un negocio y quiero vender en Internet por primera vez</div>
-                        <div className='mb-5'><input type="radio" /> &nbsp; Quiero ampliar mi negocio digital vendiendo también en Etsy</div>
+                        <div className='mb-5'><input type="radio" /> &nbsp; Quiero ampliar mi negocio digital vendiendo también en Vendalia</div>
                         <div><input type="radio" /> &nbsp; Estoy aquí para curiosear</div>
                     </form>
                 </div>

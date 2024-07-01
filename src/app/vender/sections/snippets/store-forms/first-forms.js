@@ -28,8 +28,8 @@ export default function FirstStoreStepForm() {
                 </div>
                 <div className='right w-full lg:w-[50%] hidden lg:block text-sm pl-20'>
                 <p className='pb-4'>El idioma predeterminado que usarás para describir tus artículos. ¡Elige con cuidado! No puedes cambiarlo una vez que lo guardes, pero podrás añadir otros más adelante.</p>
-                <p className='pb-4'>Dinos dónde está tu tienda. ¿No ves tu país? Es posible que Etsy aún no esté disponible en esa ubicación, pero no nos pierdas la pista. <a href="/">Más información</a></p>
-                <p>La divisa que usarás para poner precio a los artículos que vendes en Etsy. Los compradores verán los precios automáticamente en su divisa local.</p>
+                <p className='pb-4'>Dinos dónde está tu tienda. ¿No ves tu país? Es posible que Vendalia aún no esté disponible en esa ubicación, pero no nos pierdas la pista. <a href="/">Más información</a></p>
+                <p>La divisa que usarás para poner precio a los artículos que vendes en Vendalia. Los compradores verán los precios automáticamente en su divisa local.</p>
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ export default function SecondPage({ setStep , user}) {
                     </div>
                     <div className='single-exp-step pb-8 pl-4'>
                         <h3 className='text-xl text-black mb-2'>Cuéntanos algo sobre ti</h3>
-                        <p>Comparte algo de información y configura cómo vas a recibir tus pagos con Etsy Payments.</p>
+                        <p>Comparte algo de información y configura cómo vas a recibir tus pagos con Vendalia Payments.</p>
                     </div>
                     <div className='single-exp-step pb-8 pl-4'>
                         <h3 className='text-xl text-black mb-2'>Abre tu tienda y paga una tarifa única de configuración de 15 US$</h3>

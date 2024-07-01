@@ -24,7 +24,7 @@ export default function PaymentSecondStep() {
                     <li>Solo podemos aceptar documentos de identidad con caracteres latinos. Consulta la lista de abajo para ver qué tipos de documentos aceptamos de tu país emisor.</li>
                     <li>En la copia tienen que aparecer claramente tu nombre, tu fecha de nacimiento y la fecha de caducidad del documento.</li>
                     <li>Tiene que ser válido y legible, y estar en vigor. De lo contrario, podríamos solicitarte que envíes otra copia.</li>
-                    <li>La información del documento tiene que coincidir con la información de tu cuenta de pagos que usas para recibir los depósitos y el nombre que figura en la cuenta de pagos de las tarifas de Etsy.</li>
+                    <li>La información del documento tiene que coincidir con la información de tu cuenta de pagos que usas para recibir los depósitos y el nombre que figura en la cuenta de pagos de las tarifas de Vendalia.</li>
                     <li>Si quieres usar un monónimo, ten en cuenta que tu documentación debe verificar que solo tienes un nombre legal.</li>
                     <li>Las tarjetas sanitarias emitidas por entidades gubernamentales no son una forma de identificación válida.</li>
                     <li>La copia tiene que estar en formato JPG o PNG.</li>

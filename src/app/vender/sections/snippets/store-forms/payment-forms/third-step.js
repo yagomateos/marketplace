@@ -16,14 +16,14 @@ export default function PaymentThirdStep() {
 
             <div className='w-full lg:w-1/2 ml-auto mr-auto text-center'>
                 <h1 className='text-3xl text-center'>Cómo recibirás los pagos</h1>
-                <p>Vendalia Payments ofrece a los compradores una amplia variedad de opciones de pago y te protege como vendedor de Etsy. <br /> <a href="">Más información</a></p>
+                <p>Vendalia Payments ofrece a los compradores una amplia variedad de opciones de pago y te protege como vendedor de Vendalia. <br /> <a href="">Más información</a></p>
             </div>
 
 
             <div className='bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]'>
                 <h3 className='text-lg mb-3'>Vendalia Payments</h3>
                 <hr />
-                <p className='text-xs  mt-4'>Disfruta de nuestro nivel más alto de protección de pago, recibe ayuda y ofrece a los compradores la variedad más amplia de opciones de pago. Más información sobre Etsy Payments</p>
+                <p className='text-xs  mt-4'>Disfruta de nuestro nivel más alto de protección de pago, recibe ayuda y ofrece a los compradores la variedad más amplia de opciones de pago. Más información sobre Vendalia Payments</p>
 
                 <div className='mt-4'>
                     <p className='text-lg'>Programa de depósitos</p>
