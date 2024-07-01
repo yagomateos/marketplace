@@ -1,15 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import PublicPageContainer from '../../components/containers/publicPageContainer';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { gtProductsByIds } from '../../lib/actions/products/getProducts';
+import { gtProductsByIds } from '../../lib/actions/products/getProducts'; // Ensure this path is correct
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
-export default function Listing() {
+function ListingFunc() {
+
     const router = useRouter();
     const searchParams = useSearchParams();
+    const pid = searchParams.get('pid');
 
     const [product, setProduct] = useState(null);
     const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -17,10 +19,10 @@ export default function Listing() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
-        const pid = searchParams.get('pid');
 
-        const getProductInfo = async () => {
-            if (pid) {
+        if (pid) {
+            const getProductInfo = async () => {
+
                 try {
                     const productInst = await gtProductsByIds(`${pid}`);
                     setProduct(productInst);
@@ -32,13 +34,11 @@ export default function Listing() {
                 } catch (error) {
                     console.log(error);
                 }
-            } else {
-                setProduct(null);
             }
-        };
 
-        getProductInfo();
-    }, [searchParams]);
+            getProductInfo();
+        }
+    }, [pid]);
 
     const openLightbox = (index) => {
         setCurrentImageIndex(index);
@@ -49,7 +49,6 @@ export default function Listing() {
         <PublicPageContainer>
             {product ? (
                 <div className='py-12 px-4 flex justify-center items-center'>
-                    {/* main section */}
                     <div className='flex justify-between items-start gap-4 lg:max-w-7xl'>
                         <div className='w-full lg:w-[55%]'>
                             <div className='px-12'>
@@ -72,34 +71,30 @@ export default function Listing() {
                                         ? "En stock"
                                         : (<span className='text-red-700'>Artículo excepcional</span>)}
                                 </p>
-                                {/* price */}
                                 {product[0] && product[0].sale_price ? (
                                     <h2>
                                         <span className='text-green-700 font-semibold text-4xl mr-4'>
                                             EUR {product[0].sale_price}
                                         </span>
-                                        {
-                                            product[0].regular_price && (
-                                                <small className='line-through text-sm'>
-                                                    EUR {product[0].regular_price}
-                                                </small>
-                                            )
-                                        }
-
+                                        {product[0].regular_price && (
+                                            <small className='line-through text-sm'>
+                                                EUR {product[0].regular_price}
+                                            </small>
+                                        )}
                                     </h2>
                                 ) : (
                                     <h2>
-                                        {product[0] && product[0].regular_price && ( 'EUR' + product[0].regular_price)}
+                                        {product[0] && product[0].regular_price && ('EUR' + product[0].regular_price)}
                                     </h2>
                                 )}
                                 <p className='mt-5'>{product[0] && product[0].description}</p>
-
                                 <div>
                                     <a href="/" className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black lg:my-6'> Comprar ahora</a>
-                                    <a href="/" className='flex justify-center items-center py-3 px-6border-2 border-black rounded-full text-white bg-black lg:my-6'> Añadir al carrito</a>
+                                    <a href="/" className='flex justify-center items-center py-3 px-6 border-2 border-black rounded-full text-white bg-black lg:my-6'> Añadir al carrito</a>
                                     <a href="/" className='flex justify-center items-center py-3 px-6 transition-all ease-linear hover:bg-[#f2f2f2] rounded-full text-black lg:my-6'>
-                                        <img class="w-6" data-prod_id="1" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/heart-filled.svg" alt="Filled Heart" />
-                                        &nbsp;  Añadir a una colección</a>
+                                        <img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/heart-filled.svg" alt="Filled Heart" />
+                                        &nbsp;  Añadir a una colección
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +102,7 @@ export default function Listing() {
                 </div>
             ) : (
                 <div className='my-12'>
-                    {/* <h2 className='text-center'>¡No se encontraron productos!</h2> */}
+                    <h2 className='text-center'>¡No se encontraron productos!</h2>
                 </div>
             )}
 
@@ -120,4 +115,10 @@ export default function Listing() {
             />
         </PublicPageContainer>
     );
+}
+
+export default function Listing() {
+    <Suspense fallback={<div>Loading...</div>}>
+        <ListingFunc />
+    </Suspense>
 }
