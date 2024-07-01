@@ -1,6 +1,6 @@
 import dbConnection from '../../base/db';
 
-export const getProducts = async (category , label, limit) => {
+export const getProducts = async (category, label, limit) => {
     try {
         const db = await dbConnection();
         // change this later
@@ -20,7 +20,7 @@ export const getProducts = async (category , label, limit) => {
     }
 }
 
-export const getProductsByIds = async (productIds)=>{
+export const getProductsByIds = async (productIds) => {
     try {
         const db = await dbConnection();
         // change this later
@@ -36,6 +36,28 @@ export const getProductsByIds = async (productIds)=>{
             return results;
         } else {
             throw new Error('no featured products found');
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getProductsByCategory = async (catID) => {
+    try {
+        const db = await dbConnection();
+        // change this later
+        const [results] = await db.execute(`SELECT p.*, c.category_name, u.username 
+    FROM products p 
+    LEFT JOIN product_categories c ON p.category_id = c.id 
+    LEFT JOIN users u ON p.user_id = u.id 
+    WHERE c.id = ${catID}
+    ORDER BY p.id ASC;`);
+        await db.end();
+
+        if (results.length > 0) {
+            return results;
+        } else {
+            throw new Error('no products found');
         }
     } catch (error) {
         throw error;

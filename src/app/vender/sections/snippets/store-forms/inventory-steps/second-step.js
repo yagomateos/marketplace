@@ -1,6 +1,6 @@
-import './store-forms.css'
+import '../store-forms.css'
 
-export default function FourthStoreStepForm() {
+export default function InventorySecondStep() {
     return (
         <div className='store-step-form-wrapper bg-[#f2f2f2] relative'>
             <div className='flex flex-wrap'>
@@ -193,7 +193,39 @@ export default function FourthStoreStepForm() {
                                 <p className='text-lg'>Etiquetas</p>
                                 <p className='text-sm'>Añade hasta 13 etiquetas para ayudar a las personas que buscan tus artículos.</p>
                                 <div>
+                                    <input className='p-3 border border-[#ccc] inline-block mr-3 lg:mr-8 mt-5 rounded-lg w-2/3 lg:w-3/5' placeholder='Forma, color, estilo, función, etc.' /> <a>Añadir</a>
                                 </div>
+                            </div>
+
+                            <div className='mt-12'>
+                                <p className='text-lg'>Materiales</p>
+                                <p className='text-sm'>Los compradores valoran la transparencia: explícales que has usado para crear tu producto.</p>
+                                <div>
+                                    <input className='p-3 border border-[#ccc] inline-block mr-3 lg:mr-8 mt-5 rounded-lg w-2/3 lg:w-3/5' placeholder='Forma, color, estilo, función, etc.' /> <a>Añadir</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {/* Details */}
+                    <div className="bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]" id="price-info" >
+                        <h3 className='text-xl font-semibold '>Detalles</h3>
+                        <p className='mb-3 text-sm'>Comparte algunos detalles más sobre el artículo para que sea más fácil encontrarlo en la búsqueda y ayudar a los compradores a hacerse una idea de lo que pueden esperar.</p>
+
+                        <div>
+                            <h4>Información básica </h4>
+                            <div className='mt-5 p-4 rounded-lg border border-[#ccc]'>
+                             {/* product basic infomation will be shown here */}
+                            </div>
+
+                            <div className='mt-5'>
+                                <p className='text-lg'>Categoría <span className='text-red-700'>*</span></p>
+                                <input className='p-3 border border-[#ccc] rounded-full w-full' placeholder='Busca una categoría. Por ejemplo: Sombreros, Anillos, Cojines, etc.'/>
+                            </div>
+
+                            <div className='mt-5 p-4 rounded-lg border border-[#ccc]'>
+                             {/* category infomation will be shown here */}
                             </div>
 
                         </div>
