@@ -1,33 +1,35 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import PublicPageContainer from '../../components/containers/publicPageContainer';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getProductsByCategoryID } from '../../lib/actions/products/getProducts'
 import SingleFeaturedProduct from '../../components/public/sections/snippets/singleFeaturedProduct';
 
-export default function Category() {
-    const router = useRouter();
+function CategoryFunc() {
     const searchParams = useSearchParams();
+    const catId = searchParams.get('catid')
     const [products, setProducts] = useState(null)
     const [catename, setCatName] = useState(null)
 
     useEffect(() => {
-        const catId = searchParams.get('catid')
 
-        const getProducts = async () => {
-            try {
-                const products = await getProductsByCategoryID(catId)
-                setProducts(products)
-                products && products.length > 0 && setCatName(products[0].category_name)
+        if (catId) {
+            const getProducts = async () => {
+                try {
+                    const products = await getProductsByCategoryID(catId)
+                    setProducts(products)
+                    products && products.length > 0 && setCatName(products[0].category_name)
 
-            } catch (error) {
-                setProducts(null)
+                } catch (error) {
+                    setProducts(null)
+                }
             }
+
+            getProducts()
         }
 
-        getProducts()
-    }, [searchParams])
+    }, [catId])
 
 
     console.log(products, catename)
@@ -58,8 +60,8 @@ export default function Category() {
                             {/* show featured product here */}
 
                             <div class="w-full grid gap-4 grid-cols-2 lg:grid-cols-4" bis_skin_checked="1">
-                                {products&&products.map((product , key)=>
-                                    (<SingleFeaturedProduct key={key} featuredProduct={product}/>)
+                                {products && products.map((product, key) =>
+                                    (<SingleFeaturedProduct key={key} featuredProduct={product} />)
                                 )}
                             </div>
                         </>
@@ -73,4 +75,10 @@ export default function Category() {
         </PublicPageContainer>
 
     )
+}
+
+export default function Category() {
+    <Suspense fallback={<div>Loading...</div>}>
+        <CategoryFunc />
+    </Suspense>
 }
