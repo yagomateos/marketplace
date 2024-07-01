@@ -19,7 +19,7 @@ export default function PaymentFirstStep() {
             <div className="bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]">
                 <h3 className='text-3xl mb-3'>A efectos fiscales, ¿qué tipo de vendedor eres?</h3>
                 <p className='text-xs mb-6'>Vendalia usará esta respuesta para verificar tu información. Esto no afectará al estado de tu tienda de Etsy de ningún modo; estos datos tienen fines internos.
-                    La mayoría de vendedores se clasifican en la categoría de "particular" cuando se unen a Etsy. ¿No lo tienes claro? Más información.</p>
+                    La mayoría de vendedores se clasifican en la categoría de &quot;particular&quot; cuando se unen a Etsy. ¿No lo tienes claro? Más información.</p>
 
                 <ul>
                     <li>
@@ -244,7 +244,7 @@ export default function PaymentFirstStep() {
             {/* more places */}
             <div className='className="bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5] "'>
                 <p >Comparte más información sobre los lugares donde has vivido</p>
-                <p className='text-xs'>Debido a las leyes relativas a sanciones que nos ayudan a proteger nuestro mercado, debes informarnos si has vivido en alguno de estos lugares durante más de 6 meses en los últimos 10 años: Cuba, Irán, Corea del Norte, Siria, Crimea, Donetsk People’s Republic ("DNR"), o Luhansk People’s Republic ("LNR"). Podrás seguir vendiendo en Etsy cuando podamos verificar que estás viviendo en otro lugar en la actualidad. Revisa nuestra política de sanciones</p>
+                <p className='text-xs'>Debido a las leyes relativas a sanciones que nos ayudan a proteger nuestro mercado, debes informarnos si has vivido en alguno de estos lugares durante más de 6 meses en los últimos 10 años: Cuba, Irán, Corea del Norte, Siria, Crimea, Donetsk People’s Republic (&quot;DNR&quot;), o Luhansk People’s Republic (&quot;LNR&quot;). Podrás seguir vendiendo en Etsy cuando podamos verificar que estás viviendo en otro lugar en la actualidad. Revisa nuestra política de sanciones</p>
 
                 <ul className='flex gap-10 mt-4'>
                     <li>
@@ -272,8 +272,8 @@ export default function PaymentFirstStep() {
                                         <option value="176">Corea del Norte</option>
                                         <option value="195">Siria</option>
                                         <option value="300">Crimea</option>
-                                        <option value="301">Donetsk People’s Republic ("DNR")</option>
-                                        <option value="302">Luhansk People’s Republic ("LNR")</option>
+                                        <option value="301">Donetsk People’s Republic (&quot;DNR&quot;)</option>
+                                        <option value="302">Luhansk People’s Republic (&quot;LNR&quot;)</option>
                                     </optgroup>
                                 </select>
                             </div>
