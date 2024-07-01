@@ -5,7 +5,7 @@ export default function BillingInfoForm() {
         <div className='py-6'>
             <div className='w-full lg:w-1/2 ml-auto mr-auto text-center'>
                 <h1 className='text-3xl text-center'>Completa tu información de facturación</h1>
-                <p>Es el método que usarás para pagar tu factura de Etsy y la tarifa única de configuración para abrir tu tienda.</p>
+                <p>Es el método que usarás para pagar tu factura de Vendalia y la tarifa única de configuración para abrir tu tienda.</p>
             </div>
 
             <div className='my-6 p-4 flex flex-col lg:flex-row items-start gap-5'>

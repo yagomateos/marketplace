@@ -4,7 +4,7 @@ export default function InventoryFirstStep() {
     return (
         <div className='store-step-form-wrapper px-3  ml-auto mr-auto'>
             <h2 className='text-left text-xl lg:text-3xl mb-4'>Cuéntanos qué es tu artículo</h2>
-            <p className='pb-4 text-sm lg:text-md lg:text-left'>Esta información básica ayuda a Etsy a entender los aspectos más básicos de tu anuncio y cómo cumple nuestras políticas. <a href="">Obtén más información sobre los tipos de artículos permitidos en Vendalia.es.</a></p>
+            <p className='pb-4 text-sm lg:text-md lg:text-left'>Esta información básica ayuda a Vendalia a entender los aspectos más básicos de tu anuncio y cómo cumple nuestras políticas. <a href="">Obtén más información sobre los tipos de artículos permitidos en Vendalia.es.</a></p>
 
             <div className='store-step-form-box-wrapper p-2 lg:p-8 my-3 bg-[#f2f2f2] rounded-xl'>
                 <div className='left w-full text-sm'>
