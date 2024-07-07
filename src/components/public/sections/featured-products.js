@@ -21,7 +21,6 @@ export default function FeaturedProducts() {
         const getFeaturedProducts = async () => {
             try {
                 const featuredProducts = await FeaturedProductsAction();
-                // console.log(featuredProducts)
                 setFeaturedProducts(featuredProducts);
             } catch (error) {
                 console.log(error)

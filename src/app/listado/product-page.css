@@ -1,0 +1,14 @@
+.star {
+    color: #ccc; /* Default star color (empty star) */
+    font-size: 20px;
+}
+
+.star.filled {
+    color: rgb(0, 0, 0); /* Filled star color */
+}
+
+.star.half {
+    color: rgb(0, 0, 0); /* Half star color */
+    position: relative;
+}
+
