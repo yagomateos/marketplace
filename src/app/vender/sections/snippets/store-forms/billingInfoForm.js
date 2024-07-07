@@ -1,6 +1,31 @@
-import React from 'react'
+'use client'
 
-export default function BillingInfoForm() {
+import { useEffect, useState } from "react"
+
+export default function BillingInfoForm({setBillingInfo}) {
+
+    const [cardNumber, setCardNumber] = useState(null)
+    const [expDate, setExpDate] = useState(null)
+    const [expYear, setExpYear] = useState(null)
+    const [ccv, setccv] = useState(null)
+    const [cardHolderName, setCardHolderName] = useState(null)
+    const [billingAddStreet, setCardBillingAddStreet] = useState(null)
+    const [billingFloor, setCardBillingFloor] = useState(null)
+    const [billingCity, setCardBillingCity] = useState(null)
+    const [billingPostal, setCardBillingPostal] = useState(null)
+    const [billingPhone, setCardBillingPhone] = useState(null)
+
+    useEffect(() => {
+        if (cardNumber, expDate, expYear, ccv, cardHolderName, billingAddStreet, billingFloor, billingCity, billingPostal, billingPhone) {
+            const expireDate = `${expDate}/${expYear}`
+            setBillingInfo({
+                cardNumber:cardNumber , expDte:expireDate , ccv:ccv , cardHolderName:cardHolderName , billingAddStreet:billingAddStreet , billingFloor:billingFloor , billingCity:billingCity , billingPostal:billingPostal , billingPhone:billingPhone 
+            })
+        }
+        console.log([cardNumber, expDate, expYear, ccv, cardHolderName, billingAddStreet, billingFloor, billingCity, billingPostal, billingPhone])
+    }, [cardNumber, expDate, expYear, ccv, cardHolderName, billingAddStreet, billingFloor, billingCity, billingPostal, billingPhone])
+
+
     return (
         <div className='py-6'>
             <div className='w-full lg:w-1/2 ml-auto mr-auto text-center'>
@@ -21,7 +46,7 @@ export default function BillingInfoForm() {
 
                         <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
                             <div className='w-full'>
-                                <input type='number' className='p-2 border border-[#ccc] rounded-lg w-full' />
+                                <input type='number' className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setCardNumber(e.target.value)} />
                             </div>
                         </div>
                     </div>
@@ -33,7 +58,7 @@ export default function BillingInfoForm() {
 
                         <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
                             <div className='lg:w-[48%]'>
-                                <select className='p-2 border border-[#ccc] rounded-lg w-full' >
+                                <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setExpDate(e.target.value)}>
                                     <option value="">
                                         Elige un mes
                                     </option>
@@ -52,7 +77,7 @@ export default function BillingInfoForm() {
                                 </select>
                             </div>
                             <div className='lg:w-[48%]'>
-                                <select className='p-2 border border-[#ccc] rounded-lg w-full'>
+                                <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setExpYear(e.target.value)}>
                                     <option value="">
                                         Escoge un año
                                     </option>
@@ -91,7 +116,7 @@ export default function BillingInfoForm() {
 
                         <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
                             <div className='w-full'>
-                                <input type='number' className='p-2 border border-[#ccc] rounded-lg w-full' />
+                                <input type='number' className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setccv(e.target.value)} />
                             </div>
                         </div>
                     </div>
@@ -104,7 +129,7 @@ export default function BillingInfoForm() {
 
                         <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
                             <div className='w-full'>
-                                <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full' />
+                                <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setCardHolderName(e.target.value)} />
                             </div>
                         </div>
                     </div>
@@ -113,25 +138,25 @@ export default function BillingInfoForm() {
 
                     <div className='mb-4'>
                         <label className='block'>Calle y número</label>
-                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' />
+                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' onChange={e => setCardBillingAddStreet(e.target.value)} />
                     </div>
 
                     <div className='mb-4'>
                         <label className='block'>Piso/puerta/otros</label>
-                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' />
+                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' onChange={e => setCardBillingFloor(e.target.value)} />
                     </div>
 
                     <div className='mb-4'>
                         <label className='block'>Ciudad</label>
-                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' />
+                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' onChange={e => setCardBillingCity(e.target.value)} />
                     </div>
                     <div className='mb-4'>
                         <label className='block'>Código postal</label>
-                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' />
+                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' onChange={e => setCardBillingPostal(e.target.value)} />
                     </div>
                     <div className='mb-4'>
                         <label className='block'>Número de teléfono</label>
-                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' />
+                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' onChange={e => setCardBillingPhone(e.target.value)} />
                     </div>
 
                 </div>

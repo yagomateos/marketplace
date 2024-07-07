@@ -1,9 +1,11 @@
 'use client';
 
+import './product-page.css'
 import { Suspense, useEffect, useState } from 'react';
 import PublicPageContainer from '../../components/containers/publicPageContainer';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { gtProductsByIds } from '../../lib/actions/products/getProducts'; // Ensure this path is correct
+import { getReviewsFunc } from '../../lib/actions/reviews/getReviews'
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
@@ -17,9 +19,14 @@ function ListingFunc() {
     const [lightboxImages, setLightboxImages] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [err, setErr] = useState(null);
+    const [reviews, setReviews] = useState(null)
+    const [reviewsAmount, setReviewsAmount] = useState(null)
+    const [reviewsPresentage, setReviewsPresentage] = useState(null)
 
     useEffect(() => {
         if (pid) {
+
+            // get product information
             const getProductInfo = async () => {
                 try {
                     const productInst = await gtProductsByIds(`${pid}`);
@@ -35,7 +42,18 @@ function ListingFunc() {
                 }
             };
 
+            // get reviews information
+            const getReviews = async () => {
+                try {
+                    const reviews = await getReviewsFunc(pid);
+                    setReviews(reviews)
+                } catch (error) {
+                    console.log(err)
+                }
+            }
+
             getProductInfo();
+            getReviews();
         }
     }, [pid]);
 
@@ -43,6 +61,43 @@ function ListingFunc() {
         setCurrentImageIndex(index);
         setLightboxOpen(true);
     };
+
+    useEffect(() => {
+        if (reviews && reviews.length > 0) {
+            let totalStars = 0;
+            let allReviews = reviews.length;
+
+            reviews.forEach((review) => {
+                totalStars += review.star;
+            });
+
+            const averageStars = totalStars / allReviews;
+            setReviewsAmount(allReviews);
+            setReviewsPresentage(averageStars);
+        } else {
+            setReviewsAmount(0);
+            setReviewsPresentage(0);
+        }
+    }, [reviews]);
+
+    const renderStars = (percentage) => {
+        const fullStars = Math.floor(percentage);
+        const halfStar = percentage % 1 !== 0;
+        const emptyStars = 5 - Math.ceil(percentage);
+
+        return (
+            <>
+                {[...Array(fullStars)].map((_, index) => (
+                    <span key={index} className="star filled">&#9733;</span>
+                ))}
+                {/* {halfStar && <span className="star half">&#9733;</span>} */}
+                {[...Array(emptyStars)].map((_, index) => (
+                    <span key={index} className="star">&#9733;</span>
+                ))}
+            </>
+        );
+    };
+
 
     return (
         <PublicPageContainer>
@@ -54,14 +109,44 @@ function ListingFunc() {
                                 <div className='w-full lg:w-[55%]'>
                                     <div className='px-12'>
                                         {product[0] && product[0].main_image_url && (
-                                            <img
+                                            <img className='w-full'
                                                 src={product[0].main_image_url}
                                                 alt={product[0].name}
                                                 onClick={() => openLightbox(0)}
                                                 style={{ cursor: 'pointer' }}
                                             />
                                         )}
+                                        {/* reviews */}
+
+                                        {reviews && reviews.length > 0 && (
+                                            <>
+                                                <div className='reviews mt-10 flex items-center justify-between mb-5'>
+                                                    <h3 className='text-3xl font-light text-gray-700'>{(reviewsAmount)} reseñas de productos</h3>
+                                                    <div>
+                                                        {renderStars(reviewsPresentage)}
+                                                    </div>
+                                                </div>
+
+                                                {reviews.map((review, key) => (
+                                                    <div key={key} className='py-6 border-b border-[#ccc]'>
+                                                        {renderStars(review.star)}
+                                                        <div>
+                                                            {review.review}
+                                                        </div>
+                                                        <div>
+                                                            <p>{review.user_name}</p>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </>
+
+                                        )}
+
                                     </div>
+
+
+
                                 </div>
                                 <div className='lg:w-[45%] w-full'>
                                     <div>
@@ -99,12 +184,14 @@ function ListingFunc() {
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
                     ) : (
                         <div className='container flex justify-center w-full'>
                             <div className='w-full lg:w-8/12 py-14 lg:py-[60px] px-4'>
-                                
+
                             </div>
                         </div>
                     )}

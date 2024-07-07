@@ -1,12 +1,57 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function PaymentFirstStep() {
+export default function PaymentFirstStep({ setPaymentInfo }) {
     const [morePlaces, setMorePlaces] = useState(false)
     const setMorePlacesFunc = (event) => {
         setMorePlaces(event.target.value === 'yes');
     }
+
+    // payment information
+    const [personType, setpersonType] = useState(null);
+    const [billingFirstName, setBillingFirstName] = useState(null)
+    const [billingSecondName, setBillingSecondName] = useState(null)
+    const [bDday, setbDday] = useState(null)
+    const [bDmonth, setbDmonth] = useState(null)
+    const [bDyear, setbDyear] = useState(null)
+    const [addressNu, setAddressNu] = useState(null)
+    const [addressState, setAddressState] = useState(null)
+    const [addressFloor, setAddressFloor] = useState(null)
+    const [addressCity, setAddressCity] = useState(null)
+    const [postalCode, setpostalCode] = useState(null)
+    const [phoneNumber, setphoneNumber] = useState(null)
+    const [additionalPlace, setAdditionalPlace] = useState(null)
+    const [additionalPlaceDay, setAdditionalPlaceDay] = useState(null)
+    const [additionalPlaceMonth, setAdditionalPlaceMonth] = useState(null)
+    const [additionalPlaceYear, setAdditionalPlaceYear] = useState(null)
+    const [bankName, setBankName] = useState(null)
+    const [iban, setIban] = useState(null)
+    const [swift, setSwift] = useState(null)
+
+    useEffect(() => {
+        // console.clear()
+        // console.log(personType, billingFirstName, billingSecondName, bDday, bDmonth, bDyear, addressNu, addressState, addressFloor, addressCity, postalCode, phoneNumber, additionalPlace, additionalPlaceDay, additionalPlaceMonth, additionalPlaceYear, bankName, iban, swift)
+
+        if (personType, billingFirstName, billingSecondName, bDday, bDmonth, bDyear, addressNu, addressState, addressFloor, addressCity, postalCode, phoneNumber, bankName, iban, swift) {
+            const dob = `${bDday}-${bDmonth}-${bDyear}`
+
+            let billingInf = {
+                personType: personType, billingFirstName: billingFirstName, billingSecondName: billingSecondName, dob: dob, addressNu: addressNu, addressState: addressState, addressFloor: addressFloor, addressCity: addressCity, postalCode: postalCode, phoneNumber: phoneNumber, bankName: bankName, iban: iban, swift: swift
+            }
+
+            if (additionalPlace, additionalPlaceDay, additionalPlaceMonth, additionalPlaceYear) {
+
+                billingInf = { ...billingInf, additionalPlace: additionalPlace }
+                billingInf = { ...billingInf, additionalPlaceTime: `${additionalPlaceDay}-${additionalPlaceMonth}-${additionalPlaceYear}` }
+            }
+
+            setPaymentInfo(billingInf)
+
+        }
+
+    }, [personType, billingFirstName, billingSecondName, bDday, bDmonth, bDyear, addressNu, addressState, addressFloor, addressCity, postalCode, phoneNumber, additionalPlace, additionalPlaceDay, additionalPlaceMonth, additionalPlaceYear, bankName, iban, swift])
+
 
     return (
         <div className='py-6'>
@@ -23,11 +68,11 @@ export default function PaymentFirstStep() {
 
                 <ul>
                     <li>
-                        <p><input type='radio' name="business-type" />&nbsp; Persona física</p>
+                        <p><input type='radio' name="business-type" value="physical-person" onChange={e => setpersonType(e.target.value)} />&nbsp; Persona física</p>
                         <p className='text-sm'>La mayoría de los vendedores de Vendalia se encuadran en esta categoría</p>
                     </li>
                     <li className='mt-4'>
-                        <p><input type='radio' name="business-type" />&nbsp; Persona jurídica</p>
+                        <p><input type='radio' name="business-type" value="legal-person" onChange={e => setpersonType(e.target.value)} />&nbsp; Persona jurídica</p>
                     </li>
                 </ul>
             </div>
@@ -46,11 +91,11 @@ export default function PaymentFirstStep() {
                     <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
                         <div className='lg:w-[48%]'>
                             <label className='block'>Nombre</label>
-                            <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                            <input className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setBillingFirstName(e.target.value)} />
                         </div>
                         <div className='lg:w-[48%]'>
                             <label className='block'>Apellidos</label>
-                            <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                            <input className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setBillingSecondName(e.target.value)} />
                         </div>
                     </div>
                 </div>
@@ -60,7 +105,7 @@ export default function PaymentFirstStep() {
                     <p className='w-full lg:w-[20%]'>Tu fecha de nacimiento <span className='text-red-700'>*</span></p>
                     <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
                         <div className='lg:w-[32%]'>
-                            <select className='p-2 border border-[#ccc] rounded-lg w-full'>
+                            <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setbDday(e.target.value)}>
                                 <optgroup label="">
                                     <option value="" disabled="disabled" selected="selected">Día</option>
                                 </optgroup>
@@ -98,7 +143,7 @@ export default function PaymentFirstStep() {
                             </select>
                         </div>
                         <div className='lg:w-[32%]'>
-                            <select className='p-2 border border-[#ccc] rounded-lg w-full'>
+                            <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setbDmonth(e.target.value)}>
                                 <optgroup label="">
                                     <option value="" disabled="disabled" selected="selected">Mes</option>
                                 </optgroup>
@@ -117,7 +162,7 @@ export default function PaymentFirstStep() {
                             </select>
                         </div>
                         <div className='lg:w-[32%]'>
-                            <select className='p-2 border border-[#ccc] rounded-lg w-full'>
+                            <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setbDyear(e.target.value)}>
                                 <optgroup label="">
                                     <option value="" disabled="disabled" selected="selected">Año</option>
                                 </optgroup>
@@ -202,7 +247,7 @@ export default function PaymentFirstStep() {
                 </div>
 
                 {/* address */}
-                <div className='flex items-center w-full gap-4 flex-col lg:flex-row mb-4'>
+                <div className='flex w-full gap-4 flex-col lg:flex-row mb-4'>
                     <div className='w-full lg:w-[20%] pr-2'>
                         <p >Dirección fiscal <span className='text-red-700'>*</span></p>
                         <p className='text-xs'>La dirección debe ser la misma que usas en tu declaración, no un apartado de correos. Dirección comercial o apartado de correos</p>
@@ -211,29 +256,29 @@ export default function PaymentFirstStep() {
                         <div className='flex items-center justify-between gap-4 w-full'>
                             <div className='lg:w-[32%]'>
                                 <label className='block'>Número</label>
-                                <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                                <input type="number" className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setAddressNu(e.target.value)} />
                             </div>
                             <div className='lg:w-[66%]'>
                                 <label className='block'>Calle</label>
-                                <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                                <input className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setAddressState(e.target.value)} />
                             </div>
                         </div>
                         <div className='w-full mt-4'>
                             <label className='block'>Piso/puerta/otros</label>
-                            <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                            <input className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setAddressFloor(e.target.value)} />
                         </div>
                         <div className='w-full mt-4'>
                             <label className='block'>Ciudad</label>
-                            <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                            <input className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setAddressCity(e.target.value)} />
                         </div>
                         <div className='flex items-center justify-between gap-4 w-full mt-4'>
                             <div className='lg:w-[48%]'>
                                 <label className='block'>Código postal</label>
-                                <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                                <input type="number" className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setpostalCode(e.target.value)} />
                             </div>
                             <div className='lg:w-[48%]'>
                                 <label className='block'>Número de teléfono</label>
-                                <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                                <input type="tel" className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setphoneNumber(e.target.value)} />
                             </div>
                         </div>
                     </div>
@@ -262,18 +307,18 @@ export default function PaymentFirstStep() {
                                 <p>¿En qué región sancionada estuviste viviendo?*</p>
                             </div>
                             <div className='w-full lg:w-[60%]'>
-                                <select className='p-2 border border-[#ccc] rounded-lg w-full' >
+                                <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setAdditionalPlace(e.target.value)}>
                                     <optgroup label="select sanctioned region">
                                         <option value="" disabled="disabled" selected="selected">Selecciona la región</option>
                                     </optgroup>
                                     <optgroup label="----------">
-                                        <option value="88">Cuba</option>
-                                        <option value="124">Irán</option>
-                                        <option value="176">Corea del Norte</option>
-                                        <option value="195">Siria</option>
-                                        <option value="300">Crimea</option>
-                                        <option value="301">Donetsk People’s Republic (&quot;DNR&quot;)</option>
-                                        <option value="302">Luhansk People’s Republic (&quot;LNR&quot;)</option>
+                                        <option value="Cuba">Cuba</option>
+                                        <option value="Irán">Irán</option>
+                                        <option value="Corea del Nort">Corea del Norte</option>
+                                        <option value="Siria">Siria</option>
+                                        <option value="Crimea">Crimea</option>
+                                        <option value="Donetsk Peoples Republic">Donetsk People’s Republic (&quot;DNR&quot;)</option>
+                                        <option value="Luhansk Peoples Republic">Luhansk People’s Republic (&quot;LNR&quot;)</option>
                                     </optgroup>
                                 </select>
                             </div>
@@ -285,7 +330,7 @@ export default function PaymentFirstStep() {
                             </div>
                             <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
                                 <div className='lg:w-[32%]'>
-                                    <select className='p-2 border border-[#ccc] rounded-lg w-full'>
+                                    <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setAdditionalPlaceDay(e.target.value)}>
                                         <optgroup label="">
                                             <option value="" disabled="disabled" selected="selected">Día</option>
                                         </optgroup>
@@ -323,7 +368,7 @@ export default function PaymentFirstStep() {
                                     </select>
                                 </div>
                                 <div className='lg:w-[32%]'>
-                                    <select className='p-2 border border-[#ccc] rounded-lg w-full'>
+                                    <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setAdditionalPlaceMonth(e.target.value)}>
                                         <optgroup label="">
                                             <option value="" disabled="disabled" selected="selected">Mes</option>
                                         </optgroup>
@@ -342,7 +387,7 @@ export default function PaymentFirstStep() {
                                     </select>
                                 </div>
                                 <div className='lg:w-[32%]'>
-                                    <select className='p-2 border border-[#ccc] rounded-lg w-full'>
+                                    <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setAdditionalPlaceYear(e.target.value)}>
                                         <optgroup label="">
                                             <option value="" disabled="disabled" selected="selected">Año</option>
                                         </optgroup>
@@ -385,7 +430,7 @@ export default function PaymentFirstStep() {
                         <p>Nombre del banco *</p>
                     </div>
                     <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
-                        <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                        <input className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setBankName(e.target.value)} />
                     </div>
                 </div>
 
@@ -395,7 +440,7 @@ export default function PaymentFirstStep() {
                         <p>IBAN *</p>
                     </div>
                     <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
-                        <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                        <input className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setIban(e.target.value)} />
                     </div>
                 </div>
 
@@ -405,7 +450,7 @@ export default function PaymentFirstStep() {
                         <p>SWIFT (BIC) *</p>
                     </div>
                     <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
-                        <input className='p-2 border border-[#ccc] rounded-lg w-full' />
+                        <input className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setSwift(e.target.value)} />
                     </div>
                 </div>
 

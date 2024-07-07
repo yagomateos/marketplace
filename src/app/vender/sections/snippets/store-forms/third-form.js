@@ -7,18 +7,18 @@ import InventoryThirdStep from './inventory-steps/third-step'
 
 import { useState } from "react"
 
-export default function ThirdStoreStepForm({inventoryStep}) {
+export default function ThirdStoreStepForm({ inventoryStep, setProductInfo1, setProductInfo2 , productInfo2}) {
 
 
     const renderInventoryStep = () => {
 
         switch (inventoryStep) {
             case 0:
-                return <InventoryFirstStep />;
+                return <InventoryFirstStep setProductInfo1={setProductInfo1} />;
             case 1:
-                return <InventorySecondStep />;
+                return <InventorySecondStep setProductInfo2={setProductInfo2}  />;
             case 2:
-                return <InventoryThirdStep />;
+                return <InventoryThirdStep productInfo2={productInfo2} />;
             default:
                 return null;
         }

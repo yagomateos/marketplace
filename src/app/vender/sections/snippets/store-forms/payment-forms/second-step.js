@@ -1,8 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react';
 
-export default function PaymentSecondStep() {
-
+export default function PaymentSecondStep({ setIdentityInfo }) {
+    const [fileBlob, setFileBlob] = useState(null);
+    const [fileUrl, setFileUrl] = useState(null);
     const fileInputRef = useRef(null);
+    const [idType, setIdType] = useState(null)
 
     const handleFileInputClick = (e) => {
         e.preventDefault();
@@ -10,6 +12,30 @@ export default function PaymentSecondStep() {
             fileInputRef.current.click();
         }
     };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const blob = new Blob([reader.result], { type: file.type });
+                setFileBlob(blob);
+                const url = URL.createObjectURL(blob);
+                setFileUrl(url);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    };
+
+    useEffect(() => {
+        if (fileUrl && idType) {
+            console.clear();
+            console.log("File Blob URL:", fileUrl);
+            setIdentityInfo({ idType: idType, fileUrl: fileUrl })
+        }
+    }, [fileUrl, idType]);
+
+
 
     return (
         <div className='py-6'>
@@ -34,7 +60,7 @@ export default function PaymentSecondStep() {
                     <p className='text-lg'>Tipo de documento</p>
                     <div className='flex gap-4 items-center'>
                         <div>
-                            <select className='p-2 border border-[#ccc] rounded-lg w-full'>
+                            <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setIdType(e.target.value)}>
                                 <optgroup>
                                     <option value="0" disabled="disabled" selected="selected">
                                         Selecciona el tipo de documento
@@ -48,7 +74,7 @@ export default function PaymentSecondStep() {
                             </select>
                         </div>
                         <div>
-                            <input type='file' ref={fileInputRef} className='hidden' />
+                            <input type='file' ref={fileInputRef} className='hidden' onChange={handleFileChange} />
                             <a className='p-2 border border-[#ccc] rounded-lg w-full' href='/' onClick={e => { e.preventDefault(); handleFileInputClick(e) }}>Elige un archivo</a>
                         </div>
                     </div>

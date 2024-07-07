@@ -1,4 +1,5 @@
-export default function InventoryThirdStep() {
+export default function InventoryThirdStep({ productInfo2 }) {
+    console.log(productInfo2)
     return (
         <div className="store-step-form-wrapper">
             <div className="flex justify-between items-center p-4">
@@ -8,7 +9,7 @@ export default function InventoryThirdStep() {
                 </div>
 
                 <div className="ad-info border rounded-lg w-full lg:w-1/4">
-
+                    {productInfo2 && productInfo2[1] && (<img src={(productInfo2[1][0])}/>)}
                 </div>
             </div>
         </div>

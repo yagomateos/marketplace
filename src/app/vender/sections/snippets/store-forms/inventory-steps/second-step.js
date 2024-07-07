@@ -1,22 +1,72 @@
-import '../store-forms.css'
+'use client'
 
-export default function InventorySecondStep() {
+import { useEffect, useState } from 'react'
+import '../store-forms.css'
+import FileUploader from './snippets/fileUploader'
+
+export default function InventorySecondStep({setProductInfo2} ) {
+
+    const [prodTitle, setProdTitle] = useState(null)
+    const [photos, setPhotos] = useState(null)
+    const [description, setDescription] = useState(null);
+    const [price, setPrice] = useState(null)
+    const [quantity, setQuantity] = useState(null)
+    const [sku, setSku] = useState(null)
+    const [material, setMaterial] = useState(null)
+    const [maincolor, setMaincolor] = useState(null)
+    const [seconcolor, setseconcolor] = useState(null)
+    const [festivity, setfestivity] = useState(null)
+    const [tags, setTags] = useState([])
+    const [materials, setmaterials] = useState([])
+
+
+    // manage tags
+    const [currentTag, setCurrentTag] = useState(null)
+    const [currentMat, setCurrentMat] = useState(null)
+
+    const addTagsFunc = () => {
+        currentTag && tags.indexOf(currentTag) === -1 && setTags([...tags, currentTag])
+    }
+
+    const removeTags = (tagToRemove) => {
+        setTags(tags.filter(tag => tag !== tagToRemove));
+    }
+
+    const addMaterialsFunc = () => {
+        console.log('comes here')
+        currentMat && materials.indexOf(currentMat) === -1 && setmaterials([...materials, currentMat])
+    }
+
+    const removeMaterials = (matToRemove) => {
+        setmaterials(materials.filter(mat => mat !== matToRemove));
+    }
+
+
+    useEffect(() => {
+        if (prodTitle && photos && description && price && quantity && sku && material && maincolor && seconcolor && festivity && tags && materials) {
+            console.log('all good')
+            setProductInfo2([prodTitle, photos, description, price, quantity, sku, material, maincolor, seconcolor, festivity, tags, materials])
+        }
+    }, [prodTitle, photos, description, price, quantity, sku, material, maincolor, seconcolor, festivity, tags, materials])
+
+
+
     return (
         <div className='store-step-form-wrapper bg-[#f2f2f2] relative'>
             <div className='flex flex-wrap'>
-                <div className='lg:w-[30%] p-8 '>
+                <div className='hidden lg:block lg:w-[30%] p-8 '>
                     <ul className=''>
-                        <li className='kd-single-prod-step py-3'><a href="basic-info">Información básica</a></li>
-                        <li className='kd-single-prod-step py-3'><a>Precio e inventario</a></li>
-                        <li className='kd-single-prod-step py-3'><a>Variantes</a></li>
-                        <li className='kd-single-prod-step py-3'><a>Etiquetas y atributos</a></li>
-                        <li className='kd-single-prod-step py-3'><a>Detalles</a></li>
-                        <li className='kd-single-prod-step py-3'><a>Configuración</a></li>
+                        <li className='kd-single-prod-step py-3'><a href="#basic-info">Información básica</a></li>
+                        <li className='kd-single-prod-step py-3'><a href="#price-info">Precio e inventario</a></li>
+                        {/* <li className='kd-single-prod-step py-3'><a href='#varient-info'>Variantes</a></li> */}
+                        <li className='kd-single-prod-step py-3'><a href='#tags-info'>Etiquetas y atributos</a></li>
+                        <li className='kd-single-prod-step py-3'><a href='#details-info'>Detalles</a></li>
+                        {/* <li className='kd-single-prod-step py-3'><a>Configuración</a></li> */}
                     </ul>
                 </div>
 
                 <div className='lg:w-[70%] p-8'>
-                    <h3 className='text-3xl mb-3'>Añade más información</h3>
+                    <h3 className='text-2xl lg:text-3xl mb-3'>Añade más información</h3>
                     <p>Añade algunas fotos y detalles sobre el artículo. Rellena lo que puedas por ahora, podrás modificarlo más adelante. Obtén más información sobre los tipos de artículos permitidos en Vendalia.</p>
 
                     <div className="bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]" id="basic-info" >
@@ -26,7 +76,7 @@ export default function InventorySecondStep() {
                         <div>
                             <p className='text-lg'>Título <span className='text-red-700'>*</span></p>
                             <p className='text-sm mb-3'>Incluye palabras clave que los compradores usarían para encontrar este artículo</p>
-                            <input className='w-full p-4 rounded-lg border border-[#f2f2f2]' />
+                            <input onChange={e => setProdTitle(e.target.value)} className='w-full p-4 rounded-lg border border-[#f2f2f2]' />
                         </div>
 
                         <div className='mt-3'>
@@ -35,8 +85,8 @@ export default function InventorySecondStep() {
                             <div className='border border-dashed border-[#ccc] round-md p-6 relative'>
                                 <div class="file-upload-wrapper w-full flex flex-col items-center justify-center ">
                                     <p className='text-center'>Arrastra y suelta, o bien</p>
-                                    <button className="file-upload-button ml-auto mr-auto mt-4">Añade hasta 10 fotos y 1 vídeo</button>
-                                    <input type="file" class="file-upload-input d-none" accept="image/*,video/*" multiple />
+                                    <FileUploader setPhotos={setPhotos} />
+
                                 </div>
                             </div>
                         </div>
@@ -44,7 +94,7 @@ export default function InventorySecondStep() {
                         <div className='mt-3'>
                             <p className='text-lg'>Descripción  <span className='text-red-700'>*</span></p>
                             <p className='text-sm mb-3'>¿Qué hace que tu artículo sea especial? Los compradores solo verán las primeras líneas a menos que expandan la descripción.</p>
-                            <textarea className='border border-{#ccc] w-full rounded-lg' rows="6"></textarea>
+                            <textarea className='border border-{#ccc] w-full rounded-lg' rows="6" onChange={e => setDescription(e.target.value)}></textarea>
 
                         </div>
                     </div>
@@ -57,24 +107,24 @@ export default function InventorySecondStep() {
 
                         <div className='relative mt-4'>
                             <p className='text-md text-black'>Precio  <span className='text-red-700'>*</span></p>
-                            <input className='lg:w-50 p-3 border border-[#ccc] rounded-lg' />
+                            <input type='number' onChange={e => setPrice(e.target.value)} className='lg:w-50 p-3 border border-[#ccc] rounded-lg' />
                             <span className='absolute left[50%] translate-x-[-120%] top-[50%] '>EUR</span>
                         </div>
 
                         <div className='relative mt-4'>
                             <p className='text-md text-black'>Cantidad  <span className='text-red-700'>*</span></p>
-                            <input className='lg:w-50 p-3 border border-[#ccc] rounded-lg' />
+                            <input type='number' onChange={e => setQuantity(e.target.value)} className='lg:w-50 p-3 border border-[#ccc] rounded-lg' />
                         </div>
 
                         <div className='relative mt-4'>
                             <p className='text-md text-black'>SKU  <span className='text-red-700'>*</span></p>
-                            <input className='lg:w-50 p-3 border border-[#ccc] rounded-lg' />
+                            <input onChange={e => setSku(e.target.value)} className='lg:w-50 p-3 border border-[#ccc] rounded-lg' />
                         </div>
                     </div>
 
                     {/* varients */}
 
-                    <div className="bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]" id="price-info" >
+                    {/* <div className="bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]" id="varient-info" >
                         <div className='flex justify-between items-center'>
                             <div>
                                 <h3 className='text-xl font-semibold '>Variantes</h3>
@@ -84,25 +134,25 @@ export default function InventorySecondStep() {
                                 <a href="/" className='py-4 px-6 rounded-full border border-[#ccc]'>Añadir variantes</a>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* tags and attributes */}
-                    <div className="bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]" id="price-info" >
+                    <div className="bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]" id="tags-info" >
                         <h3 className='text-xl font-semibold '>Etiquetas y atributos</h3>
                         <p className='mb-3 text-sm'>Describe con precisión el artículo para que sea más fácil encontrarlo en la búsqueda y ayudar a los compradores a hacerse una idea de lo que pueden esperar.</p>
 
                         <div>
                             <h4>Atributos</h4>
-                            <div className='mt-5'>
+                            {/* <div className='mt-5'>
                                 <p className='text-lg'>Tipo de artesanía   <span className='text-red-700'>*</span></p>
                                 <p className='text-sm mb-3'>Selecciona hasta 5</p>
-                                <input className='w-full p-3 border border-[#ccc] rounded-lg' placeholder='Escribe para buscar…' />
-                            </div>
+                                <input className='w-full p-3 border border-[#ccc] rounded-lg' placeholder='seleccionar…' />
+                            </div> */}
 
                             <div className='mt-5'>
                                 <p className='text-lg'>Material</p>
-                                <select className='w-full p-4 border border-[#ccc] rounded-lg'>
-                                    <option value="">Escribe para buscar…</option>
+                                <select onChange={e => setMaterial(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
+                                    <option value="">seleccionar…</option>
                                     <option>Plata</option>
                                     <option>Acero inoxidable</option>
                                     <option>Acero</option>
@@ -116,8 +166,8 @@ export default function InventorySecondStep() {
 
                             <div className='mt-5'>
                                 <p className='text-lg'>Color principal</p>
-                                <select className='w-full p-4 border border-[#ccc] rounded-lg'>
-                                    <option value="">Escribe para buscar…</option>
+                                <select onChange={e => setMaincolor(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
+                                    <option value="">seleccionar…</option>
                                     <option>Negro</option>
                                     <option>Azul</option>
                                     <option>Marrón</option>
@@ -142,8 +192,8 @@ export default function InventorySecondStep() {
 
                             <div className='mt-5'>
                                 <p className='text-lg'>Color secundario</p>
-                                <select className='w-full p-4 border border-[#ccc] rounded-lg'>
-                                    <option value="">Escribe para buscar…</option>
+                                <select onChange={e => setseconcolor(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
+                                    <option value="">seleccionar…</option>
                                     <option>Negro</option>
                                     <option>Azul</option>
                                     <option>Marrón</option>
@@ -168,8 +218,8 @@ export default function InventorySecondStep() {
 
                             <div className='mt-5'>
                                 <p className='text-lg'>Festividad</p>
-                                <select className='w-full p-4 border border-[#ccc] rounded-lg'>
-                                    <option value="">Escribe para buscar…</option>
+                                <select onChange={e => setfestivity(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
+                                    <option value="">seleccionar…</option>
                                     <option>Año Nuevo Lunar</option>
                                     <option>Navidad</option>
                                     <option>Cinco de Mayo</option>
@@ -193,7 +243,17 @@ export default function InventorySecondStep() {
                                 <p className='text-lg'>Etiquetas</p>
                                 <p className='text-sm'>Añade hasta 13 etiquetas para ayudar a las personas que buscan tus artículos.</p>
                                 <div>
-                                    <input className='p-3 border border-[#ccc] inline-block mr-3 lg:mr-8 mt-5 rounded-lg w-2/3 lg:w-3/5' placeholder='Forma, color, estilo, función, etc.' /> <a>Añadir</a>
+                                    <input onChange={e => setCurrentTag(e.target.value)} className='p-3 border border-[#ccc] inline-block mr-3 lg:mr-8 mt-5 rounded-lg w-2/3 lg:w-3/5' placeholder='Forma, color, estilo, función, etc.' />
+                                    <a className="cursor-pointer" onClick={(e) => { e.preventDefault(); addTagsFunc() }}>Añadir</a>
+                                </div>
+                                <div className='flex flex-row flex-wrap mt-3'>
+                                    {tags && tags.map((tag, key) => (
+                                        <div className='p-4 border rounded-md relative' key={key} onClick={() => removeTags(tag)} style={{ cursor: 'pointer', margin: '0 5px' }}>
+                                            {tag}
+                                            <span className='absolute right-[50x] top-[5px] text-xs'>X</span>
+                                        </div>
+
+                                    ))}
                                 </div>
                             </div>
 
@@ -201,7 +261,18 @@ export default function InventorySecondStep() {
                                 <p className='text-lg'>Materiales</p>
                                 <p className='text-sm'>Los compradores valoran la transparencia: explícales que has usado para crear tu producto.</p>
                                 <div>
-                                    <input className='p-3 border border-[#ccc] inline-block mr-3 lg:mr-8 mt-5 rounded-lg w-2/3 lg:w-3/5' placeholder='Forma, color, estilo, función, etc.' /> <a>Añadir</a>
+                                    <input onChange={e => setCurrentMat(e.target.value)} className='p-3 border border-[#ccc] inline-block mr-3 lg:mr-8 mt-5 rounded-lg w-2/3 lg:w-3/5' placeholder='Forma, color, estilo, función, etc.' />
+                                    <a className="cursor-pointer" onClick={(e) => { e.preventDefault(); addMaterialsFunc() }}>Añadir</a>
+                                </div>
+
+                                <div className='flex flex-row flex-wrap mt-3'>
+                                    {materials && materials.map((mat, key) => (
+                                        <div className='p-4 border rounded-md relative' key={key} onClick={() => removeMaterials(mat)} style={{ cursor: 'pointer', margin: '0 5px' }}>
+                                            {mat}
+                                            <span className='absolute right-[50x] top-[5px] text-xs'>X</span>
+                                        </div>
+
+                                    ))}
                                 </div>
                             </div>
 
@@ -209,27 +280,27 @@ export default function InventorySecondStep() {
                     </div>
 
                     {/* Details */}
-                    <div className="bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]" id="price-info" >
+                    {/* <div className="bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]" id="details-info" >
                         <h3 className='text-xl font-semibold '>Detalles</h3>
                         <p className='mb-3 text-sm'>Comparte algunos detalles más sobre el artículo para que sea más fácil encontrarlo en la búsqueda y ayudar a los compradores a hacerse una idea de lo que pueden esperar.</p>
 
                         <div>
                             <h4>Información básica </h4>
                             <div className='mt-5 p-4 rounded-lg border border-[#ccc]'>
-                             {/* product basic infomation will be shown here */}
+                                
                             </div>
 
                             <div className='mt-5'>
                                 <p className='text-lg'>Categoría <span className='text-red-700'>*</span></p>
-                                <input className='p-3 border border-[#ccc] rounded-full w-full' placeholder='Busca una categoría. Por ejemplo: Sombreros, Anillos, Cojines, etc.'/>
+                                <input className='p-3 border border-[#ccc] rounded-full w-full' placeholder='Busca una categoría. Por ejemplo: Sombreros, Anillos, Cojines, etc.' />
                             </div>
 
                             <div className='mt-5 p-4 rounded-lg border border-[#ccc]'>
-                             {/* category infomation will be shown here */}
+                                
                             </div>
 
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

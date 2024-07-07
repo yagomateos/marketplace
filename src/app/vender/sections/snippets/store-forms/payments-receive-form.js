@@ -2,16 +2,16 @@ import PaymentFirstStep from './payment-forms/first-step'
 import PaymentSecondStep from './payment-forms/second-step'
 import PaymentThirdStep from './payment-forms/third-step'
 
-export default function PaymentsReceivfeForm({ bankStep }) {
+export default function PaymentsReceivfeForm({ bankStep , setPaymentInfo , setIdentityInfo }) {
 
 
     const selectStep = () => {
         switch (bankStep) {
             case 0:
-                return <PaymentFirstStep />
+                return <PaymentFirstStep setPaymentInfo={setPaymentInfo} />
                 break;
             case 1:
-                return <PaymentSecondStep />
+                return <PaymentSecondStep setIdentityInfo={setIdentityInfo} />
                 break;
             case 2:
                 return <PaymentThirdStep />
