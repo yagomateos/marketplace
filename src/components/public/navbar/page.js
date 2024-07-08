@@ -39,7 +39,7 @@ export default function PublicNavbar({ checkPopups, categoriesMenuOpen, setCatMe
 
 
     return (
-        <div className="border-b border-gray-300 relative lg:z-20 bg-white" onClick={() => checkPopups()} >
+        <div className="border-b border-gray-300 relative lg:z-20 bg-white" onClick={(e) => checkPopups(e)} >
 
             <div className='container mx-auto px-4 max-w-7xl sm:px-6 lg:px-8 '>
                 {/* Center Section */}
