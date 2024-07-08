@@ -11,11 +11,16 @@ export default function PublicPageContainer({ children }) {
     const [searchMenuOpen, setSearchMenuOpen] = useState(false)
     const [openedPopup, setOpenedPopup] = useState(false)
 
-    const checkPopups = () => {
+    const checkPopups = (e = null) => {
         // check categories popup
-        categoriesMenuOpen && setCatMenuOpen(false)
-        // check search result
-        searchMenuOpen && setSearchMenuOpen(false)
+
+
+        if (!e.target.classList.contains('kd-nav-popup-wrapper') && !e.target.closest('.' + 'kd-nav-popup-wrapper')) {
+            categoriesMenuOpen && setCatMenuOpen(false)
+            // check search result
+            searchMenuOpen && setSearchMenuOpen(false)
+        }
+
     }
 
 
@@ -23,7 +28,7 @@ export default function PublicPageContainer({ children }) {
         <>
             <div className="relative">
                 {categoriesMenuOpen || searchMenuOpen ? (
-                    <div className='dropdownOverlay' onClick={() => checkPopups()}></div>
+                    <div className='dropdownOverlay' onClick={(e) => checkPopups(e)}></div>
                 ) : ""}
                 <PublicNavbar checkPopups={checkPopups} categoriesMenuOpen={categoriesMenuOpen} setCatMenuOpen={setCatMenuOpen} setOpenedPopup={setOpenedPopup} searchMenuOpen={searchMenuOpen} setSearchMenuOpen={setSearchMenuOpen} />
 
