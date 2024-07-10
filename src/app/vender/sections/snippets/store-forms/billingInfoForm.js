@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useState } from "react"
+import StripeCheckout from '../../../../../components/payment/checkout-form'
 
-export default function BillingInfoForm({setBillingInfo}) {
+export default function BillingInfoForm({ setBillingInfo, setFormEl }) {
 
     const [cardNumber, setCardNumber] = useState(null)
     const [expDate, setExpDate] = useState(null)
@@ -15,11 +16,12 @@ export default function BillingInfoForm({setBillingInfo}) {
     const [billingPostal, setCardBillingPostal] = useState(null)
     const [billingPhone, setCardBillingPhone] = useState(null)
 
+
     useEffect(() => {
         if (cardNumber, expDate, expYear, ccv, cardHolderName, billingAddStreet, billingFloor, billingCity, billingPostal, billingPhone) {
             const expireDate = `${expDate}/${expYear}`
             setBillingInfo({
-                cardNumber:cardNumber , expDte:expireDate , ccv:ccv , cardHolderName:cardHolderName , billingAddStreet:billingAddStreet , billingFloor:billingFloor , billingCity:billingCity , billingPostal:billingPostal , billingPhone:billingPhone 
+                cardNumber: cardNumber, expDte: expireDate, ccv: ccv, cardHolderName: cardHolderName, billingAddStreet: billingAddStreet, billingFloor: billingFloor, billingCity: billingCity, billingPostal: billingPostal, billingPhone: billingPhone
             })
         }
         console.log([cardNumber, expDate, expYear, ccv, cardHolderName, billingAddStreet, billingFloor, billingCity, billingPostal, billingPhone])
@@ -27,7 +29,7 @@ export default function BillingInfoForm({setBillingInfo}) {
 
 
     return (
-        <div className='py-6'>
+        <div className='py-6 px-3'>
             <div className='w-full lg:w-1/2 ml-auto mr-auto text-center'>
                 <h1 className='text-3xl text-center'>Completa tu información de facturación</h1>
                 <p>Es el método que usarás para pagar tu factura de Vendalia y la tarifa única de configuración para abrir tu tienda.</p>
@@ -38,101 +40,7 @@ export default function BillingInfoForm({setBillingInfo}) {
 
                     <h3 className='text-3xl mb-8'>Añadir una tarjeta de crédito</h3>
 
-                    {/* Card number */}
-                    <div className='flex items-center w-full gap-4 flex-col lg:flex-row mb-4 w-full'>
-                        <div className='w-full lg:w-[20%]'>
-                            <p className='text-sm'>Número de tarjeta  *</p>
-                        </div>
-
-                        <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
-                            <div className='w-full'>
-                                <input type='number' className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setCardNumber(e.target.value)} />
-                            </div>
-                        </div>
-                    </div>
-                    {/* expire date */}
-                    <div className='flex items-center w-full gap-4 flex-col lg:flex-row mb-4'>
-                        <div className='w-full lg:w-[20%]'>
-                            <p>Fecha de caducidad  *</p>
-                        </div>
-
-                        <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
-                            <div className='lg:w-[48%]'>
-                                <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setExpDate(e.target.value)}>
-                                    <option value="">
-                                        Elige un mes
-                                    </option>
-                                    <option value="1">1 - Enero</option>
-                                    <option value="2">2 - Febrero</option>
-                                    <option value="3">3 - Marzo</option>
-                                    <option value="4">4 - Abril</option>
-                                    <option value="5">5 - Mayo</option>
-                                    <option value="6">6 - Junio</option>
-                                    <option value="7">7 - Julio</option>
-                                    <option value="8">8 - Agosto</option>
-                                    <option value="9">9 - Septiembre</option>
-                                    <option value="10">10 - Octubre</option>
-                                    <option value="11">11 - Noviembre</option>
-                                    <option value="12">12 - Diciembre</option>
-                                </select>
-                            </div>
-                            <div className='lg:w-[48%]'>
-                                <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setExpYear(e.target.value)}>
-                                    <option value="">
-                                        Escoge un año
-                                    </option>
-                                    <option value="2024">2024</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2027">2027</option>
-                                    <option value="2028">2028</option>
-                                    <option value="2029">2029</option>
-                                    <option value="2030">2030</option>
-                                    <option value="2031">2031</option>
-                                    <option value="2032">2032</option>
-                                    <option value="2033">2033</option>
-                                    <option value="2034">2034</option>
-                                    <option value="2035">2035</option>
-                                    <option value="2036">2036</option>
-                                    <option value="2037">2037</option>
-                                    <option value="2038">2038</option>
-                                    <option value="2039">2039</option>
-                                    <option value="2040">2040</option>
-                                    <option value="2041">2041</option>
-                                    <option value="2042">2042</option>
-                                    <option value="2043">2043</option>
-                                    <option value="2044">2044</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* ccv */}
-
-                    <div className='flex items-center w-full gap-4 flex-col lg:flex-row mb-4 w-full'>
-                        <div className='w-full lg:w-[20%]'>
-                            <p className='text-sm'>CCV  *</p>
-                        </div>
-
-                        <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
-                            <div className='w-full'>
-                                <input type='number' className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setccv(e.target.value)} />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* cardholder name */}
-                    <div className='flex items-center w-full gap-4 flex-col lg:flex-row mb-4 w-full'>
-                        <div className='w-full lg:w-[20%]'>
-                            <p className='text-sm'>Nombre del titular de la tarjeta  *</p>
-                        </div>
-
-                        <div className='flex items-center justify-between gap-4 w-full lg:w-[60%]'>
-                            <div className='w-full'>
-                                <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setCardHolderName(e.target.value)} />
-                            </div>
-                        </div>
-                    </div>
+                    <StripeCheckout amount={1400} setFormEl={setFormEl} />
 
                     <h3 className='text-3xl mt-12 mb-8'>Dirección de facturación</h3>
 
