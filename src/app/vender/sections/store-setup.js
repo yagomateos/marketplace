@@ -35,11 +35,14 @@ export default function Storesetup() {
     const [inventoryStep, setInventoryStep] = useState(0)
     const [bankStep, setBankStep] = useState(0)
 
+    const [formEl , setFormEl] = useState(null)
+
     console.log(storeName)
 
     const setSteps = () => {
         console.clear();
         console.log(storeStep)
+        console.log(formEl)
 
         // ======================verify store steps
 
@@ -55,8 +58,6 @@ export default function Storesetup() {
         }
 
         else if (storeStep == 2) {
-            console.clear()
-            console.log(productInfo1)
             if (productInfo1) {
                 if (inventoryStep < 2) {
                     // setInventoryStep(inventoryStep + 1)
@@ -103,7 +104,9 @@ export default function Storesetup() {
 
         } else if (storeStep == 4) {
             if (billingInfo) {
-
+                if(formEl && formEl.current){
+                    formEl.current.click()
+                }
             } else {
                 setErr('Por favor complete el formulario anterior');
             }
@@ -118,7 +121,7 @@ export default function Storesetup() {
     return (
         <div className='store-setup-wrapper'>
             <div className='store-setup-inner'>
-                <StoreSetupSteps storeStep={storeStep} />
+                <StoreSetupSteps storeStep={storeStep} setStoreStep={setStoreStep} />
                 <hr />
                 <div className='store-forms-wrapper py-4 flex w-full justify-center'>
                     <div className='w-full lg:max-w-7xl'>
@@ -126,7 +129,7 @@ export default function Storesetup() {
                         {storeStep == 1 && <SecondStoreStepForm setStoreName={setStoreName} />}
                         {storeStep == 2 && <ThirdStoreStepForm inventoryStep={inventoryStep} setProductInfo1={setProductInfo1} setProductInfo2={setProductInfo2} productInfo2={productInfo2} />}
                         {storeStep == 3 && <PaymentsReceivfeForm bankStep={bankStep} setPaymentInfo={setPaymentInfo} setIdentityInfo={setIdentityInfo} />}
-                        {storeStep == 4 && <BillingInfoForm setBillingInfo={setBillingInfo} />}
+                        {storeStep == 4 && <BillingInfoForm setBillingInfo={setBillingInfo} setFormEl={setFormEl} />}
                     </div>
                 </div>
 
@@ -136,7 +139,7 @@ export default function Storesetup() {
                         <a href="#" onClick={() => { setSteps() }} className='rounded-full bg-black text-white ml-auto mr-auto lg:mr-0 py-4 px-6'>Guardar y continuar</a>
                     </div>
                 </div>
-                {err && (<div className='lg:max-w-7xl ml-auto mr-auto pb-5 err-wrapper text-red-700 text-right text-sm'>{(err)}</div>)}
+                {err && (<div className='lg:max-w-7xl ml-auto mr-auto pb-5 err-wrapper text-red-700 text-center lg:text-right text-sm'>{(err)}</div>)}
             </div>
         </div>
     )

@@ -12,7 +12,7 @@ export default function PaymentThirdStep() {
     };
 
     return (
-        <div className='py-6'>
+        <div className='py-6 px-3'>
 
             <div className='w-full lg:w-1/2 ml-auto mr-auto text-center'>
                 <h1 className='text-3xl text-center'>Cómo recibirás los pagos</h1>

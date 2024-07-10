@@ -38,7 +38,7 @@ export default function PaymentSecondStep({ setIdentityInfo }) {
 
 
     return (
-        <div className='py-6'>
+        <div className='py-6 px-4'>
             <div className='bg-white rounded-2xl p-6 mt-6 border border-[#c5c5c5]'>
                 <h1 className='text-3xl mb-4'>Verifica tu identidad</h1>
                 <p>Necesitamos que nos des información adicional para verificar tu identidad y completar el registro. Este paso nos ayuda a protegerte y a mantener la seguridad general del mercado. Sube una copia de tu identificación emitida por una entidad gubernamental oficial de tu país de residencia que sea nítida y de alta calidad. Puedes escanearla o tomar una foto con tu teléfono o con la cámara web del ordenador. Nos valen el permiso de conducir, un documento de identificación emitido por una entidad gubernamental o un pasaporte válido.</p>
@@ -58,7 +58,7 @@ export default function PaymentSecondStep({ setIdentityInfo }) {
 
                 <div className='mt-4'>
                     <p className='text-lg'>Tipo de documento</p>
-                    <div className='flex gap-4 items-center'>
+                    <div className='flex gap-4 items-center flex-wrap'>
                         <div>
                             <select className='p-2 border border-[#ccc] rounded-lg w-full' onChange={e => setIdType(e.target.value)}>
                                 <optgroup>
@@ -68,8 +68,6 @@ export default function PaymentSecondStep({ setIdentityInfo }) {
                                     <option value="DrivingLicence">Permiso de conducir</option>
                                     <option value="IdentityCard">Documento de identidad</option>
                                     <option value="Passport">Pasaporte</option>
-                                    <option value="ResidencePermit">Permiso de residencia</option>
-                                    <option value="VoterID">Credencial para votar</option>
                                 </optgroup>
                             </select>
                         </div>

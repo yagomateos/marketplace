@@ -62,7 +62,7 @@ export default function FileUploader({ setPhotos }) {
             {error && <div className="error-message">{error}</div>}
             <div className="uploaded-images mt-2 flex justify-between gap-2">
                 {blobUrls.map((url, index) => (
-                    <div key={index} className='w-full'><img className="w-full" key={index} src={url} alt={`Uploaded ${index + 1}`} /></div>
+                    <div key={index} className='w-full'><img className="w-full h-20 lg:h-36 object-cover" key={index} src={url} alt={`Uploaded ${index + 1}`} /></div>
                 ))}
             </div>
         </div>

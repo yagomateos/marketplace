@@ -54,7 +54,7 @@ export default function PaymentFirstStep({ setPaymentInfo }) {
 
 
     return (
-        <div className='py-6'>
+        <div className='py-6 px-3'>
             <div className='w-full lg:w-1/2 ml-auto mr-auto text-center'>
                 <h1 className='text-3xl text-center'>Cómo recibirás los pagos</h1>
                 <p>Vendalia Payments ofrece a los compradores una amplia variedad de opciones de pago y te protege como vendedor de Vendalia. Más información</p>
