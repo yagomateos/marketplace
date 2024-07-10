@@ -33,7 +33,7 @@ const CheckoutForm = ({ clientSecret , setFormEl=null }) => {
             elements,
             clientSecret,
             confirmParams: {
-                return_url: `/registrado-en-la-tienda`
+                return_url: `https://www.vendalia.es/registrado-en-la-tienda`
             }
         })
 
@@ -55,7 +55,7 @@ const CheckoutForm = ({ clientSecret , setFormEl=null }) => {
     return (
         <form onSubmit={handleSubmit} >
             <PaymentElement />
-            <button ref={formEl} type="submit" disabled={processing || succeeded}>
+            <button className='hidden' ref={formEl} type="submit" disabled={processing || succeeded}>
                 {processing ? 'Processing...' : 'Pay'}
             </button>
             {error && <div>{error}</div>}
