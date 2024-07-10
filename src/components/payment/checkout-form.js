@@ -33,7 +33,7 @@ const CheckoutForm = ({ clientSecret , setFormEl=null }) => {
             elements,
             clientSecret,
             confirmParams: {
-                return_url: `http://localhost:3000/registrado-en-la-tienda`
+                return_url: `/registrado-en-la-tienda`
             }
         })
 
