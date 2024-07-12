@@ -6,7 +6,7 @@ import { Elements, CardElement, useStripe, useElements, PaymentElement } from '@
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-const CheckoutForm = ({ clientSecret , setFormEl=null }) => {
+const CheckoutForm = ({ clientSecret, setFormEl = null , setPaymentSuceeded }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [error, setError] = useState(null);
@@ -29,25 +29,43 @@ const CheckoutForm = ({ clientSecret , setFormEl=null }) => {
             setProcessing(false)
         }
 
-        const error = await stripe.confirmPayment({
+        const { error, paymentIntent } = await stripe.confirmPayment({
             elements,
             clientSecret,
             confirmParams: {
                 return_url: `https://www.vendalia.es/registrado-en-la-tienda`
-            }
+            },
+            redirect: 'if_required',
         })
 
-        if(error){
-            setError(error.message)
-        }else{
-
+        if (error) {
+            setError(error.message);
+            setProcessing(false);
+        } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+            setSucceeded(true);
+            setProcessing(false);
+        } else {
+            // Retrieve the payment intent to check the status
+            const { paymentIntent: retrievedPaymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+            if (retrievedPaymentIntent && retrievedPaymentIntent.status === 'succeeded') {
+                setSucceeded(true);
+            } else {
+                setError('Pago no exitoso');
+            }
+            setProcessing(false);
         }
 
     };
 
     useEffect(() => {
-        setFormEl&&setFormEl(formEl)
+        setFormEl && setFormEl(formEl)
     }, [formEl])
+
+    useEffect(() => {
+        console.log('comes here')
+        console.log(succeeded)
+        succeeded&&setPaymentSuceeded(true)
+    }, [succeeded])
     
 
     console.log(formEl.current)
@@ -64,7 +82,7 @@ const CheckoutForm = ({ clientSecret , setFormEl=null }) => {
     );
 };
 
-export const StripeCheckout = ({ amount , setFormEl = null }) => {
+export const StripeCheckout = ({ amount, setFormEl = null , setPaymentSuceeded }) => {
     const [clientSecret, setClientSecret] = useState('');
     const [error, setError] = useState(null);
 
@@ -100,7 +118,7 @@ export const StripeCheckout = ({ amount , setFormEl = null }) => {
             {error && <div>{error}</div>}
             {clientSecret && (
                 <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <CheckoutForm clientSecret={clientSecret} setFormEl={setFormEl} />
+                    <CheckoutForm clientSecret={clientSecret} setFormEl={setFormEl} setPaymentSuceeded={setPaymentSuceeded} />
                 </Elements>
             )}
         </>

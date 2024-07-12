@@ -1,14 +1,22 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import StoreSetupSteps from './snippets/store-setup-steps'
 import FirstStoreStepForm from './snippets/store-forms/first-forms'
 import SecondStoreStepForm from './snippets/store-forms/second-form'
 import ThirdStoreStepForm from './snippets/store-forms/third-form'
 import PaymentsReceivfeForm from './snippets/store-forms/payments-receive-form'
 import BillingInfoForm from './snippets/store-forms/billingInfoForm'
+import { useSession } from 'next-auth/react';
+import { updateUserFunc } from '../../../lib/actions/users/updateUser'
+import { createNewProduct } from '../../../lib/actions/products/createProduct'
+import { useRouter } from 'next/navigation'
 
-export default function Storesetup() {
+
+export default function Storesetup({ reason, options }) {
+
+    const { data: session } = useSession()
+    const router = useRouter();
 
     // error
     const [err, setErr] = useState(null)
@@ -35,14 +43,14 @@ export default function Storesetup() {
     const [inventoryStep, setInventoryStep] = useState(0)
     const [bankStep, setBankStep] = useState(0)
 
-    const [formEl , setFormEl] = useState(null)
+    const [formEl, setFormEl] = useState(null)
 
-    console.log(storeName)
+    const [paymentSuceeded, setPaymentSuceeded] = useState(false)
+
+
+    console.log(paymentSuceeded)
 
     const setSteps = () => {
-        console.clear();
-        console.log(storeStep)
-        console.log(formEl)
 
         // ======================verify store steps
 
@@ -104,7 +112,15 @@ export default function Storesetup() {
 
         } else if (storeStep == 4) {
             if (billingInfo) {
-                if(formEl && formEl.current){
+                console.clear()
+                console.log(reason, options, storeName, productInfo1, productInfo2, paymentInfo, identityInfo, billingInfo, storeStep, inventoryStep, bankStep)
+
+                if (!storeName || !productInfo1 || !productInfo2 || !paymentInfo || !identityInfo || !billingInfo || !storeStep || !inventoryStep || !bankStep) {
+                    setErr('Faltan algunos campos')
+                    return;
+                }
+
+                if (formEl && formEl.current) {
                     formEl.current.click()
                 }
             } else {
@@ -118,6 +134,59 @@ export default function Storesetup() {
 
     }
 
+    // store data to the database
+
+    useEffect(() => {
+        console.log('it comes here')
+
+        const updateInfo = async () => {
+            // console.log('hukapn')
+            // upload images
+
+            if (session) {
+                // update the user
+                const userId = session.user?.id;
+                const userData = {
+                    uerId: userId, reason: reason, options: options, userInfo: paymentInfo, identityInfo: identityInfo
+                }
+
+                try {
+                    const userUpdated = await updateUserFunc(userData)
+                    console.log(userUpdated)
+                    if (userUpdated) {
+                        console.log(productInfo1, productInfo2)
+                        // insert the product
+                        const productData = {
+                            firstPart: productInfo1, secondPart: productInfo2, userId: userId
+                        }
+
+                        try {
+                            const productInserted = await createNewProduct(productData)
+                            console.log(productInserted)
+                            if(productInserted){
+                                router.push('/registrado-en-la-tienda')
+                            }
+                        } catch (error) {
+                            console.log(error)
+                        }
+                    }
+
+
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        }
+
+        if (paymentSuceeded) {
+            console.clear()
+            updateInfo()
+        }
+    }, [paymentSuceeded])
+
+
+
+
     return (
         <div className='store-setup-wrapper'>
             <div className='store-setup-inner'>
@@ -129,7 +198,7 @@ export default function Storesetup() {
                         {storeStep == 1 && <SecondStoreStepForm setStoreName={setStoreName} />}
                         {storeStep == 2 && <ThirdStoreStepForm inventoryStep={inventoryStep} setProductInfo1={setProductInfo1} setProductInfo2={setProductInfo2} productInfo2={productInfo2} />}
                         {storeStep == 3 && <PaymentsReceivfeForm bankStep={bankStep} setPaymentInfo={setPaymentInfo} setIdentityInfo={setIdentityInfo} />}
-                        {storeStep == 4 && <BillingInfoForm setBillingInfo={setBillingInfo} setFormEl={setFormEl} />}
+                        {storeStep == 4 && <BillingInfoForm setBillingInfo={setBillingInfo} setFormEl={setFormEl} setPaymentSuceeded={setPaymentSuceeded} />}
                     </div>
                 </div>
 

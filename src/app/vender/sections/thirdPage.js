@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react'
 
-export default function ThirdPage({ setStep }) {
+export default function ThirdPage({ setStep, reason, setReason }) {
 
-    const [reason, setReason] = useState(null)
+
     const [err, setErr] = useState(null)
 
     const changeStep = (what) => {
