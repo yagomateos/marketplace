@@ -8,6 +8,7 @@ import { gtProductsByIds } from '../../lib/actions/products/getProducts'; // Ens
 import { getReviewsFunc } from '../../lib/actions/reviews/getReviews'
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
+import FeaturedProducts from '../../components/public/sections/featured-products';
 
 function ListingFunc() {
     const router = useRouter();
@@ -22,6 +23,9 @@ function ListingFunc() {
     const [reviews, setReviews] = useState(null)
     const [reviewsAmount, setReviewsAmount] = useState(null)
     const [reviewsPresentage, setReviewsPresentage] = useState(null)
+
+    const [moreInfoOpened, setMoreInfoOpened] = useState(true)
+    const [shippingInfoOpened, setShippingOpened] = useState(null)
 
     useEffect(() => {
         if (pid) {
@@ -80,6 +84,14 @@ function ListingFunc() {
         }
     }, [reviews]);
 
+
+    useEffect(() => {
+        console.clear()
+        console.log(product)
+
+    }, [product])
+
+
     const renderStars = (percentage) => {
         const fullStars = Math.floor(percentage);
         const halfStar = percentage % 1 !== 0;
@@ -97,6 +109,68 @@ function ListingFunc() {
             </>
         );
     };
+
+    const renderReviews = () => {
+
+        if (reviews && reviews.length > 0) {
+            return (
+                <>
+                    <div className='reviews mt-10 flex items-center justify-between mb-5'>
+                        <h3 className='text-3xl font-light text-gray-700'>{(reviewsAmount)} reseñas de productos</h3>
+                        <div>
+                            {renderStars(reviewsPresentage)}
+                        </div>
+                    </div>
+
+                    {reviews.map((review, key) => (
+                        <div key={key} className='py-6 border-b border-[#ccc]'>
+                            {renderStars(review.star)}
+                            <div>
+                                {review.review}
+                            </div>
+                            <div>
+                                <p>{review.user_name}</p>
+
+                            </div>
+                        </div>
+                    ))}
+                </>
+            )
+        } else {
+            return (
+                <div className='reviews mt-10 flex items-center justify-between mb-5'>
+                    <h3 className='text-3xl font-light text-gray-700'>0 reseñas de productos</h3>
+                    <div>
+                        {renderStars(0)}
+                    </div>
+                </div>)
+
+        }
+
+    }
+
+    const renderProductForm = () => {
+        if (product[0].quantity && product[0].quantity > 0) {
+            return (
+                <div>
+                    <input className='p-3 mt-5 w-full rounded-lg' type='number' max={product[0].quantity} placeholder='Cantidad'/>
+                    <a href="/" className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black lg:my-6'> Comprar ahora</a>
+                    <a href="/" className='flex justify-center items-center py-3 px-6 border-2 border-black rounded-full text-white bg-black lg:my-6'> Añadir al carrito</a>
+                    <a href="/" className='flex justify-center items-center py-3 px-6 transition-all ease-linear hover:bg-[#f2f2f2] rounded-full text-black lg:my-6'>
+                        <img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/heart-filled.svg" alt="Filled Heart" />
+                        &nbsp;  Añadir a una colección
+                    </a>
+                </div>)
+        } else {
+            return (
+                <div>
+                    <p className='text-red-700 text-lg mb-3'>Agotado</p>
+                    <a disabled className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-[#ccc] lg:my-6'> Comprar ahora</a>
+                    <a disabled className='flex justify-center items-center py-3 px-6 border-2 border-black rounded-full text-white bg-[#f2f2f2] lg:my-6'> Añadir al carrito</a>
+
+                </div>)
+        }
+    }
 
 
     return (
@@ -118,30 +192,7 @@ function ListingFunc() {
                                         )}
                                         {/* reviews */}
 
-                                        {reviews && reviews.length > 0 && (
-                                            <>
-                                                <div className='reviews mt-10 flex items-center justify-between mb-5'>
-                                                    <h3 className='text-3xl font-light text-gray-700'>{(reviewsAmount)} reseñas de productos</h3>
-                                                    <div>
-                                                        {renderStars(reviewsPresentage)}
-                                                    </div>
-                                                </div>
-
-                                                {reviews.map((review, key) => (
-                                                    <div key={key} className='py-6 border-b border-[#ccc]'>
-                                                        {renderStars(review.star)}
-                                                        <div>
-                                                            {review.review}
-                                                        </div>
-                                                        <div>
-                                                            <p>{review.user_name}</p>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </>
-
-                                        )}
+                                        {renderReviews()}
 
                                     </div>
 
@@ -173,14 +224,32 @@ function ListingFunc() {
                                                 {product[0] && product[0].regular_price && ('EUR' + product[0].regular_price)}
                                             </h2>
                                         )}
-                                        <p className='mt-5'>{product[0] && product[0].description}</p>
+                                        {/* <p className='mt-5'>{product[0] && product[0].description}</p> */}
+                                        <p className='mt-5'>{product[0] && product[0].tags}</p>
+
+                                        {renderProductForm()}
+
+                                        {/* other product information */}
                                         <div>
-                                            <a href="/" className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black lg:my-6'> Comprar ahora</a>
-                                            <a href="/" className='flex justify-center items-center py-3 px-6 border-2 border-black rounded-full text-white bg-black lg:my-6'> Añadir al carrito</a>
-                                            <a href="/" className='flex justify-center items-center py-3 px-6 transition-all ease-linear hover:bg-[#f2f2f2] rounded-full text-black lg:my-6'>
-                                                <img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/heart-filled.svg" alt="Filled Heart" />
-                                                &nbsp;  Añadir a una colección
-                                            </a>
+                                            <ul>
+
+                                                <li><a className={`${moreInfoOpened && ('bg-[#ccc]')} text-lg font-semibold flex justify-between p-4 rounded-full bg-transparent hover:bg-[#ccc] text-black block`} onClick={(e) => setMoreInfoOpened(!moreInfoOpened)}><p>detalles del artículo</p> &nbsp; <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/angle-right.svg" className='w-[20px]' /></a></li>
+                                                {moreInfoOpened && (
+                                                    <div className='p-4 mt-3'>
+                                                        {product[0] && product[0].description}
+                                                    </div>
+                                                )}
+
+                                                <li><a className={`${shippingInfoOpened && ('bg-[#ccc]')} text-lg font-semibold flex justify-between p-4 rounded-full bg-transparent hover:bg-[#ccc] text-black block`} onClick={(e) => setShippingOpened(!shippingInfoOpened)}><p>Políticas de envío y devolución</p> &nbsp; <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/angle-right.svg" className='w-[20px]' /></a></li>
+                                                {shippingInfoOpened &&
+                                                    (
+                                                        <div className='p-4 mt-3'>
+                                                           Envío en España: 5-10€ (3-5 días), Baleares: 7-15€ (4-6 días), Canarias, Ceuta, Melilla: 10-20€ (5-7 días). Envío gratuito en pedidos superiores a 50€ Seguimiento proporcionado en todos los pedidos.
+                                                        </div>
+                                                    )
+                                                }
+
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -195,6 +264,11 @@ function ListingFunc() {
                             </div>
                         </div>
                     )}
+                </div>
+
+                {/* more items */}
+                <div>
+                    <FeaturedProducts />
                 </div>
             </div>
 

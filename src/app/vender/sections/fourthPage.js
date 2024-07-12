@@ -2,9 +2,8 @@
 
 import React, { useState } from 'react'
 
-export default function FourthPage({ setStep }) {
+export default function FourthPage({ setStep, options, setOptions }) {
 
-    const [options, setOptions] = useState([])
     const [err, setErr] = useState(null)
 
     const setOptionsFunc = (e) => {

@@ -220,22 +220,22 @@ export default function InventorySecondStep({setProductInfo2} ) {
                                 <p className='text-lg'>Festividad</p>
                                 <select onChange={e => setfestivity(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
                                     <option value="">seleccionar…</option>
-                                    <option>Año Nuevo Lunar</option>
-                                    <option>Navidad</option>
-                                    <option>Cinco de Mayo</option>
-                                    <option>Pascua</option>
-                                    <option>Día del Padre</option>
-                                    <option>Halloween</option>
-                                    <option>Janucá</option>
-                                    <option>Día de la Independencia</option>
-                                    <option>Cuansa</option>
-                                    <option>Día de la Madre</option>
-                                    <option>Año Nuevo</option>
-                                    <option>Día de San Patricio</option>
-                                    <option>Acción de Gracias</option>
-                                    <option>Pascua judía</option>
-                                    <option>San Valentín</option>
-                                    <option>Día del Veterano</option>
+                                    <option value="Año Nuevo Lunar">Año Nuevo Lunar</option>
+                                    <option value="Navidad">Navidad</option>
+                                    <option value="Cinco de Mayo">Cinco de Mayo</option>
+                                    <option value="Pascua">Pascua</option>
+                                    <option value="Día del Padre">Día del Padre</option>
+                                    <option value="Halloween">Halloween</option>
+                                    <option value="Janucá">Janucá</option>
+                                    <option value="Día de la Independenci">Día de la Independencia</option>
+                                    <option value="Cuansa">Cuansa</option>
+                                    <option value="Día de la Madre">Día de la Madre</option>
+                                    <option value="Año Nuevo">Año Nuevo</option>
+                                    <option value="Día de San Patricio">Día de San Patricio</option>
+                                    <option value="Acción de Gracias">Acción de Gracias</option>
+                                    <option value="Pascua judía">Pascua judía</option>
+                                    <option value="San Valentín">San Valentín</option>
+                                    <option value="Día del Veterano">Día del Veterano</option>
                                 </select>
                             </div>
 

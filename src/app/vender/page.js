@@ -16,6 +16,9 @@ export default function Vender() {
 
     const [step, setStep] = useState(0)
     const { data: session } = useSession()
+    const [reason, setReason] = useState(null)
+    const [options, setOptions] = useState([])
+
     const router = useRouter()
 
     useEffect(() => {
@@ -28,11 +31,11 @@ export default function Vender() {
     return (
         <PublicPageContainer>
             {step === 0 && (<FirstPage setStep={setStep} />)}
-            {step === 1 && (<SecondPage setStep={setStep}  user={session.user} />)}
-            {step === 2 && (<ThirdPage setStep={setStep} />)}
-            {step === 3 && (<FourthPage setStep={setStep} />)}
+            {step === 1 && (<SecondPage setStep={setStep} user={session.user} />)}
+            {step === 2 && (<ThirdPage setStep={setStep} reason={reason} setReason={setReason} />)}
+            {step === 3 && (<FourthPage setStep={setStep} options={options} setOptions={setOptions} />)}
             {step === 4 && (<FifthPage setStep={setStep} />)}
-            {step === 5 && (<Storesetup/>)}
+            {step === 5 && (<Storesetup reason={reason} options={options} />)}
         </PublicPageContainer>
     )
 }

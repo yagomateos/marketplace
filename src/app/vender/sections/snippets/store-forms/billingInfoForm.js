@@ -3,13 +3,8 @@
 import { useEffect, useState } from "react"
 import StripeCheckout from '../../../../../components/payment/checkout-form'
 
-export default function BillingInfoForm({ setBillingInfo, setFormEl }) {
+export default function BillingInfoForm({ setBillingInfo, setFormEl , setPaymentSuceeded }) {
 
-    const [cardNumber, setCardNumber] = useState(null)
-    const [expDate, setExpDate] = useState(null)
-    const [expYear, setExpYear] = useState(null)
-    const [ccv, setccv] = useState(null)
-    const [cardHolderName, setCardHolderName] = useState(null)
     const [billingAddStreet, setCardBillingAddStreet] = useState(null)
     const [billingFloor, setCardBillingFloor] = useState(null)
     const [billingCity, setCardBillingCity] = useState(null)
@@ -18,14 +13,12 @@ export default function BillingInfoForm({ setBillingInfo, setFormEl }) {
 
 
     useEffect(() => {
-        if (cardNumber, expDate, expYear, ccv, cardHolderName, billingAddStreet, billingFloor, billingCity, billingPostal, billingPhone) {
-            const expireDate = `${expDate}/${expYear}`
+        if (billingAddStreet, billingFloor, billingCity, billingPostal, billingPhone) {
             setBillingInfo({
-                cardNumber: cardNumber, expDte: expireDate, ccv: ccv, cardHolderName: cardHolderName, billingAddStreet: billingAddStreet, billingFloor: billingFloor, billingCity: billingCity, billingPostal: billingPostal, billingPhone: billingPhone
+                billingAddStreet: billingAddStreet, billingFloor: billingFloor, billingCity: billingCity, billingPostal: billingPostal, billingPhone: billingPhone
             })
         }
-        console.log([cardNumber, expDate, expYear, ccv, cardHolderName, billingAddStreet, billingFloor, billingCity, billingPostal, billingPhone])
-    }, [cardNumber, expDate, expYear, ccv, cardHolderName, billingAddStreet, billingFloor, billingCity, billingPostal, billingPhone])
+    }, [billingAddStreet, billingFloor, billingCity, billingPostal, billingPhone])
 
 
     return (
@@ -40,7 +33,7 @@ export default function BillingInfoForm({ setBillingInfo, setFormEl }) {
 
                     <h3 className='text-3xl mb-8'>Añadir una tarjeta de crédito</h3>
 
-                    <StripeCheckout amount={1400} setFormEl={setFormEl} />
+                    <StripeCheckout amount={1400} setFormEl={setFormEl} setPaymentSuceeded={setPaymentSuceeded} />
 
                     <h3 className='text-3xl mt-12 mb-8'>Dirección de facturación</h3>
 
@@ -60,10 +53,10 @@ export default function BillingInfoForm({ setBillingInfo, setFormEl }) {
                     </div>
                     <div className='mb-4'>
                         <label className='block'>Código postal</label>
-                        <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' onChange={e => setCardBillingPostal(e.target.value)} />
+                        <input type='number' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' onChange={e => setCardBillingPostal(e.target.value)} />
                     </div>
                     <div className='mb-4'>
-                        <label className='block'>Número de teléfono</label>
+                        <label type="tel" className='block'>Número de teléfono</label>
                         <input type='text' className='p-2 border border-[#ccc] rounded-lg w-full lg:w-[82%]' onChange={e => setCardBillingPhone(e.target.value)} />
                     </div>
 

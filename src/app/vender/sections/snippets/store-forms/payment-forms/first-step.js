@@ -34,7 +34,7 @@ export default function PaymentFirstStep({ setPaymentInfo }) {
         // console.log(personType, billingFirstName, billingSecondName, bDday, bDmonth, bDyear, addressNu, addressState, addressFloor, addressCity, postalCode, phoneNumber, additionalPlace, additionalPlaceDay, additionalPlaceMonth, additionalPlaceYear, bankName, iban, swift)
 
         if (personType, billingFirstName, billingSecondName, bDday, bDmonth, bDyear, addressNu, addressState, addressFloor, addressCity, postalCode, phoneNumber, bankName, iban, swift) {
-            const dob = `${bDday}-${bDmonth}-${bDyear}`
+            const dob = `${bDyear}-${bDmonth}-${bDday}`
 
             let billingInf = {
                 personType: personType, billingFirstName: billingFirstName, billingSecondName: billingSecondName, dob: dob, addressNu: addressNu, addressState: addressState, addressFloor: addressFloor, addressCity: addressCity, postalCode: postalCode, phoneNumber: phoneNumber, bankName: bankName, iban: iban, swift: swift
@@ -43,7 +43,7 @@ export default function PaymentFirstStep({ setPaymentInfo }) {
             if (additionalPlace, additionalPlaceDay, additionalPlaceMonth, additionalPlaceYear) {
 
                 billingInf = { ...billingInf, additionalPlace: additionalPlace }
-                billingInf = { ...billingInf, additionalPlaceTime: `${additionalPlaceDay}-${additionalPlaceMonth}-${additionalPlaceYear}` }
+                billingInf = { ...billingInf, additionalPlaceTime: `${additionalPlaceYear}-${additionalPlaceMonth}-${additionalPlaceDay}` }
             }
 
             setPaymentInfo(billingInf)
