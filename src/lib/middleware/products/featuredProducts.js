@@ -4,10 +4,10 @@ export const getFeaturedProducts = async () => {
     try {
         const db = await dbConnection();
         // change this later
-        const [results] = await db.execute(`SELECT p.*, c.category_name, u.username 
+        const [results] = await db.execute(`SELECT p.*, c.category_name, s.store_name , s.id as store_id
         FROM products p 
         LEFT JOIN product_categories c ON p.category_id = c.id 
-        LEFT JOIN users u ON p.user_id = u.id;`);
+        LEFT JOIN stores s ON p.store_id = s.id;`);
         await db.end();
 
         if (results.length > 0) {

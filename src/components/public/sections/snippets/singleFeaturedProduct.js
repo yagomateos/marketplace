@@ -8,6 +8,9 @@ import './singleFeaturedProd.css'
 
 export default function SingleFeaturedProduct({ featuredProduct }) {
 
+    console.log('htts')
+    console.log(featuredProduct)
+    console.log(featuredProduct.store_name)
 
     const [favourites, setFavourites] = useState([]);
     const router = useRouter();
@@ -97,8 +100,8 @@ export default function SingleFeaturedProduct({ featuredProduct }) {
                 {featuredProduct.name && (
                     <p className="p-1">{featuredProduct.name}</p>
                 )}
-                {featuredProduct.username && (
-                    <p className="p-1 text-sm">{featuredProduct.username}</p>
+                {featuredProduct.store_name && (
+                    <p className="p-1 text-sm">{featuredProduct.store_name}</p>
                 )}
                 {featuredProduct.sale_price && (
                     <div className="flex justify-start gap-2 items-center">

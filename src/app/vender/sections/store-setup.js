@@ -11,6 +11,7 @@ import { useSession } from 'next-auth/react';
 import { updateUserFunc } from '../../../lib/actions/users/updateUser'
 import { createNewProduct } from '../../../lib/actions/products/createProduct'
 import { useRouter } from 'next/navigation'
+import { createStr } from '../../../lib/actions/stores/createStore'
 
 
 export default function Storesetup({ reason, options }) {
@@ -112,8 +113,8 @@ export default function Storesetup({ reason, options }) {
 
         } else if (storeStep == 4) {
             if (billingInfo) {
-                console.clear()
-                console.log(reason, options, storeName, productInfo1, productInfo2, paymentInfo, identityInfo, billingInfo, storeStep, inventoryStep, bankStep)
+                // console.clear()
+                // console.log(reason, options, storeName, productInfo1, productInfo2, paymentInfo, identityInfo, billingInfo, storeStep, inventoryStep, bankStep)
 
                 if (!storeName || !productInfo1 || !productInfo2 || !paymentInfo || !identityInfo || !billingInfo || !storeStep || !inventoryStep || !bankStep) {
                     setErr('Faltan algunos campos')
@@ -140,7 +141,7 @@ export default function Storesetup({ reason, options }) {
         console.log('it comes here')
 
         const updateInfo = async () => {
-            // console.log('hukapn')
+            console.log('hukapn')
             // upload images
 
             if (session) {
@@ -155,20 +156,46 @@ export default function Storesetup({ reason, options }) {
                     console.log(userUpdated)
                     if (userUpdated) {
                         console.log(productInfo1, productInfo2)
-                        // insert the product
-                        const productData = {
-                            firstPart: productInfo1, secondPart: productInfo2, userId: userId
-                        }
+
+                        // store information
+                        console.log(storeName, billingInfo)
+                        const storeDta = {
+                            storeName: storeName,
+                            billingInfo: billingInfo,
+                            userId: userId
+                        };
 
                         try {
-                            const productInserted = await createNewProduct(productData)
-                            console.log(productInserted)
-                            if(productInserted){
-                                router.push('/registrado-en-la-tienda')
+                            const storeCreated = await createStr(storeDta)
+                            console.clear();
+                            console.log('huttigeputa')
+                            console.log(storeCreated)
+
+                            // insert the product
+
+                            if (storeCreated) {
+                                
+
+                                const productData = {
+                                    firstPart: productInfo1, secondPart: productInfo2, userId: userId, storeId: storeCreated
+                                }
+
+                                try {
+                                    const productInserted = await createNewProduct(productData)
+                                    console.log(productInserted)
+                                    if (productInserted) {
+                                        router.push('/registrado-en-la-tienda')
+                                    }
+                                } catch (error) {
+                                    console.log(error)
+                                }
                             }
+
+
                         } catch (error) {
                             console.log(error)
                         }
+
                     }
 
 

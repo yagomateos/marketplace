@@ -8,6 +8,7 @@ export async function createNewProduct(productDta) {
     const thumbnailUrl = 'https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/placeholder-image.jpg';
 
     const productData = {
+        store_id : productDta.storeId,
         category_id: productDta.firstPart[0],
         name : productDta.secondPart[0],
         description : productDta.secondPart[2],
