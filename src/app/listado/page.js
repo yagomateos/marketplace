@@ -153,7 +153,7 @@ function ListingFunc() {
         if (product[0].quantity && product[0].quantity > 0) {
             return (
                 <div>
-                    <input className='p-3 mt-5 w-full rounded-lg' type='number' max={product[0].quantity} placeholder='Cantidad'/>
+                    <input className='p-3 mt-5 w-full rounded-lg border border-black' type='number' max={product[0].quantity} placeholder='Cantidad'/>
                     <a href="/" className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black lg:my-6'> Comprar ahora</a>
                     <a href="/" className='flex justify-center items-center py-3 px-6 border-2 border-black rounded-full text-white bg-black lg:my-6'> Añadir al carrito</a>
                     <a href="/" className='flex justify-center items-center py-3 px-6 transition-all ease-linear hover:bg-[#f2f2f2] rounded-full text-black lg:my-6'>
@@ -236,6 +236,9 @@ function ListingFunc() {
                                                 <li><a className={`${moreInfoOpened && ('bg-[#ccc]')} text-lg font-semibold flex justify-between p-4 rounded-full bg-transparent hover:bg-[#ccc] text-black block`} onClick={(e) => setMoreInfoOpened(!moreInfoOpened)}><p>detalles del artículo</p> &nbsp; <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/angle-right.svg" className='w-[20px]' /></a></li>
                                                 {moreInfoOpened && (
                                                     <div className='p-4 mt-3'>
+                                                        <h3 className='text-md font-semibold'>Puntos destacables</h3>
+                                                        <p>Hecho por <a className='underline' href={`/almacenar/${product[0] && product[0].store_name}`}>{product[0] && product[0].store_name}</a></p>
+                                                        <h3 className='text-md font-semibold mt-3'>Sobre este artículo</h3>
                                                         {product[0] && product[0].description}
                                                     </div>
                                                 )}
