@@ -1,5 +1,5 @@
 'use server'
-import { getFeaturedCategories , getSubCategories } from '../../middleware/products/categories';
+import { getFeaturedCategories , getSubCategories , getbCategoriesById } from '../../middleware/products/categories';
 
 export async function getfeaturedCategories(limit) {
     try {
@@ -14,6 +14,15 @@ export async function getfeaturedCategories(limit) {
 export async function getSubCats(parent = null) {
     try {
         const categories = await getSubCategories(parent);
+        return categories;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function getCatsById(ids) {
+    try {
+        const categories = await getbCategoriesById(ids);
         return categories;
     } catch (error) {
         throw error;
