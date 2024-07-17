@@ -31,3 +31,19 @@ export const getSubCategories = async (parent) => {
         throw error;
     }
 }
+
+export const getbCategoriesById = async (ids) => {
+    try {
+        const db = await dbConnection();
+        const [results] = await db.execute(`select * from product_categories where id in (${ids})`);
+        await db.end();
+
+        if (results.length > 0) {
+            return results;
+        } else {
+            throw new Error('no sub categories found');
+        }
+    } catch (error) {
+        throw error;
+    }
+}

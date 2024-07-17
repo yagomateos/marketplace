@@ -6,8 +6,10 @@ import { setFavourite, getFavorites } from '../../../../lib/actions/products/fav
 import { useRouter } from "next/navigation";
 import './singleFeaturedProd.css'
 
-export default function SingleFeaturedProduct({ featuredProduct }) {
+export default function SingleStoreproduct({ product }) {
 
+    // console.clear()
+    console.log(product.img_url)
 
     const [favourites, setFavourites] = useState([]);
     const router = useRouter();
@@ -81,29 +83,24 @@ export default function SingleFeaturedProduct({ featuredProduct }) {
         <div className="single-featured-product-inner relative cursor-pointer">
 
             <span className="favorite-product w-8 h-8 bg-white rounded-full flex justify-center items-center absolute top-4 right-4 transition-all translate-y-4 opacity-0 ">
-                {return_fav_img(featuredProduct.id)}
+                {return_fav_img(product.id)}
             </span>
-            <a href="/" onClick={(e)=>{e.preventDefault(); router.push(`/listado?pid=${featuredProduct.id}`)}}>
-                {featuredProduct.main_image_url && (
+            <a href="/" onClick={(e)=>{e.preventDefault(); router.push(`/listado?pid=${product.id}`)}}>
+                {product.img_url && (
                     <img
-                        className="w-full h-36 lg:h-80 object-cover"
-                        src={featuredProduct.main_image_url}
-                        alt={featuredProduct.name}
+                        className="w-full object-cover"
+                        src={product.img_url}
+                        alt={product.name}
                     />
                 )}
-                {featuredProduct.category_name && (
-                    <p className="text-sm p-1">{featuredProduct.category_name}</p>
+
+                {product.name && (
+                    <p className="p-1 mt-2">{product.name}</p>
                 )}
-                {featuredProduct.name && (
-                    <p className="p-1">{featuredProduct.name}</p>
-                )}
-                {featuredProduct.store_name && (
-                    <p className="p-1 text-sm">{featuredProduct.store_name}</p>
-                )}
-                {featuredProduct.sale_price && (
-                    <div className="flex justify-start gap-2 items-center">
-                        <p className="p-1 text-red-800">{featuredProduct.sale_price}</p>
-                        <p className="line-through">{featuredProduct.regular_price}</p>
+                {product.regular_price && (
+                    <div className="">
+                        <p className="text-green-800 text-lg">{product.sale_price&&product.sale_price}</p>
+                        <p className={product.sale_price&&'line-through'}>{product.regular_price}</p>
                     </div>
                 )}
             </a>

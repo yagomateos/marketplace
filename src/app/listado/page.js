@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
 import './product-page.css'
 import { Suspense, useEffect, useState } from 'react';
 import PublicPageContainer from '../../components/containers/publicPageContainer';
@@ -9,9 +10,9 @@ import { getReviewsFunc } from '../../lib/actions/reviews/getReviews'
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import FeaturedProducts from '../../components/public/sections/featured-products';
+import { addToCartFunc } from '../../lib/actions/cart/addToCart'
 
 function ListingFunc() {
-    const router = useRouter();
     const searchParams = useSearchParams();
     const pid = searchParams.get('pid');
 
@@ -27,6 +28,14 @@ function ListingFunc() {
     const [moreInfoOpened, setMoreInfoOpened] = useState(true)
     const [shippingInfoOpened, setShippingOpened] = useState(null)
 
+    const [availableQuantity, setAvailableQuantity] = useState(0)
+    const [quantity, setQuantity] = useState(0)
+    const [cartError, setCartError] = useState(null)
+
+    const router = useRouter();
+    const { data: session } = useSession()
+
+
     useEffect(() => {
         if (pid) {
 
@@ -34,7 +43,10 @@ function ListingFunc() {
             const getProductInfo = async () => {
                 try {
                     const productInst = await gtProductsByIds(`${pid}`);
-                    setProduct(productInst);
+                    console.clear();
+                    console.log(productInst)
+                    productInst && setProduct(productInst);
+                    productInst && productInst[0] && setAvailableQuantity(productInst[0].quantity);
 
                     // Set lightbox images
                     if (productInst && productInst[0] && productInst[0].main_image_url) {
@@ -85,11 +97,52 @@ function ListingFunc() {
     }, [reviews]);
 
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     console.clear()
+    //     console.log(product)
+
+    // }, [product])
+
+    const updateQuantity = (e) => {
+        e.preventDefault();
+        if (availableQuantity > e.target.value) {
+            setQuantity(e.target.value)
+            setCartError(null)
+        } else {
+            setQuantity(0)
+            setCartError('no hay suficiente cantidad')
+        }
+    }
+
+    const addToCart = async (e) => {
+        e.preventDefault();
         console.clear()
         console.log(product)
+        // update cart
+        console.log(session.user.id)
+        if (session && quantity > 0) {
+            const data = {
+                product_id: product[0].id,
+                user_id: session.user.id,
+                quantity: quantity
+            }
 
-    }, [product])
+            try {
+                const addedToCart = await addToCartFunc(data)
+                if (addedToCart) {
+                    console.log(addedToCart)
+                    router.push('/carro')
+
+                    // update redux state or context in cart
+                }
+            } catch (error) {
+                setCartError('¡Carrito no actualizado! Intentar otra vez')
+            }
+
+            console.log(data)
+        }
+
+    }
 
 
     const renderStars = (percentage) => {
@@ -153,13 +206,14 @@ function ListingFunc() {
         if (product[0].quantity && product[0].quantity > 0) {
             return (
                 <div>
-                    <input className='p-3 mt-5 w-full rounded-lg border border-black' type='number' max={product[0].quantity} placeholder='Cantidad'/>
-                    <a href="/" className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black lg:my-6'> Comprar ahora</a>
-                    <a href="/" className='flex justify-center items-center py-3 px-6 border-2 border-black rounded-full text-white bg-black lg:my-6'> Añadir al carrito</a>
-                    <a href="/" className='flex justify-center items-center py-3 px-6 transition-all ease-linear hover:bg-[#f2f2f2] rounded-full text-black lg:my-6'>
+                    <input onChange={(e) => updateQuantity(e)} className='p-3 mt-5 w-full rounded-lg border border-black' type='number' max={product[0].quantity} placeholder='Cantidad' />
+                    <a href="/" className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black my-3 lg:my-6'> Comprar ahora</a>
+                    <a href="/" onClick={(e) => { addToCart(e) }} className={`flex justify-center items-center py-3 px-6 border-2 border-black rounded-full text-white ${cartError ? 'bg-[#ccc] cursor-text' : 'bg-black cursor-pointer'} my-3 lg:my-6`} > Añadir al carrito</a>
+                    <a href="/" className={`flex justify-center items-center py-3 px-6 transition-all ease-linear hover:bg-[#f2f2f2] rounded-full text-black lg:my-6`} >
                         <img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/heart-filled.svg" alt="Filled Heart" />
                         &nbsp;  Añadir a una colección
                     </a>
+                    {cartError && <div className='text-red-700 text-sm mt-4'>{cartError}</div>}
                 </div>)
         } else {
             return (
@@ -179,9 +233,9 @@ function ListingFunc() {
                 <div className='flex items-center gap-5 w-full'>
                     {product ? (
                         <div className='py-12 px-4 flex justify-center items-center'>
-                            <div className='flex justify-between items-start gap-4 lg:max-w-7xl'>
+                            <div className='lg:flex justify-between items-start gap-4 lg:max-w-7xl'>
                                 <div className='w-full lg:w-[55%]'>
-                                    <div className='px-12'>
+                                    <div className='lg:px-12'>
                                         {product[0] && product[0].main_image_url && (
                                             <img className='w-full'
                                                 src={product[0].main_image_url}
@@ -247,7 +301,7 @@ function ListingFunc() {
                                                 {shippingInfoOpened &&
                                                     (
                                                         <div className='p-4 mt-3'>
-                                                           Envío en España: 5-10€ (3-5 días), Baleares: 7-15€ (4-6 días), Canarias, Ceuta, Melilla: 10-20€ (5-7 días). Envío gratuito en pedidos superiores a 50€ Seguimiento proporcionado en todos los pedidos.
+                                                            Envío en España: 5-10€ (3-5 días), Baleares: 7-15€ (4-6 días), Canarias, Ceuta, Melilla: 10-20€ (5-7 días). Envío gratuito en pedidos superiores a 50€ Seguimiento proporcionado en todos los pedidos.
                                                         </div>
                                                     )
                                                 }
