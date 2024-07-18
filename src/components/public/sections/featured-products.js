@@ -71,10 +71,10 @@ export default function FeaturedProducts() {
                     {/* header */}
                     <div className="flex justify-between align-center">
                         <div>
-                            <h2 className="text-2xl font-medium">Popular Products</h2>
+                            <h2 className="text-2xl font-medium">Productos populares</h2>
                         </div>
                         <div>
-                            <a href="#" className="text-sm underline">See all products</a>
+                            <a href="#" className="text-sm underline">Ver todos los productos</a>
                         </div>
                     </div>
 
