@@ -33,10 +33,10 @@ export default function FeaturedCategories() {
             {/* header */}
             <div className="flex justify-between align-center pb-5">
                 <div>
-                    <h2 className="text-2xl font-medium">Featured Categories</h2>
+                    <h2 className="text-2xl font-medium">Categorías Destacadas</h2>
                 </div>
                 <div>
-                    <a href="#" className="text-sm underline">See all categories</a>
+                    <a href="#" className="text-sm underline">Ver todas las categorías</a>
                 </div>
             </div>
 
@@ -56,7 +56,7 @@ export default function FeaturedCategories() {
                                         <p className="text-sm mt-5 leading-3 font-semibold lg:text-xl">{category.category_name}</p>
                                     )}
 
-                                    <a className='text-sm underline mt-3 cursor-pointer' onClick={(e)=>{e.preventDefault(); router.push(`/categorias?catid=${category.id}`)}}>Shop Now</a>
+                                    <a className='text-sm underline mt-3 cursor-pointer' onClick={(e)=>{e.preventDefault(); router.push(`/categorias?catid=${category.id}`)}}>Compra ahora</a>
                                 </div>
 
                             </div>
