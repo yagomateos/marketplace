@@ -14,13 +14,13 @@ const [openedProds , setOpenedProds] = useState('featured')
             <div className='lg:hidden w-full overflow-hidden p-6 box-border'>
                 <div className='product-columns-mobile overflow-x-auto w-full flex gap-4 items-center box-border'>
                         <div className={`py-4 ${openedProds=='featured'? 'border-b border-[#000]' : ''}`} onClick={()=>{setOpenedProds('featured')}}>
-                            <h3 className="w-max font-semibold text-base">Featured products</h3>
+                            <h3 className="w-max font-semibold text-base">Categorías Destacadas</h3>
                         </div>
                         <div className={`py-4 ${openedProds=='mostViewed'? 'border-b border-[#000]' : ''}`} onClick={()=>{setOpenedProds('mostViewed')}}>
-                            <h3 className="w-max font-semibold text-base">Most-viewed Items</h3>
+                            <h3 className="w-max font-semibold text-base">Artículos más vistos</h3>
                         </div>
                         <div className={`py-4 ${openedProds=='suggested'? 'border-b border-[#000]' : ''}`} onClick={()=>{setOpenedProds('suggested')}}>
-                            <h3 className="w-max font-semibold text-base">We Think You&apos;ll Love</h3>
+                            <h3 className="w-max font-semibold text-base">Lo que más te gusta</h3>
                         </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@ const [openedProds , setOpenedProds] = useState('featured')
                         <ProductList label="recommanded" />
                     </div>
                 </div>
-            </div>
+            </div> 
         </>
 
     )
