@@ -40,7 +40,7 @@ const [openedProds , setOpenedProds] = useState('featured')
                         <ProductList label="recommanded" />
                     </div>
                 </div>
-            </div>
+            </div> 
         </>
 
     )
