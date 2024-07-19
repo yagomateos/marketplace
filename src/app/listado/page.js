@@ -13,6 +13,7 @@ import FeaturedProducts from '../../components/public/sections/featured-products
 import { addToCartFunc } from '../../lib/actions/cart/addToCart'
 
 function ListingFunc() {
+
     const searchParams = useSearchParams();
     const pid = searchParams.get('pid');
 
@@ -116,10 +117,7 @@ function ListingFunc() {
 
     const addToCart = async (e) => {
         e.preventDefault();
-        console.clear()
-        console.log(product)
         // update cart
-        console.log(session.user.id)
         if (session && quantity > 0) {
             const data = {
                 product_id: product[0].id,
@@ -203,6 +201,7 @@ function ListingFunc() {
     }
 
     const renderProductForm = () => {
+
         if (product[0].quantity && product[0].quantity > 0) {
             return (
                 <div>
@@ -228,7 +227,7 @@ function ListingFunc() {
 
 
     return (
-        <PublicPageContainer>
+        <>
             <div className='container mx-auto my-8 px-4 max-w-7xl sm:px-6 lg:px-8'>
                 <div className='flex items-center gap-5 w-full'>
                     {product ? (
@@ -336,14 +335,16 @@ function ListingFunc() {
                 currentIndex={currentImageIndex}
                 onIndexChange={setCurrentImageIndex}
             />
-        </PublicPageContainer>
+        </>
     );
 }
 
 export default function Listing() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <ListingFunc />
+            <PublicPageContainer>
+                <ListingFunc />
+            </PublicPageContainer>
         </Suspense>
     );
 }

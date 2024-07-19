@@ -10,19 +10,24 @@ export default function PublicPageContainer({ children }) {
     const [categoriesMenuOpen, setCatMenuOpen] = useState(false)
     const [searchMenuOpen, setSearchMenuOpen] = useState(false)
     const [openedPopup, setOpenedPopup] = useState(false)
+    const [cartUpdated, setCartUpdated] = useState(false)
 
     const checkPopups = (e = null) => {
         // check categories popup
-
-
         if (!e.target.classList.contains('kd-nav-popup-wrapper') && !e.target.closest('.' + 'kd-nav-popup-wrapper')) {
             categoriesMenuOpen && setCatMenuOpen(false)
             // check search result
             searchMenuOpen && setSearchMenuOpen(false)
         }
-
     }
 
+    const childrenWithProps = React.Children.map(children, child => {
+        // Check if the child is a valid React element before cloning
+        if (React.isValidElement(child)) {
+            return React.cloneElement(child, { setCartUpdated });
+        }
+        return child;
+    });
 
     return (
         <>
@@ -30,13 +35,23 @@ export default function PublicPageContainer({ children }) {
                 {categoriesMenuOpen || searchMenuOpen ? (
                     <div className='dropdownOverlay' onClick={(e) => checkPopups(e)}></div>
                 ) : ""}
-                <PublicNavbar checkPopups={checkPopups} categoriesMenuOpen={categoriesMenuOpen} setCatMenuOpen={setCatMenuOpen} setOpenedPopup={setOpenedPopup} searchMenuOpen={searchMenuOpen} setSearchMenuOpen={setSearchMenuOpen} />
+                <PublicNavbar 
+                    cartUpdated={cartUpdated} 
+                    checkPopups={checkPopups} 
+                    categoriesMenuOpen={categoriesMenuOpen} 
+                    setCatMenuOpen={setCatMenuOpen} 
+                    setOpenedPopup={setOpenedPopup} 
+                    searchMenuOpen={searchMenuOpen} 
+                    setSearchMenuOpen={setSearchMenuOpen} 
+                />
 
-                {children}
+                {childrenWithProps}
 
                 <Footer />
-                <Popup openedPopup={openedPopup} setOpenedPopup={setOpenedPopup} />
-
+                <Popup 
+                    openedPopup={openedPopup} 
+                    setOpenedPopup={setOpenedPopup} 
+                />
             </div>
         </>
     )
