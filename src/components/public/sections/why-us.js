@@ -29,6 +29,6 @@ export default function wWhyUs() {
             </div>
             </div>
 
-        </div>
+        </div> 
     )
 }

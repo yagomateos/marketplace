@@ -29,7 +29,7 @@ export default function Footer() {
                     <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Trabajos</a></li>
                     <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Inversores</a></li>
                     <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Contáctanos</a></li>
-
+ 
                     </ul>
                 </div>
                 <div>
