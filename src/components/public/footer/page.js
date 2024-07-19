@@ -8,7 +8,7 @@ export default function Footer() {
     return (
         <footer className="bg-gray-100 text-gray-800 py-14 px-4">
             <div className="container mx-auto text-center mb-8">
-                <h4 className="mb-4 text-xl font-bold lg:text-3xl">Suscríbete a nuestro boletín<</h4>
+                <h4 className="mb-4 text-xl font-bold lg:text-3xl">Suscríbete a nuestro boletín</h4>
                 <p className="text-sm">Recibe recomendaciones, consejos, actualizaciones, promociones y más.</p>
                 <form className="footer-subscribe-form flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-6">
                     <input type="email" placeholder="Ingresa tu correo electrónico" className="min-w-80 max-w-full px-4 py-4 rounded bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500" />

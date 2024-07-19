@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import {getCartFunc} from '../../../../lib/actions/cart/getCart'
 
 export default function TopMenu({ session, setOpenedPopup }) {
 
@@ -13,14 +14,37 @@ export default function TopMenu({ session, setOpenedPopup }) {
         signOut({ redirect: false });
     }
 
-    const [userPopupOpen , setUserPopupOpen] = useState(false)
+    const [userPopupOpen, setUserPopupOpen] = useState(false)
+    const [cartQty, setCartQty] = useState(0)
 
 
 
-useEffect(() => {
-    console.log(session)
-    session&&setOpenedPopup(false)
-}, [session])
+    useEffect(() => {
+        console.log(session)
+        session && setOpenedPopup(false)
+
+        // get cart quantity
+        const checkCartQty = async ()=>{
+            console.log('comes here')
+            try {
+                const cartInfo = await getCartFunc(session.user.id)
+                if (cartInfo) {
+                    let qty = 0;
+                    cartInfo.forEach(cartInf=>{
+                        qty+=cartInf.cartQuantity
+                    })
+                    setCartQty(qty)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        session&& checkCartQty()
+    }, [session])
+
+
+
 
 
     return (
@@ -49,17 +73,17 @@ useEffect(() => {
                 session && (
                     <>
                         <li>
-                            <a onClick={(e)=>{e.preventDefault(); setUserPopupOpen(!userPopupOpen)}} className='flex w-7 h-7 justify-center items-center' href=""><img className='w-12 rounded-full border-2 border-green-500' src={session?.user?.image? session.user.image : 'https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg'} /></a>
+                            <a onClick={(e) => { e.preventDefault(); setUserPopupOpen(!userPopupOpen) }} className='flex w-7 h-7 justify-center items-center' href=""><img className='w-12 rounded-full border-2 border-green-500' src={session?.user?.image ? session.user.image : 'https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg'} /></a>
                             {userPopupOpen &&
                                 <span className='absolute right-0 top-[90%] shadow-md shadow-[#00000035] block rounded-xl bg z-50 min-w-64 kd-user-popup'>
                                     <div className='p-4 bg-green-500 flex gap-3 rounded-t-lg'>
-                                        <img className='w-5' src={session?.user?.image? session.user.image : 'https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg'} /> <h2 className='ml-1'>{session.user.name}</h2>
+                                        <img className='w-5' src={session?.user?.image ? session.user.image : 'https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg'} /> <h2 className='ml-1'>{session.user.name}</h2>
                                     </div>
 
                                     <div className='p-4 bg-white rounded-b-lg'>
                                         <ul className='leading-8'>
-                                        <li className='mb-3'><a href="/" onClick={(event) => { event.preventDefault(); router.push('/vender')  }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/shop.svg" /> &nbsp;Vender en Vendalia</a></li>
-                                        <li><a href="/" onClick={(event) => { signOutUser(event) }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/logout.svg" /> &nbsp;cerrar sesión</a></li>
+                                            <li className='mb-3'><a href="/" onClick={(event) => { event.preventDefault(); router.push('/vender') }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/shop.svg" /> &nbsp;Vender en Vendalia</a></li>
+                                            <li><a href="/" onClick={(event) => { signOutUser(event) }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/logout.svg" /> &nbsp;cerrar sesión</a></li>
                                         </ul>
                                     </div>
                                 </span>
@@ -71,7 +95,11 @@ useEffect(() => {
             }
 
             <li>
-                <a className="tooltip-trigger flex items-center justify-center w-10 h-10 rounded-full hover:bg-green-200"><img className="w-5" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/cart.svg" /></a>
+
+                <a href='/carro' className="tooltip-trigger flex items-center justify-center w-10 h-10 rounded-full hover:bg-green-200 relative">
+                {cartQty>0&& <span className='bg-orange-700 text-white text-xs absolute top-[3px] -right-0 rounded-full w-4 h-4 flex justify-center items-center p-2 block'>{cartQty}</span>}
+                <img className="w-5" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/cart.svg" />
+                </a>
 
             </li>
         </ul >
