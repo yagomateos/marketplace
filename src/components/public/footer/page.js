@@ -17,10 +17,10 @@ export default function Footer() {
             </div>
             <div className="max-w-4xl container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mt-24">
                 <div>
-                    <h4 className="font-bold mb-4 hidden lg:block">Get to Know Us</h4>
+                    <h4 className="font-bold mb-4 hidden lg:block">Conócenos</h4>
 
                     <div onClick={() => { openMenu != 'gtk' ? setOpenMenu('gtk') : setOpenMenu(null) }} className="border-b border-[#cc] flex justify-between items-center lg:hidden">
-                        <h4 className="font-bold mb-4">Get to Know Us</h4>
+                        <h4 className="font-bold mb-4">Conócenos</h4>
                         <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/plusicon.svg" className="w-5" />
                     </div>
                     <ul className={`text-sm leading-loose ${openMenu == 'gtk' ? '' : 'hidden'} lg:block`}>
@@ -81,7 +81,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className="container mx-auto mt-8 flex flex-col lg:flex-row justify-between items-center pt-4">
-                <p className="text-gray-600 text-sm">&copy; 2024 Vendalia, Todos los derechos reservados.</p>
+                <p className="text-gray-600 text-sm">&copy; 2024 Vendalia. Todos los derechos reservados.</p>
                 <div className="flex space-x-4 justify-between w-full items-center mt-4 lg:w-auto px-12 lg:px-0">
                     <a href="#" className="text-gray-600 hover:text-gray-800"><img class="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/twitter.svg" /></a>
                     <a href="#" className="text-gray-600 hover:text-gray-800"><img class="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/facebook.svg" /></a>
