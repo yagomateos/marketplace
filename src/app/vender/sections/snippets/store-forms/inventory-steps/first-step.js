@@ -91,8 +91,8 @@ export default function InventoryFirstStep({ setProductInfo1 }) {
                                     <div className="text-right"><input onChange={(e) => setProductType(e.target.value)} name="product-type" type="radio" /></div>
                                     <div>
                                         <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/digital-product.svg" className="w-20" />
-                                        <h4 className="text-xl mt-3 font-medium">Artículo físico</h4>
-                                        <p className="text-sm">Un artículo tangible que enviarás a los compradores.</p>
+                                        <h4 className="text-xl mt-3 font-medium">Artículo digital</h4>
+                                        <p className="text-sm">Un producto digital que los compradores podrán descargar.</p>
                                     </div>
                                 </div>
                             </div>
