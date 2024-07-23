@@ -1,28 +1,39 @@
-export const setFavourite = (what , product_id)=>{
-    let favourites = localStorage.getItem('favouriteProducts')
-    if(favourites){
-        favourites = JSON.parse(favourites)
+export const setFavourite = (what, product_id) => {
+    if (typeof window !== 'undefined') {
+        let favourites = localStorage.getItem('favouriteProducts');
+        if (favourites) {
+            favourites = JSON.parse(favourites);
 
-        if(what=='add'){
-            favourites.indexOf(product_id)==-1 && favourites.push(product_id) 
-        }else{
-            let remIndex = favourites.indexOf(product_id)
-            let newFavs = favourites.filter(id => id !== product_id)
-           console.log(newFavs)
-           favourites = newFavs;
+            if (what === 'add') {
+                if (favourites.indexOf(product_id) === -1) {
+                    favourites.push(product_id);
+                }
+            } else {
+                favourites = favourites.filter(id => id !== product_id);
+            }
+
+            localStorage.setItem('favouriteProducts', JSON.stringify(favourites));
+        } else {
+            if (what === 'add') {
+                localStorage.setItem('favouriteProducts', JSON.stringify([product_id]));
+            }
         }
-        
-        console.log(favourites)
-        localStorage.setItem('favouriteProducts',JSON.stringify(favourites))
+    } else {
+        console.error('Local storage is not available');
     }
-}
+};
 
-export const getFavorites = (userId = null)=>{
-    let favourites = localStorage.getItem('favouriteProducts')
-    if(favourites){
-        favourites = JSON.parse(favourites)
-        return favourites;
-    }else{
-        throw new Error('no favourites')
+export const getFavorites = (userId = null) => {
+    if (typeof window !== 'undefined') {
+        let favourites = localStorage.getItem('favouriteProducts');
+        if (favourites) {
+            favourites = JSON.parse(favourites);
+            return favourites;
+        } else {
+            return [];
+        }
+    } else {
+        console.error('Local storage is not available');
+        return [];
     }
-}
+};
