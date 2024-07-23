@@ -28,15 +28,15 @@ const [openedProds , setOpenedProds] = useState('featured')
             <div className="container mx-auto lg:my-8 lg:px-4 pb-4 max-w-7xl sm:px-6 lg:px-8">
                 <div className="flex flex-col lg:flex-row justify-between align-center gap-6">
                     <div className={`w-full ${openedProds!='featured'? 'hidden' : ''} lg:block lg:border-r border-[#f2f2f2]`}>
-                        <h3 className="hidden lg:block font-semibold text-lg">Featured products</h3>
+                        <h3 className="hidden lg:block font-semibold text-lg">Productos destacados</h3>
                         <ProductList label="featured" />
                     </div>
                     <div className={`w-full ${openedProds!='mostViewed'? 'hidden' : ''} lg:block pt-4 lg:pt-0 lg:border-r border-[#f2f2f2]`}>
-                        <h3 className="hidden lg:block font-semibold text-lg">Most-viewed Items</h3>
+                        <h3 className="hidden lg:block font-semibold text-lg">Productos más vistos</h3>
                         <ProductList label="mostViewed" />
                     </div>
                     <div className={`w-full ${openedProds!='suggested'? 'hidden' : ''} lg:block pt-4 lg:pt-0 `}>
-                        <h3 className="hidden lg:block font-semibold text-lg">We Think You&apos;ll Love</h3>
+                        <h3 className="hidden lg:block font-semibold text-lg">Pensamos que te gustaría</h3>
                         <ProductList label="recommanded" />
                     </div>
                 </div>

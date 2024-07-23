@@ -77,7 +77,7 @@ const CheckoutForm = ({ clientSecret, setFormEl = null , setPaymentSuceeded }) =
                 {processing ? 'Processing...' : 'Pay'}
             </button>
             {error && <div>{error}</div>}
-            {succeeded && <div>Payment succeeded!</div>}
+            {succeeded && <div>Pago exitoso</div>}
         </form>
     );
 };
