@@ -28,7 +28,7 @@ export default function SecondPage({ setStep , user}) {
                     </div>
                 </div>
                 <a href="/" className=' min-w-[60%] inline-flex justify-center items-center py-3 px-6 bg-black rounded-full text-white my-6' onClick={(e) => { e.preventDefault(); setStep(2) }}>Vamos!</a>
-                <p className='text-sm'>Al hacer clic en &quot;Vamos&quot; y abrir una tienda de Vendalia.es, aceptas nuestras <a className='text-blue-700' href="">condiciones de uso</a>, incluyendo la <a className='text-blue-700' href="/">política del vendedor</a> y la <a className='text-blue-700' href='/'>política de Payments</a>, además de nuestra <a className='text-blue-700' href="/">política de privacidad.</a></p>
+                <p className='text-sm'>Al hacer clic en &quot;Vamos&quot; y abrir una tienda de Vendalia.es, aceptas nuestras <a className='text-blue-700' href="/condiciones-de-uso">condiciones de uso</a>, incluyendo la <a className='text-blue-700' href="/Politica-del-vendedor">política del vendedor</a> y la <a className='text-blue-700' href='/politica-de-pagos'>política de Payments</a>, además de nuestra <a className='text-blue-700' href="/politica-de-privacidad">política de privacidad.</a></p>
             </div>
         </div>
     )
