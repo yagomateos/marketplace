@@ -30,6 +30,7 @@ export default function ProductList({ label }) {
                 {
                     products && products.map((product, key) => (
                         <div className='single-list-product' key={key}>
+                            <a href={`/listado?pid=${product.id}`}>
                             <div className='single-list-product-inner flex align-center justify-start'>
                                 <div className='p-4'>
                                     {product.main_image_url && (<img className="w-20 h-20 object-cover" src={product.main_image_url} />)}
@@ -46,6 +47,7 @@ export default function ProductList({ label }) {
                                     )}
                                 </div>
                             </div>
+                            </a>
                         </div>
                     ))
                 }

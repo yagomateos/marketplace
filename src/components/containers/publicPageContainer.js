@@ -10,21 +10,24 @@ export default function PublicPageContainer({ children }) {
     const [categoriesMenuOpen, setCatMenuOpen] = useState(false)
     const [searchMenuOpen, setSearchMenuOpen] = useState(false)
     const [openedPopup, setOpenedPopup] = useState(false)
-    const [cartUpdated, setCartUpdated] = useState(false)
+    const [cartUpdated, setcartupdated] = useState(false)
+    const [userPopupOpen, setUserPopupOpen] = useState(false)
 
     const checkPopups = (e = null) => {
         // check categories popup
-        if (!e.target.classList.contains('kd-nav-popup-wrapper') && !e.target.closest('.' + 'kd-nav-popup-wrapper')) {
+        if (!e.target.classList.contains('kd-nav-popup-wrapper') && !e.target.closest('.' + 'kd-nav-popup-wrapper') && !e.target.closest('.kd-user-popup')) {
             categoriesMenuOpen && setCatMenuOpen(false)
             // check search result
             searchMenuOpen && setSearchMenuOpen(false)
+
+            userPopupOpen&&setUserPopupOpen(false)
         }
     }
 
     const childrenWithProps = React.Children.map(children, child => {
         // Check if the child is a valid React element before cloning
         if (React.isValidElement(child)) {
-            return React.cloneElement(child, { setCartUpdated });
+            return React.cloneElement(child, { setcartupdated });
         }
         return child;
     });
@@ -35,22 +38,24 @@ export default function PublicPageContainer({ children }) {
                 {categoriesMenuOpen || searchMenuOpen ? (
                     <div className='dropdownOverlay' onClick={(e) => checkPopups(e)}></div>
                 ) : ""}
-                <PublicNavbar 
-                    cartUpdated={cartUpdated} 
-                    checkPopups={checkPopups} 
-                    categoriesMenuOpen={categoriesMenuOpen} 
-                    setCatMenuOpen={setCatMenuOpen} 
-                    setOpenedPopup={setOpenedPopup} 
-                    searchMenuOpen={searchMenuOpen} 
-                    setSearchMenuOpen={setSearchMenuOpen} 
+                <PublicNavbar
+                    cartUpdated={cartUpdated}
+                    checkPopups={checkPopups}
+                    categoriesMenuOpen={categoriesMenuOpen}
+                    setCatMenuOpen={setCatMenuOpen}
+                    setOpenedPopup={setOpenedPopup}
+                    searchMenuOpen={searchMenuOpen}
+                    setSearchMenuOpen={setSearchMenuOpen}
+                    userPopupOpen={userPopupOpen}
+                    setUserPopupOpen={setUserPopupOpen}
                 />
 
-                {childrenWithProps}
+                <div onClick={(e)=>{userPopupOpen&&setUserPopupOpen(false)}}>{childrenWithProps}</div>
 
                 <Footer />
-                <Popup 
-                    openedPopup={openedPopup} 
-                    setOpenedPopup={setOpenedPopup} 
+                <Popup
+                    openedPopup={openedPopup}
+                    setOpenedPopup={setOpenedPopup}
                 />
             </div>
         </>

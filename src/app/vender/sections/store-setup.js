@@ -41,6 +41,7 @@ export default function Storesetup({ reason, options }) {
 
 
     const [storeStep, setStoreStep] = useState(0)
+    const [completedStep , setCompletedStep] = useState(0)
     const [inventoryStep, setInventoryStep] = useState(0)
     const [bankStep, setBankStep] = useState(0)
 
@@ -49,7 +50,8 @@ export default function Storesetup({ reason, options }) {
     const [paymentSuceeded, setPaymentSuceeded] = useState(false)
 
 
-    console.log(paymentSuceeded)
+    // console.clear()
+    // console.log(completedStep)
 
     const setSteps = () => {
 
@@ -59,8 +61,13 @@ export default function Storesetup({ reason, options }) {
         if (storeStep == 1) {
             console.log(storeName)
             if (storeName) {
+                console.clear()
+                    console.log(completedStep , storeStep)
                 setErr(null)
                 setStoreStep(storeStep + 1)
+                if(completedStep<=storeStep){
+                    setCompletedStep(1)
+                }
             } else {
                 setErr('Por favor agregue el nombre de la tienda')
             }
@@ -85,8 +92,12 @@ export default function Storesetup({ reason, options }) {
                             setErr('Por favor complete el formulario anterior');
                         }
                     }
-                } else {
+                } else { 
                     setStoreStep(storeStep + 1)
+                    if(completedStep<=storeStep){
+                        setCompletedStep(2)
+                    }
+                   
                 }
             } else {
                 setErr('Por favor complete el formulario anterior');
@@ -104,11 +115,17 @@ export default function Storesetup({ reason, options }) {
                 if (identityInfo) {
                     // setBankStep(bankStep + 1)
                     setStoreStep(storeStep + 1)
+                    if(completedStep<=storeStep){
+                        setCompletedStep(3)
+                    }
                 } else {
                     setErr('Por favor complete el formulario anterior');
                 }
             } else {
                 setStoreStep(storeStep + 1)
+                if(completedStep<=storeStep){
+                    setCompletedStep(3)
+                }
             }
 
         } else if (storeStep == 4) {
@@ -131,6 +148,9 @@ export default function Storesetup({ reason, options }) {
 
         else {
             setStoreStep(storeStep + 1)
+            if(completedStep<=storeStep){
+                setCompletedStep(storeStep)
+            }
         }
 
     }
@@ -217,7 +237,7 @@ export default function Storesetup({ reason, options }) {
     return (
         <div className='store-setup-wrapper'>
             <div className='store-setup-inner'>
-                <StoreSetupSteps storeStep={storeStep} setStoreStep={setStoreStep} />
+                <StoreSetupSteps storeStep={storeStep} setStoreStep={setStoreStep} completedStep={completedStep} />
                 <hr />
                 <div className='store-forms-wrapper py-4 flex w-full justify-center'>
                     <div className='w-full lg:max-w-7xl'>

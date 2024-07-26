@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { getCartFunc } from '../../lib/actions/cart/getCart'
 import PublicPageContainer from '../../components/containers/publicPageContainer'
 import { convertToCurrency } from '../../lib/utils/convertCurrency'
+import {deleteFromCartFunc} from '../../lib/actions/cart/deleteFromCart'
 
 export default function CartPage() {
     const router = useRouter();
@@ -14,14 +15,17 @@ export default function CartPage() {
     const [cartDta, setCartDta] = useState(null)
     const [cartQty, setCartQty] = useState(0)
     const [totalAmt, setTotalAmt] = useState(0)
+    const [notification , setNotification] = useState(null)
+
+
 
     useEffect(() => {
 
         const getCartInfo = async () => {
             try {
                 const cartInfo = await getCartFunc(session.user.id)
-                console.clear()
-                console.log(cartInfo)
+                // console.clear()
+                // console.log(cartInfo)
                 if (cartInfo) {
                     setCartDta(cartInfo)
                     let qty = 0;
@@ -44,12 +48,22 @@ export default function CartPage() {
         let totalPrice = 0;
         cartDta && cartDta.forEach(crtItem => {
             console.log(crtItem.regular_price)
+            console.log(crtItem)
             totalPrice += parseFloat(crtItem.regular_price)
         });
         setTotalAmt(totalPrice)
     }, [cartQty])
 
-
+    const deleteFromCart = async (proId)=>{
+        try {
+            const itemDeleted = await deleteFromCartFunc(proId)
+            if(itemDeleted){
+                setNotification(`Producto eliminado exitosamente`)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <PublicPageContainer>
@@ -84,7 +98,7 @@ export default function CartPage() {
                                         <h3 className='pl-4'><a href={`listado?pid=${prod.item_id && prod.item_id}`}>{prod.name && prod.name}</a></h3>
                                         <div className='flex gap-5 mt-5'>
                                             <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold'>Guardar para más tarde</a>
-                                            <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold'>Eliminar</a>
+                                            <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold' data-prodId = {`${prod.Id}`} onClick={(e)=>{e.preventDefault(); deleteFromCart(prod.Id)}}>Eliminar</a>
                                         </div>
                                     </div>
                                     <div className='w-[73%] lg:w-[24%] lg:text-right'>
@@ -100,7 +114,7 @@ export default function CartPage() {
                                 <div className='lg:text-right '>
                                         <a href="" className='hidden lg:block text-md font-semibold'>Pagar solo lo de esta tienda &nbsp; <img className='w-[15px] inline' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/right-arrow.svg"/></a>
                                         <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden'>Guardar para más tarde</a>
-                                        <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden'>Eliminar</a>
+                                        <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden' onClick={(e)=>{e.preventDefault(); deleteFromCart(prod.id)}}>Eliminar</a>
                                     </div>
                             </div>
                         ))}

@@ -17,6 +17,7 @@ export default function SearchForm({searchMenuOpen, setSearchMenuOpen}) {
                 let searchResult = await quickSearch(e.target.value);
                 searchResult && searchResult !== '' ? setSearchResults(searchResult) : setSearchResults(null)
                 searchResult && searchResult !== '' ? setSearchMenuOpen(true) : setSearchMenuOpen(false)
+                console.clear()
                 console.log(searchResult)
             } catch (error) {
                 setSearchResults(null)
@@ -44,8 +45,13 @@ export default function SearchForm({searchMenuOpen, setSearchMenuOpen}) {
             {searchMenuOpen && (
                 <div className="bg-white py-4 overflow-hidden rounded-2xl absolute w-[90%] top-[120%] shadow-xl shadow-[#00000025] z-50 left-[10%] lg:left-[5%] h-[80vh] overflow-y-auto">
                     <ul>
-                        {searchResults && searchResults.map((res, key) => {
-                            return (<li key={key}><a className="py-3 px-6 block hover:bg-[#00000025]" href="/">{res.category_name}</a></li>)
+                        {/* categories */}
+                        {searchResults&&searchResults[0] && searchResults[0].map((res, key) => {
+                            return (<li key={key}><a className="py-3 px-6 block hover:bg-[#00000025]" href={`/categorias?catid=${res.id}`}>{res.category_name}</a></li>)
+                        })}
+                        {/* products */}
+                        {searchResults&&searchResults[1] && searchResults[1].map((res, key) => {
+                            return (<li key={key}><a className="py-3 px-6 block hover:bg-[#00000025]" href={`/listado?pid=${res.id}`}>{res.name}</a></li>)
                         })}
                     </ul>
 

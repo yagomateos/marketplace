@@ -55,9 +55,26 @@ export const getProductsByCategory = async (catID) => {
         await db.end();
 
         if (results.length > 0) {
-            return results;
+            return { categgoryBased: true, results: results };
         } else {
-            throw new Error('no products found');
+            try {
+                const db = await dbConnection();
+                const [newResults] = await db.execute(`SELECT p.*, c.category_name, s.store_name , s.id as store_id
+                FROM products p 
+                LEFT JOIN product_categories c ON p.category_id = c.id 
+                LEFT JOIN stores s ON p.store_id = s.id
+                ORDER BY p.id ASC;`);
+                await db.end();
+
+                if (newResults.length > 0) {
+                    return { categgoryBased: false, results: newResults }
+                } else {
+                    throw new Error('no products found');
+                }
+            } catch (error) {
+                throw error;
+            }
+
         }
     } catch (error) {
         throw error;

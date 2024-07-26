@@ -5,7 +5,11 @@ import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import {getCartFunc} from '../../../../lib/actions/cart/getCart'
 
-export default function TopMenu({ session, setOpenedPopup }) {
+export default function TopMenu({ session, setOpenedPopup , userPopupOpen , setUserPopupOpen }) {
+
+    // console.clear()
+    // console.log(setOpenedPopup)
+    // console.log(setUserPopupOpen)
 
     const router = useRouter();
 
@@ -14,7 +18,7 @@ export default function TopMenu({ session, setOpenedPopup }) {
         signOut({ redirect: false });
     }
 
-    const [userPopupOpen, setUserPopupOpen] = useState(false)
+    // const [userPopupOpen, setUserPopupOpen] = useState(false)
     const [cartQty, setCartQty] = useState(0)
 
 
