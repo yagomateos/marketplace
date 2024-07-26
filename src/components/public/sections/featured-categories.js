@@ -49,7 +49,7 @@ export default function FeaturedCategories() {
                             <div className="single-category-item  text-center w-1/2 lg:w-auto p-4 lg:p-0" key={key}>
                                 <div className="single-category-inner flex justify-center flex-col items-center">
                                     {category.category_image && (
-                                        <img className=" rounded-full h-32 w-32 lg:h-60 lg:w-60" src={category.category_image} />
+                                        <a className='text-sm underline mt-3 cursor-pointer' onClick={(e)=>{e.preventDefault(); router.push(`/categorias?catid=${category.id}`)}}><img className=" rounded-full h-32 w-32 lg:h-60 lg:w-60" src={category.category_image} /></a>
                                     )}
 
                                     {category.category_name && (

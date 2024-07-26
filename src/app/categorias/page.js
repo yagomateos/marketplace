@@ -18,9 +18,10 @@ function CategoryFunc() {
             const getProducts = async () => {
                 try {
                     const products = await getProductsByCategoryID(catId);
-                    setProducts(products);
-                    if (products && products.length > 0) {
-                        setCatName(products[0].category_name);
+                    console.log(products)
+                    setProducts(products.results);
+                    if (products && products.categgoryBased && products.results.length > 0) {
+                        setCatName(products.results[0].category_name);
                     }
                 } catch (error) {
                     console.log(error);
@@ -38,27 +39,47 @@ function CategoryFunc() {
             <div className='container mx-auto my-8 px-4 max-w-7xl sm:px-6 lg:px-8'>
                 <div className="lg:flex gap-4 justify-start items-center">
                     {catename && <h1 className='text-3xl'>{catename}</h1>}
-                    {products && (
+                    {catename && (
                         <span className='text-sm'>
-                            {'\u0028'}más de {products.length} resultados relevantes, incluye anuncios{'\u0029'}
+                            {products && (
+                                <span>
+                                    {'\u0028'}más de {products.length} resultados relevantes, incluye anuncios{'\u0029'}
+                                </span>
+                            )}
                         </span>
                     )}
+
+                    {!catename && (
+                        <div className='py-12'>
+                            <h2 className='text-3xl text-center font-semibold'>!no se encontraron entradas para la categoría relevante</h2>
+                        </div>
+                    )
+                    }
+
                 </div>
 
                 {products ? (
                     <>
-                        <div className='py-4 lg:flex justify-between items-center'>
-                            <div className='mb-4 lg:mb-0 flex gap-4 items-center'>
-                                <span className='border border-[#ccc] py-2 px-4 rounded-full cursor-pointer'>
-                                    precio <span className='text-xs'>{'\u25BC'}</span>
-                                </span>
+                        {catename &&
+                            <div className='py-4 lg:flex justify-between items-center'>
+                                <div className='mb-4 lg:mb-0 flex gap-4 items-center'>
+                                    <span className='border border-[#ccc] py-2 px-4 rounded-full cursor-pointer'>
+                                        precio <span className='text-xs'>{'\u25BC'}</span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span className='border border-[#ccc] py-2 px-4 rounded-full cursor-pointer'>
+                                        Ordenar por: Relevancia <span className='text-xs'>{'\u25BC'}</span>
+                                    </span>
+                                </div>
                             </div>
-                            <div>
-                                <span className='border border-[#ccc] py-2 px-4 rounded-full cursor-pointer'>
-                                    Ordenar por: Relevancia <span className='text-xs'>{'\u25BC'}</span>
-                                </span>
+                        }
+
+                        {!catename &&
+                            <div className='pb-4'>
+                                <h2 className='text-lg'>Te podría gustar...</h2>
                             </div>
-                        </div>
+                        }
 
                         <div className="w-full grid gap-4 grid-cols-2 lg:grid-cols-4">
                             {products.map((product, key) => (
@@ -69,7 +90,7 @@ function CategoryFunc() {
                 ) : (
                     err && (
                         <div className='container flex justify-center w-full'>
-                            
+                            <h2 className='text-2xl'>entradas no encontradas</h2>
                         </div>
                     )
                 )}

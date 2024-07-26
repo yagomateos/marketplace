@@ -9,6 +9,7 @@ export default function InventoryFirstStep({ setProductInfo1 }) {
     const [categories, setCategories] = useState(null)
 
     const [selectedCategory, setselectedCategory] = useState(null)
+    const [selectedCategoryName, setselectedCategoryName] = useState(null)
     const [productType, setProductType] = useState(null)
     const [productVendor, setProductVendor] = useState(null)
     const [whatProduct, setWhatProduct] = useState(null)
@@ -28,8 +29,9 @@ export default function InventoryFirstStep({ setProductInfo1 }) {
         }
     }
 
-    const setValueWithPopup = (value) => {
+    const setValueWithPopup = (value , name) => {
         setselectedCategory(value)
+        setselectedCategoryName(name)
         setCategories(null)
     }
 
@@ -57,7 +59,7 @@ export default function InventoryFirstStep({ setProductInfo1 }) {
                     <form>
                         <div className='lg:flex gap-4 flex-wrap mb-6 relative'>
                             <label className="font-semibold">Categoría <span className="text-red-700">*</span></label>
-                            <input value={selectedCategory} onKeyUp={e => searchCategories(e)} className="border border-[#ccc] w-full p-3 rounded-full bg-transparent" placeholder="Busca una categoría. Por ejemplo: Sombreros, Anillos, Cojines, etc." />
+                            <input value={selectedCategoryName} onKeyUp={e => searchCategories(e)} className="border border-[#ccc] w-full p-3 rounded-full bg-transparent" placeholder="Busca una categoría. Por ejemplo: Sombreros, Anillos, Cojines, etc." />
 
                             {categories && (
                                 <div className="absolute bg-white border border-[#ccc] px-4 top-[100%] w-full">
@@ -65,7 +67,7 @@ export default function InventoryFirstStep({ setProductInfo1 }) {
                                         {
                                             categories.map((cat, key) =>
                                             (
-                                                <li className="cursor-pointer py-3" key={key} onClick={(e) => { setValueWithPopup(cat.id) }}>{(cat.category_name)}</li>
+                                                <li className="cursor-pointer py-3" key={key} onClick={(e) => { setValueWithPopup(cat.id , cat.category_name) }}>{(cat.category_name)}</li>
                                             )
                                             )
 
