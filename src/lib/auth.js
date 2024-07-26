@@ -88,5 +88,6 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             }
             return token;
         }
-    }
+    },
+    trustHost: process.env.TRUSTED_HOST || "localhost:3000",
 });
