@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { getCartFunc } from '../../lib/actions/cart/getCart'
 import PublicPageContainer from '../../components/containers/publicPageContainer'
 import { convertToCurrency } from '../../lib/utils/convertCurrency'
-import {deleteFromCartFunc} from '../../lib/actions/cart/deleteFromCart'
+import { deleteFromCartFunc } from '../../lib/actions/cart/deleteFromCart'
 
 export default function CartPage() {
     const router = useRouter();
@@ -15,7 +15,7 @@ export default function CartPage() {
     const [cartDta, setCartDta] = useState(null)
     const [cartQty, setCartQty] = useState(0)
     const [totalAmt, setTotalAmt] = useState(0)
-    const [notification , setNotification] = useState(null)
+    const [notification, setNotification] = useState(null)
 
 
 
@@ -29,8 +29,8 @@ export default function CartPage() {
                 if (cartInfo) {
                     setCartDta(cartInfo)
                     let qty = 0;
-                    cartInfo.forEach(cartInf=>{
-                        qty+=cartInf.cartQuantity
+                    cartInfo.forEach(cartInf => {
+                        qty += cartInf.cartQuantity
                     })
                     setCartQty(qty)
                 }
@@ -54,16 +54,36 @@ export default function CartPage() {
         setTotalAmt(totalPrice)
     }, [cartQty])
 
-    const deleteFromCart = async (proId)=>{
+    const deleteFromCart = async (proId) => {
         try {
-            const itemDeleted = await deleteFromCartFunc(proId)
-            if(itemDeleted){
-                setNotification(`Producto eliminado exitosamente`)
+            const itemDeleted = await deleteFromCartFunc(proId);
+            console.clear();
+            console.log(itemDeleted);
+    
+            if (itemDeleted) {
+                // Filter out the deleted item from cartDta
+                console.log(cartDta)
+                console.log(proId)
+                const newCartEls = cartDta.filter(el => el.Id != proId);
+    
+                console.log(newCartEls);
+                setCartDta(newCartEls);
+    
+                // Update the cart quantity
+                const newCartQty = newCartEls.reduce((total, item) => total + item.cartQuantity, 0);
+                setCartQty(newCartQty);
+    
+                // Update the total amount
+                const newTotalAmt = newCartEls.reduce((total, item) => total + parseFloat(item.regular_price), 0);
+                setTotalAmt(newTotalAmt);
+    
+                setNotification(`Producto eliminado exitosamente`);
             }
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
+    
 
     return (
         <PublicPageContainer>
@@ -80,6 +100,12 @@ export default function CartPage() {
                 {/* product and payment infomation */}
                 <div className='lg:flex mt-7 w-full'>
                     <div className='lg:w-[70%]'>
+
+                        {/* notification wrapper */}
+                        {notification&&(
+                            <div className='text-lg text-green-800 py-8'>{notification}</div>
+                        )}
+
                         {cartDta && cartDta.map((prod, key) => (
                             <div key={key} className='rounded-lg border border-[#ccc] p-5 mb-6'>
                                 <div className='product-card-header flex w-full justify-between'>
@@ -98,24 +124,24 @@ export default function CartPage() {
                                         <h3 className='pl-4'><a href={`listado?pid=${prod.item_id && prod.item_id}`}>{prod.name && prod.name}</a></h3>
                                         <div className='flex gap-5 mt-5'>
                                             <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold'>Guardar para más tarde</a>
-                                            <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold' data-prodId = {`${prod.Id}`} onClick={(e)=>{e.preventDefault(); deleteFromCart(prod.Id)}}>Eliminar</a>
+                                            <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold' data-prodId={`${prod.Id}`} onClick={(e) => { e.preventDefault(); deleteFromCart(prod.Id) }}>Eliminar</a>
                                         </div>
                                     </div>
                                     <div className='w-[73%] lg:w-[24%] lg:text-right'>
                                         <h3 className="text-green-800 text-xl lg:text-2xl">{prod.sale_price && prod.sale_price > 0 ? convertToCurrency(prod.sale_price) : convertToCurrency(prod.regular_price)}</h3>
                                         <p className="line-through">{prod.regular_price && convertToCurrency(prod.regular_price)}</p>
                                         <div className='lg:hidden mt-3'>
-                                        <h3 className=''><a href={`listado?pid=${prod.item_id && prod.item_id}`}>{prod.name && prod.name}</a></h3>
-                                        <p className='lowercase text-sm text-red-800 font-sm mb-2'>{prod.quantity > 1 ? `Quedan ${prod.quantity} productos y ${prod.cartQuantity} en el carrito` : `SOLO HAY ${prod.quantity} Y ESTÁ EN ${prod.cartQuantity} CARRITO`}</p>
+                                            <h3 className=''><a href={`listado?pid=${prod.item_id && prod.item_id}`}>{prod.name && prod.name}</a></h3>
+                                            <p className='lowercase text-sm text-red-800 font-sm mb-2'>{prod.quantity > 1 ? `Quedan ${prod.quantity} productos y ${prod.cartQuantity} en el carrito` : `SOLO HAY ${prod.quantity} Y ESTÁ EN ${prod.cartQuantity} CARRITO`}</p>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div className='lg:text-right '>
-                                        <a href="" className='hidden lg:block text-md font-semibold'>Pagar solo lo de esta tienda &nbsp; <img className='w-[15px] inline' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/right-arrow.svg"/></a>
-                                        <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden'>Guardar para más tarde</a>
-                                        <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden' onClick={(e)=>{e.preventDefault(); deleteFromCart(prod.id)}}>Eliminar</a>
-                                    </div>
+                                    <a href="" className='hidden lg:block text-md font-semibold'>Pagar solo lo de esta tienda &nbsp; <img className='w-[15px] inline' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/right-arrow.svg" /></a>
+                                    <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden'>Guardar para más tarde</a>
+                                    <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden' onClick={(e) => { e.preventDefault(); deleteFromCart(prod.id) }}>Eliminar</a>
+                                </div>
                             </div>
                         ))}
 

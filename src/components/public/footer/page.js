@@ -83,11 +83,11 @@ export default function Footer() {
             <div className="container mx-auto mt-8 flex flex-col lg:flex-row justify-between items-center pt-4">
                 <p className="text-gray-600 text-sm">&copy; 2024 Vendalia. Todos los derechos reservados.</p>
                 <div className="flex space-x-4 justify-between w-full items-center mt-4 lg:w-auto px-12 lg:px-0">
-                    <a href="#" className="text-gray-600 hover:text-gray-800"><img class="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/twitter.svg" /></a>
-                    <a href="#" className="text-gray-600 hover:text-gray-800"><img class="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/facebook.svg" /></a>
-                    <a href="#" className="text-gray-600 hover:text-gray-800"><img class="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/youtube.svg" /></a>
-                    <a href="#" className="text-gray-600 hover:text-gray-800"><img class="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/instagram.svg" /></a>
-                    <a href="#" className="text-gray-600 hover:text-gray-800"><img class="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/whatsapp.svg" /></a>
+                    <a href="#" className="text-gray-600 hover:text-gray-800"><img className="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/twitter.svg" /></a>
+                    <a href="#" className="text-gray-600 hover:text-gray-800"><img className="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/facebook.svg" /></a>
+                    <a href="#" className="text-gray-600 hover:text-gray-800"><img className="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/youtube.svg" /></a>
+                    <a href="#" className="text-gray-600 hover:text-gray-800"><img className="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/instagram.svg" /></a>
+                    <a href="#" className="text-gray-600 hover:text-gray-800"><img className="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/whatsapp.svg" /></a>
                 </div>
             </div>
         </footer>
