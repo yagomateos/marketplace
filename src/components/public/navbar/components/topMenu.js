@@ -88,6 +88,7 @@ export default function TopMenu({ session, setOpenedPopup , userPopupOpen , setU
                                         <ul className='leading-8'>
                                             <li className='mb-3'><a href="/" onClick={(event) => { event.preventDefault(); router.push('/vender') }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/shop.svg" /> &nbsp;Vender en Vendalia</a></li>
                                             <li><a href="/" onClick={(event) => { signOutUser(event) }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/logout.svg" /> &nbsp;cerrar sesión</a></li>
+                                        <li><a href="/configuracion_de_la_cuenta">Configuración de la cuenta</a></li>
                                         </ul>
                                     </div>
                                 </span>
