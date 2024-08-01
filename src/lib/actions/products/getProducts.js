@@ -1,6 +1,6 @@
 'use server'
 
-import { getProducts, getProductsByIds, getProductsByCategory } from '../../middleware/products/getProducts.js';
+import { getProducts, getProductsByIds, getProductsByCategory , getProductImgs } from '../../middleware/products/getProducts.js';
 
 
 
@@ -26,6 +26,15 @@ export const getProductsByCategoryID = async (catID = null) => {
     try {
         const products = getProductsByCategory(catID)
         return products;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getProductImages = async (productId) => {
+    try {
+        const productImgs = getProductImgs(productId)
+        return productImgs;
     } catch (error) {
         throw error;
     }

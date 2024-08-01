@@ -1,11 +1,12 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import Swiper from 'swiper';
 import './product-page.css'
 import { Suspense, useEffect, useState } from 'react';
 import PublicPageContainer from '../../components/containers/publicPageContainer';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { gtProductsByIds } from '../../lib/actions/products/getProducts'; // Ensure this path is correct
+import { gtProductsByIds, getProductImages } from '../../lib/actions/products/getProducts'; // Ensure this path is correct
 import { getReviewsFunc } from '../../lib/actions/reviews/getReviews'
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
@@ -18,6 +19,10 @@ function ListingFunc() {
     const pid = searchParams.get('pid');
 
     const [product, setProduct] = useState(null);
+
+    const [mainImg, setMainImg] = useState(null);
+    const [galleryImgs, setGalleryImgs] = useState([])
+
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [lightboxImages, setLightboxImages] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -51,7 +56,18 @@ function ListingFunc() {
 
                     // Set lightbox images
                     if (productInst && productInst[0] && productInst[0].main_image_url) {
-                        setLightboxImages([{ src: productInst[0].main_image_url, alt: productInst[0].name }]);
+
+                        setMainImg(productInst[0].main_image_url)
+                        // get other images
+                        try {
+                            const galleryImages = await getProductImages(`${pid}`)
+                            console.clear()
+                            console.log(galleryImages)
+                            setGalleryImgs([{ image_url: productInst[0].main_image_url }, ...galleryImages])
+                        } catch (err) {
+                            console.log(err)
+                        }
+
                     }
                 } catch (error) {
                     console.log(error);
@@ -78,6 +94,69 @@ function ListingFunc() {
         setCurrentImageIndex(index);
         setLightboxOpen(true);
     };
+
+    useEffect(() => {
+        if (galleryImgs.length > 0) {
+            const lightBoxImgs = []
+            console.log(lightBoxImgs)
+            console.log(lightBoxImgs.length)
+            if (lightboxImages.length < 2) {
+                galleryImgs.forEach(galImg => {
+                    lightBoxImgs.push({
+                        src: galImg.image_url,
+                        alt: ''
+                    })
+                })
+
+                setLightboxImages(lightBoxImgs)
+            }
+
+        } else {
+            setLightboxImages([{ src: mainImg, alt: '' }]);
+        }
+
+        // console.clear();
+        console.log(lightboxImages)
+
+    }, [mainImg, galleryImgs])
+
+    const sortLightBox = (imageurl) => {
+
+        console.clear();
+        console.log(imageurl)
+        // Copy the lightboxImages array to avoid mutating the original array
+        const lightBoxImgGal = [...lightboxImages];
+
+        // Find the item with the matching image_url
+        const matchingItemIndex = lightBoxImgGal.findIndex(item => item.src === imageurl);
+
+        // If the item is found, move it to the front of the array
+        if (matchingItemIndex !== -1) {
+            const [matchingItem] = lightBoxImgGal.splice(matchingItemIndex, 1);
+            lightBoxImgGal.unshift(matchingItem);
+        }
+
+        setLightboxImages(lightBoxImgGal);
+
+        // console.clear()
+        console.log(lightBoxImgGal)
+        console.log(lightboxImages)
+    };
+
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            new Swiper('.gallery-imgs-wrapper', {
+                loop: true,
+                direction: 'vertical',
+                slidesPerView: 4,
+                spaceBetween: 30,
+                freeMode: true,
+            });
+
+        }
+    }, [galleryImgs]);
+
 
     useEffect(() => {
         if (reviews && reviews.length > 0) {
@@ -235,14 +314,30 @@ function ListingFunc() {
                             <div className='lg:flex justify-between items-start gap-4 lg:max-w-7xl'>
                                 <div className='w-full lg:w-[55%]'>
                                     <div className='lg:px-12'>
-                                        {product[0] && product[0].main_image_url && (
-                                            <img className='w-full'
-                                                src={product[0].main_image_url}
-                                                alt={product[0].name}
-                                                onClick={() => openLightbox(0)}
-                                                style={{ cursor: 'pointer' }}
-                                            />
-                                        )}
+                                        <div className='flex flex-row'>
+
+                                            <div className='gallery-imgs-wrapper w-[20%] lg:max-h-[600px] max-h-[460px] overflow-hidden lg:pr-5 pr-3'>
+                                                <div className="swiper-wrapper">
+                                                    {galleryImgs && galleryImgs.map((galImg, key) => (
+                                                        <div key={key} className='swiper-slide'>
+                                                            <a href="/" onClick={(e) => { e.preventDefault(); setMainImg(galImg.image_url); sortLightBox(galImg.image_url) }}><img src={galImg.image_url} className='w-full h-auto max-h-[100%]' /></a>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            <div className='w-[80%]'>
+                                                {product[0] && product[0].main_image_url && (
+                                                    <img className='w-full'
+                                                        src={mainImg}
+                                                        alt={product[0].name}
+                                                        onClick={() => openLightbox(0)}
+                                                        style={{ cursor: 'pointer' }}
+                                                    />
+                                                )}
+                                            </div>
+                                        </div>
+
                                         {/* reviews */}
 
                                         {renderReviews()}
