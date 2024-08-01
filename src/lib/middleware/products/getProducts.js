@@ -50,7 +50,7 @@ export const getProductsByCategory = async (catID) => {
     FROM products p 
     LEFT JOIN product_categories c ON p.category_id = c.id 
     LEFT JOIN stores s ON p.store_id = s.id
-    WHERE c.id = ${catID}
+    WHERE c.id = ${catID} OR c.parent_category = ${catID}
     ORDER BY p.id ASC;`);
         await db.end();
 
@@ -75,6 +75,23 @@ export const getProductsByCategory = async (catID) => {
                 throw error;
             }
 
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getProductImgs = async (prodId)=>{
+    try {
+        const db = await dbConnection();
+        // change this later
+        const [results] = await db.execute(`SELECT * from product_images where product_id = ${prodId}`);
+        await db.end();
+
+        if (results.length > 0) {
+            return results;
+        } else {
+            throw new Error('no images found');
         }
     } catch (error) {
         throw error;
