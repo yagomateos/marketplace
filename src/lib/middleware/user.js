@@ -5,7 +5,9 @@ export const findUser = async (email, password) => {
     try {
         const db = await dbConnection();
 
-        const [results] = await db.execute(`SELECT * FROM users where email_address='${email}' and password='${password}'`);
+        console.log(`SELECT * FROM users where email_address='${email}' and password='${password}'`)
+
+        const [results] = await db.execute(`SELECT * FROM users where email_address='${email}'`);
         await db.end();
         if (results.length > 0) {
             // console.log(results[0])

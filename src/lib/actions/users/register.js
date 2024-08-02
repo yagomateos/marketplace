@@ -8,28 +8,23 @@ export const registerUser = async (formData) => {
     const username = formData.get('username')
     const email = formData.get('email')
     const password = formData.get('password')
-    const repeatPassword = formData.get('password-again')
+    // const repeatPassword = formData.get('password-again')
     const userType = 'buyer'
 
-    console.log(username, email, password, repeatPassword, userType)
+    console.log(username, email, password,  userType)
 
     if (!username) {
-        throw new Error('username empty')
+        throw new Error('Nombre de usuario vacío')
         return;
     }
 
     if (!email) {
-        throw new Error('email empty')
-        return;
-    }
-
-    if (password !== repeatPassword) {
-        throw new Error('passwords not match')
+        throw new Error('Correo electrónico vacío')
         return;
     }
 
     if (!userType) {
-        throw new Error('usertype empty')
+        throw new Error('Usertype vacío')
         return;
     }
 
@@ -43,7 +38,7 @@ export const registerUser = async (formData) => {
                 if (newUser) {
 
                     // send en email
-                    sendEmail()
+                    // sendEmail()
                     return true;
                 }
             } catch (error) {
@@ -51,7 +46,7 @@ export const registerUser = async (formData) => {
             }
 
         } else {
-            throw new Error('user already exists');
+            throw new Error('El usuario ya existe');
         }
 
     } catch (error) {

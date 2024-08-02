@@ -12,6 +12,8 @@ import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import FeaturedProducts from '../../components/public/sections/featured-products';
 import { addToCartFunc } from '../../lib/actions/cart/addToCart'
+import { setFavourite, getFavorites } from '../../lib/actions/products/favourite'
+// import { setFavourite, getFavorites } from '../../../../lib/actions/products/favourite'
 
 function ListingFunc() {
 
@@ -40,6 +42,64 @@ function ListingFunc() {
 
     const router = useRouter();
     const { data: session } = useSession()
+
+    // favorites
+    const [favourites, setFavourites] = useState([]);
+
+    useEffect(() => {
+
+        try {
+            const favouriteProds = getFavorites();
+            console.log(favouriteProds);
+            setFavourites(favouriteProds);
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
+
+    const favouritesSet = (what = 'add', product_id) => {
+        setFavourites((prevFavourites) => {
+            let newFavourites;
+            if (what === 'add') {
+                newFavourites = [...prevFavourites, product_id];
+            } else {
+                newFavourites = prevFavourites.filter(id => id !== product_id);
+            }
+            try {
+                setFavourite(what, product_id);
+            } catch (error) {
+                console.log(error);
+            }
+            return newFavourites;
+        });
+    };
+
+    const return_fav_Button = (product_id) => {
+        if (favourites) {
+            if (favourites.indexOf(product_id) !== -1) {
+                return (
+                    <a href="/" onClick={(e) => { e.preventDefault(); favouritesSet('remove', product_id) }} className={`flex justify-center items-center py-3 px-6 transition-all ease-linear hover:bg-[#f2f2f2] rounded-full text-black lg:my-6`} >
+                        <img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/heart-filled.svg" alt="Filled Heart" />
+                        &nbsp;  Añadir a una colección
+                    </a>
+                );
+            } else {
+                return (
+                    <a href="/" onClick={(e) => { e.preventDefault(); favouritesSet('add', product_id) }} className={`flex justify-center items-center py-3 px-6 transition-all ease-linear hover:bg-[#f2f2f2] rounded-full text-black lg:my-6`} >
+                        <img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/heart.svg" alt="Empty Heart" />
+                        &nbsp;  Añadir a una colección
+                    </a>
+                );
+            }
+        } else {
+            return (
+                <a href="/" onClick={(e) => { e.preventDefault(); favouritesSet('add', product_id) }} className={`flex justify-center items-center py-3 px-6 transition-all ease-linear hover:bg-[#f2f2f2] rounded-full text-black lg:my-6`} >
+                <img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/heart.svg" alt="Empty Heart" />
+                &nbsp;  Añadir a una colección
+            </a>
+            );
+        }
+    };
 
 
     useEffect(() => {
@@ -70,7 +130,6 @@ function ListingFunc() {
 
                     }
                 } catch (error) {
-                    console.log(error);
                     setErr('Error fetching product');
                 }
             };
@@ -98,8 +157,6 @@ function ListingFunc() {
     useEffect(() => {
         if (galleryImgs.length > 0) {
             const lightBoxImgs = []
-            console.log(lightBoxImgs)
-            console.log(lightBoxImgs.length)
             if (lightboxImages.length < 2) {
                 galleryImgs.forEach(galImg => {
                     lightBoxImgs.push({
@@ -287,10 +344,8 @@ function ListingFunc() {
                     <input onChange={(e) => updateQuantity(e)} className='p-3 mt-5 w-full rounded-lg border border-black' type='number' max={product[0].quantity} placeholder='Cantidad' />
                     <a href="/" className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black my-3 lg:my-6'> Comprar ahora</a>
                     <a href="/" onClick={(e) => { addToCart(e) }} className={`flex justify-center items-center py-3 px-6 border-2 border-black rounded-full text-white ${cartError ? 'bg-[#ccc] cursor-text' : 'bg-black cursor-pointer'} my-3 lg:my-6`} > Añadir al carrito</a>
-                    <a href="/" className={`flex justify-center items-center py-3 px-6 transition-all ease-linear hover:bg-[#f2f2f2] rounded-full text-black lg:my-6`} >
-                        <img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/heart-filled.svg" alt="Filled Heart" />
-                        &nbsp;  Añadir a una colección
-                    </a>
+                    {return_fav_Button(product[0].id)}
+
                     {cartError && <div className='text-red-700 text-sm mt-4'>{cartError}</div>}
                 </div>)
         } else {
