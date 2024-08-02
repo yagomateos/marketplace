@@ -95,7 +95,12 @@ export default function SingleFeaturedProduct({ featuredProduct }) {
                     <p className="text-sm p-1">{featuredProduct.category_name}</p>
                 )}
                 {featuredProduct.name && (
-                    <p className="p-1">{featuredProduct.name}</p>
+                   <p className="p-1">
+                   {featuredProduct.name.length > 50 
+                     ? `${featuredProduct.name.substring(0, 50)}...`
+                     : featuredProduct.name}
+                 </p>
+                 
                 )}
                 {featuredProduct.store_name && (
                     <p className="p-1 text-sm">{featuredProduct.store_name}</p>
