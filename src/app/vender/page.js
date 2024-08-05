@@ -27,12 +27,23 @@ export default function Vender() {
         }
     }, [session])
 
+    const scrollToTop = () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      };
+
+      useEffect(() => {
+        scrollToTop()
+      }, [step])
+      
 
     return (
         <PublicPageContainer>
             {step === 0 && (<FirstPage setStep={setStep} />)}
             {step === 1 && (<SecondPage setStep={setStep} user={session.user} />)}
-            {step === 2 && (<ThirdPage setStep={setStep} reason={reason} setReason={setReason} />)}
+            {step === 2 && (<ThirdPage setStep={setStep} reason={reason} setReason={setReason} scrollToTop={scrollToTop}/>)}
             {step === 3 && (<FourthPage setStep={setStep} options={options} setOptions={setOptions} />)}
             {step === 4 && (<FifthPage setStep={setStep} />)}
             {step === 5 && (<Storesetup reason={reason} options={options} />)}

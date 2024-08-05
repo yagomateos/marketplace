@@ -101,7 +101,7 @@ function CategoryFunc() {
 
 export default function Category() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="w-full h-full fixed text-center flex items-center justify-center text-lg text-green-700">Loading...</div>}>
             <CategoryFunc />
         </Suspense>
     );

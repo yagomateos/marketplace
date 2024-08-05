@@ -2,12 +2,13 @@
 
 import React, { useState } from 'react'
 
-export default function ThirdPage({ setStep, reason, setReason }) {
+export default function ThirdPage({ setStep, reason, setReason}) {
 
 
     const [err, setErr] = useState(null)
 
     const changeStep = (what) => {
+
         if (what == 'submit') {
             reason ? setStep(3) : setErr('por favor selecciona una opcion')
         } else {

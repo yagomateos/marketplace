@@ -10,7 +10,7 @@ export default function InventoryThirdStep({ productInfo2 }) {
 
                 <div className="ad-info  rounded-lg flex justify-center gap-3 flex-wrap mt-6">
                     {productInfo2 && productInfo2[1] && productInfo2[1].map((prodInf, key)=>(
-                        <img key={key} src={(prodInf)} className="w-[48%] lg:w-[32%]" />
+                        <img key={key} src={(prodInf)} className="w-[48%] lg:w-[32%] object-cover" />
                     ))
                 }
                 </div>

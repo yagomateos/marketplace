@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import RegisterForm from '../forms/registerForm';
 import GoogleButton from '../social/googleButton'
 import FacebookButton from '../social/facebookButton'
 
-export default function RegisterPopup() {
+export default function RegisterPopup({setOpenedPopup}) {
+
     return (
         <div>
             <div className="sign-in-popup px-4 py-8 mx-auto w-full sm:px-6 lg:px-8">
@@ -15,7 +16,7 @@ export default function RegisterPopup() {
                     
                 </div>
                 <div className="manual-sign-in bg-white">
-                    <RegisterForm />
+                    <RegisterForm setOpenedPopup={setOpenedPopup} />
                 </div>
                 <div className="separator my-8 text-center relative">
                     <p className="text-sm text-gray-500">O</p>

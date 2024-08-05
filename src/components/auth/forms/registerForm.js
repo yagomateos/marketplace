@@ -2,11 +2,14 @@
 
 import React, { useRef } from 'react'
 import { registerUser } from "../../../lib/actions/users/register";
-import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+// import { signIn } from 'next-auth/react';
 
-export default function RegisterForm() {
+export default function RegisterForm({setOpenedPopup}) {
 
-const errorMsg = useRef()
+    const router = useRouter()
+
+    const errorMsg = useRef()
 
     const handleRegister = async (event) => {
         event.preventDefault();
@@ -14,30 +17,19 @@ const errorMsg = useRef()
         const formData = new FormData(event.target);
         const email = formData.get('email')
         const password = formData.get('password')
-        
+
 
         try {
             const newUser = await registerUser(formData);
             if (newUser) {
                 console.log('registered successfully')
+                // close popup
+                setOpenedPopup(false)
+                // redirect user
+                router.push(`/confirmar-correo-electronico?email=${encodeURIComponent(email)}`);
 
-                const result = await signIn('credentials', {
-                    redirect: false,
-                    email,
-                    password,
-                });
-
-                if (result.error) {
-                    // Handle login error
-                    console.error('Failed to sign in:', result.error);
-                } else {
-                    // Handle successful login
-                    console.log('Successfully signed in:', result);
-                }
             }
         } catch (error) {
-            console.clear();
-            console.log(error)
             if (errorMsg.current) {
                 errorMsg.current.textContent = error.message;
             }
@@ -70,7 +62,7 @@ const errorMsg = useRef()
             <div className='py-4'>
                 <h3 className='text-lg text-red-800 text-center' ref={errorMsg}></h3>
             </div>
-            
+
         </>
     )
 }

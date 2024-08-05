@@ -24,17 +24,19 @@ export default function InventorySecondStep({setProductInfo2} ) {
     const [currentTag, setCurrentTag] = useState(null)
     const [currentMat, setCurrentMat] = useState(null)
 
-    const addTagsFunc = () => {
+    const addTagsFunc = (e) => {
         currentTag && tags.indexOf(currentTag) === -1 && setTags([...tags, currentTag])
+        e.target.previousElementSibling.value=""
     }
 
     const removeTags = (tagToRemove) => {
         setTags(tags.filter(tag => tag !== tagToRemove));
     }
 
-    const addMaterialsFunc = () => {
+    const addMaterialsFunc = (e) => {
         console.log('comes here')
         currentMat && materials.indexOf(currentMat) === -1 && setmaterials([...materials, currentMat])
+        e.target.previousElementSibling.value=""
     }
 
     const removeMaterials = (matToRemove) => {
@@ -81,7 +83,7 @@ export default function InventorySecondStep({setProductInfo2} ) {
 
                         <div className='mt-3'>
                             <p className='text-lg'>Fotos y vídeo <span className='text-red-700'>*</span></p>
-                            <p className='text-sm mb-3'>Añade hasta 10 fotos y 1 vídeo.</p>
+                            <p className='text-sm mb-3'>Añade hasta 7 fotos. (Se recomiendan 980 px x 1180 px)</p>
                             <div className='border border-dashed border-[#ccc] round-md p-6 relative'>
                                 <div class="file-upload-wrapper w-full flex flex-col items-center justify-center ">
                                     <p className='text-center'>Arrastra y suelta, o bien</p>
@@ -244,7 +246,7 @@ export default function InventorySecondStep({setProductInfo2} ) {
                                 <p className='text-sm'>Añade hasta 13 etiquetas para ayudar a las personas que buscan tus artículos.</p>
                                 <div>
                                     <input onChange={e => setCurrentTag(e.target.value)} className='p-3 border border-[#ccc] inline-block mr-3 lg:mr-8 mt-5 rounded-lg w-2/3 lg:w-3/5' placeholder='Forma, color, estilo, función, etc.' />
-                                    <a className="cursor-pointer" onClick={(e) => { e.preventDefault(); addTagsFunc() }}>Añadir</a>
+                                    <a className="cursor-pointer" onClick={(e) => { e.preventDefault(); addTagsFunc(e) }}>Añadir</a>
                                 </div>
                                 <div className='flex flex-row flex-wrap mt-3'>
                                     {tags && tags.map((tag, key) => (
@@ -262,7 +264,7 @@ export default function InventorySecondStep({setProductInfo2} ) {
                                 <p className='text-sm'>Los compradores valoran la transparencia: explícales que has usado para crear tu producto.</p>
                                 <div>
                                     <input onChange={e => setCurrentMat(e.target.value)} className='p-3 border border-[#ccc] inline-block mr-3 lg:mr-8 mt-5 rounded-lg w-2/3 lg:w-3/5' placeholder='Forma, color, estilo, función, etc.' />
-                                    <a className="cursor-pointer" onClick={(e) => { e.preventDefault(); addMaterialsFunc() }}>Añadir</a>
+                                    <a className="cursor-pointer" onClick={(e) => { e.preventDefault(); addMaterialsFunc(e) }}>Añadir</a>
                                 </div>
 
                                 <div className='flex flex-row flex-wrap mt-3'>
