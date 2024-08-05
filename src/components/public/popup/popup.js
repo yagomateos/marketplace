@@ -4,13 +4,15 @@ import RegisterPopup from '../../auth/popups/registerPopup'
 
 export default function Popup({ openedPopup, setOpenedPopup }) {
 
+    // console.log(setOpenedPopup)
+
     const renderContent = () => {
         switch (openedPopup) {
             case 'login':
                 return <LoginPopup setOpenedPopup={setOpenedPopup} />;
 
                 case 'register' : 
-                return <RegisterPopup/>;
+                return <RegisterPopup setOpenedPopup={setOpenedPopup}/>;
             default:
                 return null;
         }

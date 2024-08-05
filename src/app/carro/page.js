@@ -4,13 +4,16 @@ import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { getCartFunc } from '../../lib/actions/cart/getCart'
+import { useAppContext } from '../context/AppContext';
 import PublicPageContainer from '../../components/containers/publicPageContainer'
 import { convertToCurrency } from '../../lib/utils/convertCurrency'
 import { updateFromCartFunc } from '../../lib/actions/cart/updateCart'
+import { deleteFromCartFunc } from '../../lib/actions/cart/deleteFromCart'
 
 export default function CartPage() {
     const router = useRouter();
     const { data: session } = useSession()
+    const { state, dispatch } = useAppContext();
 
     const [cartDta, setCartDta] = useState(null)
     const [cartQty, setCartQty] = useState(0)
@@ -60,6 +63,8 @@ export default function CartPage() {
 
             if (itemDeleted) {
                 // Filter out the deleted item from cartDta
+              
+
                 console.log(cartDta)
                 console.log(proId)
                 const newCartEls = cartDta.filter(el => el.Id != proId);
@@ -76,10 +81,14 @@ export default function CartPage() {
                 setTotalAmt(newTotalAmt);
 
                 setNotification(`Producto eliminado exitosamente`);
+              
             }
         } catch (error) {
             console.log(error);
         }
+
+        // dispatch({ type: 'SET_CART_UPDATED', payload: { updated: true, time: new Date().toISOString() } });
+        
     };
 
     const chageCartQty = async (e, prodId) => {
@@ -97,8 +106,14 @@ export default function CartPage() {
             console.log(error)
             e.target.querySelector('input').value=""
         }
-        
+        // dispatch({ type: 'SET_CART_UPDATED', payload: { updated: true, time: new Date().toISOString() } });
     }
+
+    useEffect(() => {
+        console.log('hutta')
+        dispatch({ type: 'SET_CART_UPDATED', payload: { updated: true, time: new Date().toISOString() } });
+    }, [cartDta])
+    
 
 
     return (
@@ -128,7 +143,7 @@ export default function CartPage() {
                                     <div key={key} className='rounded-lg border border-[#ccc] p-5 mb-6'>
                                         <div className='product-card-header flex w-full justify-between'>
                                             <a href={`/almacenar/${prod.store_name && prod.store_name}`}>
-                                                <img src={prod.logo ? prod.logo : 'https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/placeholder-image.jpg'} className='inline-block w-[35px] lg:w-[45px] rounded-md mr-3' />
+                                                {/* <img src={prod.logo ? prod.logo : 'https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/placeholder-image.jpg'} className='inline-block w-[35px] lg:w-[45px] rounded-md mr-3' /> */}
                                                 {prod.store_name && <p className='inline-block font-semibold text-sm lg:text-md'>{prod.store_name}</p>}
                                             </a>
                                             <a className='hidden lg:block' href='/'>Contactar con la tienda</a>

@@ -4,12 +4,13 @@ import React, { useEffect, useState } from 'react'
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import {getCartFunc} from '../../../../lib/actions/cart/getCart'
+import { useAppContext } from '../../../../app/context/AppContext';
 
-export default function TopMenu({ session, setOpenedPopup , userPopupOpen , setUserPopupOpen }) {
+export default function TopMenu({cartUpdated, session, setOpenedPopup , userPopupOpen , setUserPopupOpen }) {
 
     // console.clear()
     // console.log(setOpenedPopup)
-    // console.log(setUserPopupOpen)
+    // console.log(cartUpdated)
 
     const router = useRouter();
 
@@ -19,13 +20,8 @@ export default function TopMenu({ session, setOpenedPopup , userPopupOpen , setU
     }
 
     // const [userPopupOpen, setUserPopupOpen] = useState(false)
+    const { state, dispatch } = useAppContext();
     const [cartQty, setCartQty] = useState(0)
-
-
-
-    useEffect(() => {
-        console.log(session)
-        session && setOpenedPopup(false)
 
         // get cart quantity
         const checkCartQty = async ()=>{
@@ -40,14 +36,24 @@ export default function TopMenu({ session, setOpenedPopup , userPopupOpen , setU
                     setCartQty(qty)
                 }
             } catch (error) {
+                setCartQty(0)
                 console.log(error)
             }
         }
 
+    useEffect(() => {
+        console.log(session)
+        session && setOpenedPopup(false)
         session&& checkCartQty()
-    }, [session])
+    }, [session ])
 
 
+    useEffect(() => {
+        if (state.cartUpdated) {
+            console.log('hutta')
+            checkCartQty()
+        }
+    }, [state.lastUpdated, dispatch]);
 
 
 

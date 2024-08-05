@@ -10,7 +10,7 @@ import './navbar.css'
 import { useRouter } from 'next/navigation';
 
 
-export default function PublicNavbar({ checkPopups, categoriesMenuOpen, setCatMenuOpen, setOpenedPopup, searchMenuOpen, setSearchMenuOpen , userPopupOpen , setUserPopupOpen}) {
+export default function PublicNavbar({cartUpdated, checkPopups, categoriesMenuOpen, setCatMenuOpen, setOpenedPopup, searchMenuOpen, setSearchMenuOpen , userPopupOpen , setUserPopupOpen}) {
    
 
 
@@ -50,7 +50,7 @@ export default function PublicNavbar({ checkPopups, categoriesMenuOpen, setCatMe
                         <h2 className="text-xl font-semibold ml-0 lg:ml-0"><a href='#' onClick={(e)=>{e.preventDefault(); router.push('/')}}><img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/logo.svg" className='w-32 lg:w-48 max-w-full' /></a></h2>
 
                         <div className='lg:hidden'>
-                            <TopMenu session={session} setOpenedPopup={setOpenedPopup} userPopupOpen={userPopupOpen} setUserPopupOpen={setUserPopupOpen} />
+                            <TopMenu cartUpdated={cartUpdated} session={session} setOpenedPopup={setOpenedPopup} userPopupOpen={userPopupOpen} setUserPopupOpen={setUserPopupOpen} />
                         </div>
 
                     </div>
@@ -77,7 +77,7 @@ export default function PublicNavbar({ checkPopups, categoriesMenuOpen, setCatMe
                     </div>
                     <div className="hidden lg:flex lg:w-auto lg:pl-4">
                         <nav>
-                            <TopMenu session={session} setOpenedPopup={setOpenedPopup} userPopupOpen={userPopupOpen} setUserPopupOpen={setUserPopupOpen}/>
+                            <TopMenu cartUpdated={cartUpdated} session={session} setOpenedPopup={setOpenedPopup} userPopupOpen={userPopupOpen} setUserPopupOpen={setUserPopupOpen}/>
                         </nav>
                     </div>
                 </div>
