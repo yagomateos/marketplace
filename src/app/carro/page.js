@@ -95,18 +95,21 @@ export default function CartPage() {
         e.preventDefault()
         console.clear();
         let newVal = e.target.querySelector('input').value
+
+
         try {
             const cartUpdated = await updateFromCartFunc(prodId , newVal)
             if(cartUpdated){
                 e.target.querySelector('input').placeholder=`${newVal}`
                 e.target.querySelector('input').value=""
                 console.log('updated')
+                dispatch({ type: 'SET_CART_UPDATED', payload: { updated: true, time: new Date().toISOString() } });
             }
         } catch (error) {
             console.log(error)
             e.target.querySelector('input').value=""
         }
-        // dispatch({ type: 'SET_CART_UPDATED', payload: { updated: true, time: new Date().toISOString() } });
+        
     }
 
     useEffect(() => {
