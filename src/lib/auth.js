@@ -48,7 +48,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                     const userav = await userLogin(credentials);
 
                     if (userav) {
-                        const user = { id: 1, name: userav.username, email: credentials.email }
+                        const user = { id: userav.id, name: userav.username, email: credentials.email }
 
                         if (user) {
                             return Promise.resolve(user)

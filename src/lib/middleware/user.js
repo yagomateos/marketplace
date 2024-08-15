@@ -54,3 +54,190 @@ export const updateUser = async (userData) => {
         throw error;
     }
 }
+
+export const updatePartial = async (userData) => {
+    try {
+        const db = await dbConnection();
+        const [results] = await db.execute(
+            `UPDATE marketplace.users 
+             SET 
+                birthday = '${userData.birthDay}', 
+                city = '${userData.city}', 
+                identity_url = '${userData.identityUrl}', 
+                gender = '${userData.gender}', 
+                bio = '${userData.bio}', 
+                favourite_materials = '${userData.favorite_materials}', 
+                include_in_store = '${userData.incl_store}', 
+                include_in_favourite_articles = '${userData.incl_articals}', 
+                include_in_favourite_stores = '${userData.incl_fav_stor}' 
+             WHERE id = '${userData.id}';`
+        );
+
+        if (results.affectedRows && results.affectedRows > 0) {
+            return true
+        } else {
+            throw new Error('something went wrong');
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const updatePassword = async (userId, password, newPassword) => {
+    try {
+        const db = await dbConnection();
+        const [result] = await db.execute(`UPDATE marketplace.users SET password = '${newPassword}' WHERE id = '${userId}' and password='${password}';`)
+        if (result.affectedRows && result.affectedRows > 0) {
+            return true
+        } else {
+            throw new Error('old password wrong');
+        }
+    } catch (error) {
+        console.error(error)
+        throw error;
+    }
+}
+
+export const getUserById = async (userId) => {
+    try {
+        const db = await dbConnection();
+        const result = await db.execute(`Select * from marketplace.users  WHERE id = '${userId}';`)
+        if (result.length > 0) {
+            return result[0]
+        } else {
+            throw new Error('no user found');
+        }
+    } catch (error) {
+        console.error(error)
+        throw error;
+    }
+}
+
+export const updateEmail = async (userId, emailAddress, password) => {
+    try {
+        const db = await dbConnection();
+        const [result] = await db.execute(`UPDATE marketplace.users SET email_address = '${emailAddress}' WHERE id = '${userId}' and password='${password}';`)
+        if (result.affectedRows && result.affectedRows > 0) {
+            return true
+        } else {
+            throw new Error('password wrong');
+        }
+    } catch (error) {
+        console.error(error)
+        throw error;
+    }
+}
+
+export const updateCommunication = async (userId, mail, phone) => {
+    try {
+        const db = await dbConnection();
+        const [result] = await db.execute(`UPDATE marketplace.users SET grant_mail_notification = '${mail}', grant_phone_contact = '${phone}' WHERE (id = '${userId}');`)
+        if (result.affectedRows && result.affectedRows > 0) {
+            return true
+        } else {
+            throw new Error('something went wrong');
+        }
+    } catch (error) {
+        console.error(error)
+        throw error;
+    }
+}
+
+export const updateAddress = async (userId, addressNumber, street, addressLine2, city, postalCode, phoneNumber) => {
+    try {
+        const db = await dbConnection();
+        const [result] = await db.execute(`UPDATE marketplace.users SET address_number = '${addressNumber}', street = '${street}', floor = '${addressLine2}', city = '${city}', postal_code = '${postalCode}', phone_number = '${phoneNumber}' WHERE (id = '${userId}');`)
+        if (result.affectedRows && result.affectedRows > 0) {
+            return true
+        } else {
+            throw new Error('something went wrong');
+        }
+    } catch (error) {
+        console.error(error)
+        throw error;
+    }
+}
+
+export const updateUserNotifications = async (
+    userId,
+    receiveMessage,
+    sentMessage,
+    followMe,
+    adsExpire,
+    newsSubs,
+    feedbackSubs,
+    cuponsSubs,
+    forums,
+    defence,
+    mySellerActivity,
+    sellerNews,
+    storeTips,
+    patternTips,
+    sellerPlusNews
+) => {
+    try {
+        const db = await dbConnection();
+
+        // Check if the user_id exists in the notifications table
+        const [notificationExists] = await db.execute(
+            `SELECT 1 FROM notifications WHERE user_id = ? LIMIT 1`,
+            [userId]
+        );
+
+        if (notificationExists.length > 0) {
+            // Update the notifications table if user_id exists
+            await db.execute(
+                `UPDATE notifications 
+                 SET receive_message = ?, send_message = ?, follow_me = ?, ads_expire = ? 
+                 WHERE user_id = ?`,
+                [receiveMessage, sentMessage, followMe, adsExpire, userId]
+            );
+        } else {
+            // Insert into the notifications table if user_id does not exist
+            await db.execute(
+                `INSERT INTO notifications (user_id, receive_message, send_message, follow_me, ads_expire)
+                 VALUES (?, ?, ?, ?, ?)`,
+                [userId, receiveMessage, sentMessage, followMe, adsExpire]
+            );
+        }
+
+        // Check if the user_id exists in the subscriptions table
+        const [subscriptionExists] = await db.execute(
+            `SELECT 1 FROM subscriptions WHERE user_id = ? LIMIT 1`,
+            [userId]
+        );
+
+        if (subscriptionExists.length > 0) {
+            // Update the subscriptions table if user_id exists
+            await db.execute(
+                `UPDATE subscriptions 
+                 SET news_subs = ?, feedback_subs = ?, cupons_subs = ?, forums = ?, defence = ?, 
+                     my_seller_activity = ?, seller_news = ?, store_tips = ?, pattern_tips = ?, 
+                     seller_plus_news = ? 
+                 WHERE user_id = ?`,
+                [
+                    newsSubs, feedbackSubs, cuponsSubs, forums, defence, 
+                    mySellerActivity, sellerNews, storeTips, patternTips, sellerPlusNews, userId
+                ]
+            );
+        } else {
+            // Insert into the subscriptions table if user_id does not exist
+            await db.execute(
+                `INSERT INTO subscriptions (user_id, news_subs, feedback_subs, cupons_subs, forums, defence, 
+                                            my_seller_activity, seller_news, store_tips, pattern_tips, seller_plus_news)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [
+                    userId, newsSubs, feedbackSubs, cuponsSubs, forums, defence, 
+                    mySellerActivity, sellerNews, storeTips, patternTips, sellerPlusNews
+                ]
+            );
+        }
+
+        return true;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+

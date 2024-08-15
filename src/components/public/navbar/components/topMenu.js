@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import {getCartFunc} from '../../../../lib/actions/cart/getCart'
+import { getCartFunc } from '../../../../lib/actions/cart/getCart'
 import { useAppContext } from '../../../../app/context/AppContext';
 
-export default function TopMenu({cartUpdated, session, setOpenedPopup , userPopupOpen , setUserPopupOpen }) {
+export default function TopMenu({ cartUpdated, session, setOpenedPopup, userPopupOpen, setUserPopupOpen }) {
 
     // console.clear()
     // console.log(setOpenedPopup)
@@ -23,34 +23,33 @@ export default function TopMenu({cartUpdated, session, setOpenedPopup , userPopu
     const { state, dispatch } = useAppContext();
     const [cartQty, setCartQty] = useState(0)
 
-        // get cart quantity
-        const checkCartQty = async ()=>{
-            console.log('comes here')
-            try {
-                const cartInfo = await getCartFunc(session.user.id)
-                if (cartInfo) {
-                    let qty = 0;
-                    cartInfo.forEach(cartInf=>{
-                        qty+=cartInf.cartQuantity
-                    })
-                    setCartQty(qty)
-                }
-            } catch (error) {
-                setCartQty(0)
-                console.log(error)
+    // get cart quantity
+    const checkCartQty = async () => {
+        console.log('comes here')
+        try {
+            const cartInfo = await getCartFunc(session.user.id)
+            if (cartInfo) {
+                let qty = 0;
+                cartInfo.forEach(cartInf => {
+                    qty += cartInf.cartQuantity
+                })
+                setCartQty(qty)
             }
+        } catch (error) {
+            setCartQty(0)
+            console.log(error)
         }
+    }
 
     useEffect(() => {
         console.log(session)
         session && setOpenedPopup(false)
-        session&& checkCartQty()
-    }, [session ])
+        session && checkCartQty()
+    }, [session])
 
 
     useEffect(() => {
         if (state.cartUpdated) {
-            console.log('hutta')
             checkCartQty()
         }
     }, [state.lastUpdated, dispatch]);
@@ -93,8 +92,8 @@ export default function TopMenu({cartUpdated, session, setOpenedPopup , userPopu
                                     <div className='p-4 bg-white rounded-b-lg'>
                                         <ul className='leading-8'>
                                             <li className='mb-3'><a href="/" onClick={(event) => { event.preventDefault(); router.push('/vender') }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/shop.svg" /> &nbsp;Vender en Vendalia</a></li>
-                                            <li><a href="/" onClick={(event) => { signOutUser(event) }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/logout.svg" /> &nbsp;cerrar sesión</a></li>
-                                        <li><a href="/configuracion_de_la_cuenta">Configuración de la cuenta</a></li>
+                                            <li className='mb-3'><a href="/" onClick={(event) => { signOutUser(event) }}><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/logout.svg" /> &nbsp;cerrar sesión</a></li>
+                                            <li className='mb-3'><a href="/configuracion_de_la_cuenta"><img className='w-7 inline-block mr-2' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/settings-icon.svg" /> Configuración de la cuenta</a></li>
                                         </ul>
                                     </div>
                                 </span>
@@ -108,8 +107,8 @@ export default function TopMenu({cartUpdated, session, setOpenedPopup , userPopu
             <li>
 
                 <a href='/carro' className="tooltip-trigger flex items-center justify-center w-10 h-10 rounded-full hover:bg-green-200 relative">
-                {cartQty>0&& <span className='bg-orange-700 text-white text-xs absolute top-[3px] -right-0 rounded-full w-4 h-4 flex justify-center items-center p-2 block'>{cartQty}</span>}
-                <img className="w-5" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/cart.svg" />
+                    {cartQty > 0 && <span className='bg-orange-700 text-white text-xs absolute top-[3px] -right-0 rounded-full w-4 h-4 flex justify-center items-center p-2 block'>{cartQty}</span>}
+                    <img className="w-5" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/cart.svg" />
                 </a>
 
             </li>
