@@ -46,9 +46,9 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
 
                 try {
                     const userav = await userLogin(credentials);
-
+// console.log(userav.identity_url)
                     if (userav) {
-                        const user = { id: userav.id, name: userav.username, email: credentials.email }
+                        const user = { id: userav.id, name: userav.username, email: credentials.email , image:userav.identity_url }
 
                         if (user) {
                             return Promise.resolve(user)
@@ -72,11 +72,13 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
         },
         async session({ session, user, token }) {
             // Custom session handling
+            console.log(token)
 
             if (token) {
                 session.user.id = token.id;
                 session.user.username = token.name;
                 session.user.email = token.email;
+                session.user.image = token.image
             }
             return session;
         },
@@ -85,6 +87,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 token.id = user.id;
                 token.name = user.name;
                 token.email = user.email;
+                token.image = user.image;
             }
             return token;
         }

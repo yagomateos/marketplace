@@ -27,8 +27,11 @@ export default function Profile({setStep, userInfo, userId }) {
         const file = e.target.files[0];
         if (file) {
             setUserImgObj(file)
+
+            // create blob and assign it into the preview
             const imageUrl = URL.createObjectURL(file);
             setUserImg(imageUrl);
+
         }
     }
 
@@ -49,8 +52,11 @@ export default function Profile({setStep, userInfo, userId }) {
             id: userId
         }
 
+        const imgFormDta = new FormData();
+        imgFormDta.append('file' , userImgObj);
+
         try {
-            const userUpdated = await updateUserPartial(userData)
+            const userUpdated = await updateUserPartial(userData , imgFormDta)
             console.clear()
             console.log(userUpdated)
             if (userUpdated) {

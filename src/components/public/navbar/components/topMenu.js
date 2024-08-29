@@ -42,7 +42,7 @@ export default function TopMenu({ cartUpdated, session, setOpenedPopup, userPopu
     }
 
     useEffect(() => {
-        console.log(session)
+        session &&console.log(session.user)
         session && setOpenedPopup(false)
         session && checkCartQty()
     }, [session])
