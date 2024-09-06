@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { updatePasswordFunc, updateEmailFunc , updateCommunicationFunc } from '../../../lib/actions/users/updateUser'
+import { updatePasswordFunc, updateEmailFunc, updateCommunicationFunc } from '../../../lib/actions/users/updateUser'
+import sendEmail from '../../../lib/utils/sendMail'
 
 export default function Account({ setStep, userInfo, userId }) {
 
@@ -19,18 +20,21 @@ export default function Account({ setStep, userInfo, userId }) {
     const [emailError, setEmailError] = useState(null)
     const [emailSuccess, setEmailSuccess] = useState(null)
 
+    const [confirmEmailSuccess, setConfirmEmailSuccess] = useState(null)
+    const [confirmEmailError, setConfirmEmailError] = useState(null)
+
     // coomunication fields
 
     const [emailAllowed, setEmailAllowed] = useState(false)
     const [phoneAllowed, setPhoneAllowed] = useState(false)
-    const [communicationError , setCommunicationError] = useState(false)
-    const [communicationSuccess , setCommunicationSuccess] = useState(false)
+    const [communicationError, setCommunicationError] = useState(false)
+    const [communicationSuccess, setCommunicationSuccess] = useState(false)
 
     // password update
     const handlePasswordUpdate = async (e) => {
         e.preventDefault()
-        console.clear();
-        console.log(userId, existingPassword, newPassword, confirmPassword)
+        // console.clear();
+        // console.log(userId, existingPassword, newPassword, confirmPassword)
         if (newPassword === confirmPassword) {
 
             setNewPassword('')
@@ -98,10 +102,10 @@ export default function Account({ setStep, userInfo, userId }) {
     const handleCommunicationupdate = async (e) => {
         e.preventDefault()
         try {
-            const communicationUpdated =  await(updateCommunicationFunc(userId , emailAllowed , phoneAllowed ))
+            const communicationUpdated = await (updateCommunicationFunc(userId, emailAllowed, phoneAllowed))
             console.clear();
             console.log(communicationUpdated)
-            if(communicationUpdated){
+            if (communicationUpdated) {
                 setCommunicationError(false)
                 setCommunicationSuccess('Información actualizada con éxito')
                 setTimeout(() => {
@@ -112,6 +116,36 @@ export default function Account({ setStep, userInfo, userId }) {
             setCommunicationError('¡Algo salió mal!')
             setCommunicationSuccess(false)
         }
+    }
+
+    // handle verification email sending
+    const handleEmailConfirmation = async (user) => {
+        console.clear()
+        console.log('comes here')
+
+        const email = user ? user.email_address : null
+
+        console.log(email)
+        if (email) {
+            try {
+                const mailSent = sendEmail(email, 'confirmEmail')
+                if (mailSent) {
+                    setConfirmEmailSuccess('Correo electrónico de confirmación enviado con éxito')
+                    setConfirmEmailError(null)
+                } else {
+                    setConfirmEmailSuccess(null)
+                    setConfirmEmailError('¡Algo salió mal!')
+                }
+            } catch (error) {
+                console.log(error)
+                setConfirmEmailSuccess(null)
+                setConfirmEmailError('¡Algo salió mal!')
+            }
+        }else{
+            setConfirmEmailSuccess(null)
+                setConfirmEmailError('¡Algo salió mal!')
+        }
+
     }
 
 
@@ -184,10 +218,12 @@ export default function Account({ setStep, userInfo, userId }) {
                 </div>
                 <div className="mb-4">
                     <label className="block font-semibold mb-3">Estado</label>
-                    {userInfo && userInfo.confirmed ? <span className="block">Correo electrónico confirmado</span> :
+                    {userInfo && userInfo.confirmed == 1 ? <span className="block">Correo electrónico confirmado</span> :
                         <>
                             <span className="block">No confirmada</span>
-                            <a className="p-3 border border-[#ccc] rounded-full cursor-pointer inline-block mb-4">Reenviar correo de confirmación</a>
+                            <a className="p-3 border border-[#ccc] rounded-full cursor-pointer inline-block mb-4" onClick={() => handleEmailConfirmation(userInfo)}>Reenviar correo de confirmación</a>
+                            {confirmEmailSuccess ? <div className='mt-3 text-sm text-green-700'>{confirmEmailSuccess}</div> : ''}
+                            {confirmEmailError ? <div className='mt-3 text-sm text-red-700'>{confirmEmailError}</div> : ''}
                         </>}
 
 

@@ -113,6 +113,21 @@ export const getUserById = async (userId) => {
     }
 }
 
+export const getUserByEmail = async (email) => {
+    try {
+        const db = await dbConnection();
+        const result = await db.execute(`Select * from marketplace.users  WHERE email_address = '${email}';`)
+        if (result.length > 0) {
+            return result[0]
+        } else {
+            throw new Error('no user found');
+        }
+    } catch (error) {
+        console.error(error)
+        throw error;
+    }
+}
+
 export const updateEmail = async (userId, emailAddress, password) => {
     try {
         const db = await dbConnection();
