@@ -1,6 +1,11 @@
 import { signIn } from 'next-auth/react';
+import { useState } from 'react';
 
 export default function LoginForm() {
+
+    const [loginError, setLoginError] = useState(null)
+    const [loginSuccess, setLoginSuccess] = useState(null)
+
     const handleCustomLogin = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -15,10 +20,15 @@ export default function LoginForm() {
 
         if (result.error) {
             // Handle login error
-            console.error('Failed to sign in:', result.error);
+            // console.error('Failed to sign in:', result.error);
+            setLoginError('¡El correo electrónico o la contraseña son incorrectos!')
+            setLoginSuccess(null)
         } else {
+            console.log('comes here')
             // Handle successful login
-            console.log('Successfully signed in:', result);
+            // console.log('Successfully signed in:', result);
+            setLoginError(null)
+            setLoginSuccess('Se ha iniciado sesión correctamente')
         }
     };
 
@@ -44,6 +54,8 @@ export default function LoginForm() {
                 <div className="form-group">
                     <button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-gray-950 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-[#0009] hover:scale-[102%] transition-all">Entrar</button>
                 </div>
+                {loginError && <div className='text-red-700 text-sm'>{loginError}</div>}
+                {loginSuccess && <div className='text-green-700 text-sm'>{loginSuccess}</div>}
             </form>
             <a href="/" className='block text-center text-sm underline'>¿Tienes problemas para iniciar sesión?</a>
         </>

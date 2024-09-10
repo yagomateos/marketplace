@@ -1,4 +1,4 @@
-export const confirmEmailTemplate = (email) => {
+export const confirmEmailTemplate = (email , tokenInserted) => {
     const encodedEmail = encodeURIComponent(email);
     const subject = 'Por favor, confirma tu dirección de correo electrónico para Vendalia.es';
     const emailBody = `<table width="100%" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px;">
@@ -15,7 +15,7 @@ export const confirmEmailTemplate = (email) => {
       </tr>
       <tr>
           <td style="text-align: center; padding: 20px;">
-              <a href="https://vendalia.es/confirmar-correo-electronico/Validar?email=${encodedEmail}" 
+              <a href="http://vendalia.es/validar_correo_electronico?email=${encodedEmail}&token=${tokenInserted}" 
                  style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
                   Confirmar correo electrónico
               </a>

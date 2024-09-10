@@ -1,5 +1,5 @@
 'use server'
-import { updateUser, updatePassword, updateEmail, updateCommunication, updatePartial, updateAddress, updateUserNotifications } from '../../middleware/user';
+import { updateUser, updatePassword, updateEmail, updateCommunication, updatePartial, updateAddress, updateUserNotifications, updateUserEmailVerificationSt } from '../../middleware/user';
 import UploadImg from '../../utils/uploadImg'
 
 export async function updateUserFunc(userData) {
@@ -101,6 +101,15 @@ export const updateAddressFunc = async (userId, addressNumber, street, addressLi
 export const updateUserNotificationsFunc = async (notificationSettings) => {
     try {
         const userUpdated = await updateUserNotifications(notificationSettings.userId, notificationSettings.receiveMessage, notificationSettings.sentMessage, notificationSettings.followMe, notificationSettings.adsexpire, notificationSettings.newsSubs, notificationSettings.feedbackSubs, notificationSettings.cuponsSubs, notificationSettings.forums, notificationSettings.defence, notificationSettings.mySellerActivity, notificationSettings.sellerNews, notificationSettings.storeTips, notificationSettings.patternTips, notificationSettings.sellerPlusNews);
+        return userUpdated;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const updateUserEmailVerification = async (userEmail) =>{
+    try {
+        const userUpdated = await updateUserEmailVerificationSt(userEmail);
         return userUpdated;
     } catch (error) {
         throw error;

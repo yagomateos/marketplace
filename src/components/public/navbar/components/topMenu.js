@@ -82,7 +82,7 @@ export default function TopMenu({ cartUpdated, session, setOpenedPopup, userPopu
                 session && (
                     <>
                         <li>
-                            <a onClick={(e) => { e.preventDefault(); setUserPopupOpen(!userPopupOpen) }} className='flex w-7 h-7 justify-center items-center' href=""><img className='w-12 rounded-full border-2 border-green-500' src={session?.user?.image ? session.user.image : 'https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg'} /></a>
+                            <a onClick={(e) => { e.preventDefault(); setUserPopupOpen(!userPopupOpen) }} className='flex w-7 h-7 justify-center items-center' href=""><img className='w-7 h-7 object-cover rounded-full border-2 border-green-500' src={session?.user?.image ? session.user.image : 'https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg'} /></a>
                             {userPopupOpen &&
                                 <span className='absolute right-0 top-[90%] shadow-md shadow-[#00000035] block rounded-xl bg z-50 min-w-64 kd-user-popup'>
                                     <div className='p-4 bg-green-500 flex gap-3 rounded-t-lg'>

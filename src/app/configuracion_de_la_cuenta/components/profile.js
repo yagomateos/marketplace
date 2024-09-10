@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { updateUserPartial } from '../../../lib/actions/users/updateUser'
+import { signIn } from 'next-auth/react'
 
 export default function Profile({setStep, userInfo, userId }) {
 

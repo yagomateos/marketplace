@@ -1,13 +1,11 @@
-import { error } from 'console';
+
 import dbConnection from '../base/db'
 
 export const findUser = async (email, password) => {
     try {
         const db = await dbConnection();
 
-        console.log(`SELECT * FROM users where email_address='${email}' and password='${password}'`)
-
-        const [results] = await db.execute(`SELECT * FROM users where email_address='${email}'`);
+        const [results] = await db.execute(`SELECT * FROM users where email_address='${email}' and password='${password}'`);
         await db.end();
         if (results.length > 0) {
             // console.log(results[0])
@@ -231,7 +229,7 @@ export const updateUserNotifications = async (
                      seller_plus_news = ? 
                  WHERE user_id = ?`,
                 [
-                    newsSubs, feedbackSubs, cuponsSubs, forums, defence, 
+                    newsSubs, feedbackSubs, cuponsSubs, forums, defence,
                     mySellerActivity, sellerNews, storeTips, patternTips, sellerPlusNews, userId
                 ]
             );
@@ -242,7 +240,7 @@ export const updateUserNotifications = async (
                                             my_seller_activity, seller_news, store_tips, pattern_tips, seller_plus_news)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
-                    userId, newsSubs, feedbackSubs, cuponsSubs, forums, defence, 
+                    userId, newsSubs, feedbackSubs, cuponsSubs, forums, defence,
                     mySellerActivity, sellerNews, storeTips, patternTips, sellerPlusNews
                 ]
             );
@@ -256,3 +254,23 @@ export const updateUserNotifications = async (
 };
 
 
+export const updateUserEmailVerificationSt = async (email) => {
+    try {
+        const db = await dbConnection();
+        const [updatedUser] = await db.execute(`UPDATE marketplace.users 
+            SET confirmed = '1' 
+            WHERE email_address = '${email}';`)
+
+        await db.end();
+
+        if (updatedUser.affectedRows && updatedUser.affectedRows > 0) {
+            return true;
+        }else{
+            return new Error('email not updated!')
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}

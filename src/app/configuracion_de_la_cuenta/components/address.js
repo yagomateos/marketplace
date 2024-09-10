@@ -62,19 +62,19 @@ export default function Address({ userInfo, userId }) {
                     </div>
                     <ul className={!editAddress ? 'block' : 'hidden'}>
                         <li>{addressLine1}</li>
-                        <li>{addressLine2} asd</li>
+                        <li>{addressLine2}</li>
                         <li>{city}</li>
                         <li>{postalCode}</li>
                         <li>{phoneNumber}</li>
                     </ul>
 
                     <div className={editAddress ? 'block' : 'hidden'}>
-                        <input className="block w-80 p-2 mt-3 border border-[#ccc]" value={addressNumber} type="number" onChange={e => setAddressNumber(e.target.value)} />
-                        <input className="block w-80 p-2 mt-3 border border-[#ccc]" value={street} type="text" onChange={e => setStreeet(e.target.value)} />
-                        <input className="block w-80 p-2 mt-3 border border-[#ccc]" value={addressLine2} type="text" onChange={e => setAddressLine2(e.target.value)} />
-                        <input className="block w-80 p-2 mt-3 border border-[#ccc]" value={city} type="text" onChange={e => setCity(e.target.value)} />
-                        <input className="block w-80 p-2 mt-3 border border-[#ccc]" value={postalCode} type="number" onChange={e => setPostalCode(e.target.value)} />
-                        <input className="block w-80 p-2 mt-3 border border-[#ccc]" value={phoneNumber} type="number" onChange={e => setPhoneNumber(e.target.value)} />
+                        <input placeholder="Número" className="block w-80 p-2 mt-3 border border-[#ccc]" value={addressNumber} type="number" onChange={e => setAddressNumber(e.target.value)} />
+                        <input placeholder="Calle" className="block w-80 p-2 mt-3 border border-[#ccc]" value={street} type="text" onChange={e => setStreeet(e.target.value)} />
+                        <input placeholder="DirecciónLinea2" className="block w-80 p-2 mt-3 border border-[#ccc]" value={addressLine2} type="text" onChange={e => setAddressLine2(e.target.value)} />
+                        <input placeholder="Ciudad" className="block w-80 p-2 mt-3 border border-[#ccc]" value={city} type="text" onChange={e => setCity(e.target.value)} />
+                        <input placeholder="Código Postal" className="block w-80 p-2 mt-3 border border-[#ccc]" value={postalCode} type="number" onChange={e => setPostalCode(e.target.value)} />
+                        <input placeholder="Número de teléfono" className="block w-80 p-2 mt-3 border border-[#ccc]" value={phoneNumber} type="number" onChange={e => setPhoneNumber(e.target.value)} />
                     </div>
                     <a className={`${!editAddress ? 'block' : 'hidden'} font-semibold py-1 px-3 hover:bg-[#f2f2f2] cursor-pointer rounded-full mt-3 inline-block"`} onClick={e => setEditAddress(true)}> Editar</a>
                     <a className={`${editAddress ? 'block' : 'hidden'} font-semibold py-1 px-3 hover:bg-[#f2f2f2] cursor-pointer rounded-full mt-3 inline-block`} onClick={e => handleAddressUpdate(e)} > Ahorrar</a>
@@ -95,7 +95,7 @@ export default function Address({ userInfo, userId }) {
                     <a className="font-semibold py-1 px-3 hover:bg-[#f2f2f2] cursor-pointer rounded-full mt-3 inline-block"> Editar</a>&nbsp;&nbsp;<a className="font-semibold py-1 px-3 hover:bg-[#f2f2f2] cursor-pointer rounded-full mt-3 inline-block">Eliminar</a>
                 </div> */}
 
-               
+
 
             </div>
         </div>

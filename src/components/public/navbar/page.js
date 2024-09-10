@@ -18,6 +18,9 @@ export default function PublicNavbar({cartUpdated, checkPopups, categoriesMenuOp
     const { data: session } = useSession()
     
 
+    // console.clear()
+    // console.log(session.user)
+
     // const [menuOpen, setMenuOpen] = useState(false);
 
     const [featuredCategories, setFeaturedcategories] = useState(null);

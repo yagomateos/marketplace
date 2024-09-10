@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { updatePasswordFunc, updateEmailFunc, updateCommunicationFunc } from '../../../lib/actions/users/updateUser'
 import sendEmail from '../../../lib/utils/sendMail'
+import { useSession } from 'next-auth/react';
 
 export default function Account({ setStep, userInfo, userId }) {
 
     const [formattedDate, setFormattedDate] = useState(null)
+    const { data: session } = useSession();
 
     // password fields
     const [existingPassword, setExistingPassword] = useState('');
@@ -123,7 +125,8 @@ export default function Account({ setStep, userInfo, userId }) {
         console.clear()
         console.log('comes here')
 
-        const email = user ? user.email_address : null
+        // const email = user ? user.email_address : null
+        const email = session?.user?.email;
 
         console.log(email)
         if (email) {
@@ -214,7 +217,7 @@ export default function Account({ setStep, userInfo, userId }) {
                 <h3 className="text-2xl font-semibold mb-4">Correo electrónico</h3>
                 <div className="mb-4">
                     <label className="block font-semibold mb-3">Correo electrónico actual</label>
-                    <span>{userInfo && userInfo.email_address}</span>
+                    <span>{session?.user?.email}</span>
                 </div>
                 <div className="mb-4">
                     <label className="block font-semibold mb-3">Estado</label>

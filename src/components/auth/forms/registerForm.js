@@ -3,6 +3,7 @@
 import React, { useRef } from 'react'
 import { registerUser } from "../../../lib/actions/users/register";
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 // import { signIn } from 'next-auth/react';
 
 export default function RegisterForm({setOpenedPopup}) {
@@ -25,8 +26,23 @@ export default function RegisterForm({setOpenedPopup}) {
                 console.log('registered successfully')
                 // close popup
                 setOpenedPopup(false)
-                // redirect user
-                router.push(`/confirmar-correo-electronico?email=${encodeURIComponent(email)}`);
+                // sign the user in
+                const result = await signIn('credentials', {
+                    redirect: false,
+                    email,
+                    password,
+                });
+        
+                if (result.error) {
+                    // Handle login error
+                    console.error('Failed to sign in:', result.error);
+                } else {
+                    // Handle successful login
+                    console.log('Successfully signed in:', result);
+                    // redirect user
+                    router.push(`/confirmar-correo-electronico`);
+                }
+                
 
             }
         } catch (error) {

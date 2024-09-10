@@ -1,33 +1,39 @@
 'use client';
 
 import { useState } from "react";
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 export default function Security({ setStep, userInfo }) {
 
     const { data: session } = useSession();
     const [twoStepSetup, setupTwostepSetup] = useState(false)
+
+
     const linkedProviders = session?.user?.providers || [];
     const providers = [
         { name: 'Google', icon: 'https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/google-icon.svg', id: 'google' },
         { name: 'Facebook', icon: 'https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/facebook-icon.svg', id: 'facebook' },
-        { name: 'Apple', icon: 'https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/apple-icon.svg', id: 'apple' }
-      ];
+    ];
 
-      
+    console.log(linkedProviders)
 
-        // Function to handle provider authentication and redirect back to the same page
-  const handleProviderSignIn = async (providerId) => {
-    // Redirect the user to the current page after successful sign-in
-    const callbackUrl = window.location.pathname;
+    // Function to handle provider authentication and redirect back to the same page
+    const handleProviderSignIn = async (providerId) => {
+        // Redirect the user to the current page after successful sign-in
+        const callbackUrl = `${window.location.pathname}/?step=security`;
 
-    try {
-      // Trigger the sign-in process for the selected provider
-      await signIn(providerId, { callbackUrl });
-    } catch (error) {
-      console.error('Error signing in:', error);
+        try {
+            // Trigger the sign-in process for the selected provider
+            await signIn(providerId, { callbackUrl });
+        } catch (error) {
+            console.error('Error signing in:', error);
+        }
+    };
+
+    const signOutUser = async (e) => {
+        e.preventDefault();
+        signOut({ redirect: false });
     }
-  };
 
 
     return (
@@ -61,7 +67,7 @@ export default function Security({ setStep, userInfo }) {
                 <div className="p-4 rounded-lg border border-[#0a0606] mb-4">
                     <h3 className="text-2xl font-semibold mb-4">Cuentas de terceros</h3>
                     <p className="mb-4">Vincula tus cuentas de terceros a tu cuenta de Vendalia para iniciar sesión y completar el pedido más rápido. Cuando hayas añadido una cuenta de terceros, podrás desvincularla cuando quieras aquí.</p>
-                    
+
                     {providers.map(provider => {
                         const isLinked = linkedProviders.includes(provider.id); // Check if the provider is linked
 
@@ -71,13 +77,13 @@ export default function Security({ setStep, userInfo }) {
                                 &nbsp;&nbsp;
                                 {isLinked ? (
                                     <span className="text-sm">
-                                        Cuenta de {provider.name} vinculada: {session?.user?.email}
+                                        Cuenta de {provider.name} vinculada: {session?.user?.email} &nbsp; <a className="underline text-red-950" href="#" onClick={(e)=>{signOutUser(e); }}>Desconectar</a>
                                     </span>
                                 ) : (
                                     <a className="underline text-sm" href={`/api/auth/signin/${provider.id}`} onClick={(e) => {
                                         e.preventDefault();
                                         handleProviderSignIn(provider.id); // Trigger sign-in for the selected provider
-                                      }}>
+                                    }}>
                                         Vincula tu cuenta de {provider.name}
                                     </a>
                                 )}
@@ -85,7 +91,7 @@ export default function Security({ setStep, userInfo }) {
                             </div>
                         );
                     })}
-                   
+
                 </div>
             </>
     )
