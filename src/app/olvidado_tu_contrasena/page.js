@@ -165,7 +165,9 @@ function ResetPasswordFunc() {
 }
 
 export default function ResetPassword() {
-    <Suspense fallback={<div className="w-full h-full fixed text-center flex items-center justify-center text-lg text-green-700">Loading...</div>}>
-        <ResetPasswordFunc />
-    </Suspense>
+    return (
+        <Suspense fallback={<div className="w-full h-full fixed text-center flex items-center justify-center text-lg text-green-700">Loading...</div>}>
+            <ResetPasswordFunc />
+        </Suspense>
+    )
 }
