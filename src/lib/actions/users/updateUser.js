@@ -1,5 +1,5 @@
 'use server'
-import { updateUser, updatePassword, updateEmail, updateCommunication, updatePartial, updateAddress, updateUserNotifications, updateUserEmailVerificationSt } from '../../middleware/user';
+import { updateUser, updatePassword, updateEmail, updateCommunication, updatePartial, updateAddress, updateUserNotifications, updateUserEmailVerificationSt, updatePasswordByEmail } from '../../middleware/user';
 import UploadImg from '../../utils/uploadImg'
 
 export async function updateUserFunc(userData) {
@@ -60,6 +60,15 @@ export const updateUserPartial = async (userData, imgFormDta) => {
 export const updatePasswordFunc = async (userId, password, newPassword) => {
     try {
         const passwordUpdated = await updatePassword(userId, password, newPassword);
+        return passwordUpdated;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const updatePasswordByEmailFunc = async (email, password) => {
+    try {
+        const passwordUpdated = await updatePasswordByEmail(email, password);
         return passwordUpdated;
     } catch (error) {
         throw error;

@@ -3,6 +3,7 @@
 // import mailgun from 'mailgun-js';
 import nodemailer from 'nodemailer';
 import { confirmEmailTemplate } from './mailTemplates/confirmEmail'
+import { ResetPasswordEmailTemplate } from './mailTemplates/resetEmail'
 import { TokenManager } from './tokenManager'
 
 
@@ -42,22 +43,36 @@ export default async function sendEmail(email, what) {
   // set body and subject
   switch (what) {
     case 'confirmEmail':
-      console.log('hkpn')
       {
         try {
-          const tokenInserted = await TokenManager('email' , email)
-          if(tokenInserted){
-            const conFirmEmail = confirmEmailTemplate(email , tokenInserted )
+          const tokenInserted = await TokenManager('email', email)
+          if (tokenInserted) {
+            const conFirmEmail = confirmEmailTemplate(email, tokenInserted)
             const sendEmailFunc = sendMailFunc(email, conFirmEmail.subject, conFirmEmail.body)
             return sendEmailFunc;
           }
-          
+
         } catch (error) {
           console.log(error)
         }
 
       }
       break;
+
+    case 'resetPassword':
+      {
+        try {
+          const tokenInserted = await TokenManager('email', email)
+          if (tokenInserted) {
+            const conFirmEmail = ResetPasswordEmailTemplate(email, tokenInserted)
+            const sendEmailFunc = sendMailFunc(email, conFirmEmail.subject, conFirmEmail.body)
+            return sendEmailFunc;
+          }
+
+        } catch (error) {
+          console.log(error)
+        }
+      }
   }
 
 

@@ -96,6 +96,23 @@ export const updatePassword = async (userId, password, newPassword) => {
     }
 }
 
+export const updatePasswordByEmail = async (email, password) => {
+    try {
+        const db = await dbConnection();
+        const [result] = await db.execute(`UPDATE marketplace.users SET password = '${password}' WHERE email_address = '${email}';`)
+        console.log(`UPDATE marketplace.users SET password = '${password}' WHERE email_address = '${email}';`)
+        if (result.affectedRows && result.affectedRows > 0) {
+            return true
+        } else {
+            
+            throw new Error('old password wrong');
+        }
+    } catch (error) {
+        console.error(error)
+        throw error;
+    }
+}
+
 export const getUserById = async (userId) => {
     try {
         const db = await dbConnection();
