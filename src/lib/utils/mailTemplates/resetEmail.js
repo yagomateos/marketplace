@@ -15,7 +15,7 @@ export const ResetPasswordEmailTemplate = (email, tokenInserted) => {
       </tr>
       <tr>
           <td style="text-align: center; padding: 20px;">
-              <a href="http://localhost:3000/olvidado_tu_contrasena?email=${encodedEmail}&token=${tokenInserted}" 
+              <a href="https://www.vendalia.es/olvidado_tu_contrasena?email=${encodedEmail}&token=${tokenInserted}" 
                  style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
                   Restablecer contraseña
               </a>

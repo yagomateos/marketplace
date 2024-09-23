@@ -1,14 +1,14 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import PublicPageContainer from '../../components/containers/publicPageContainer'
 import { getUserInfoByEmail } from '../../lib/actions/users/getUserInfo'
 import sendEmail from '../../lib/utils/sendMail'
 import { useSearchParams } from 'next/navigation'
 import { matchEmailToken } from '../../lib/utils/tokenManager'
-import {updatePasswordByEmailFunc} from '../../lib/actions/users/updateUser'
+import { updatePasswordByEmailFunc } from '../../lib/actions/users/updateUser'
 
-export default function ResetPassword() {
+function ResetPasswordFunc() {
 
     const [email, setEmail] = useState('')
     const [emailSuccess, setEmailSuccess] = useState(null)
@@ -45,10 +45,10 @@ export default function ResetPassword() {
         try {
             const user = await getUserInfoByEmail(email)
             if (user && user.length > 0) {
-                console.log(user[0])
                 try {
                     const mailSent = sendEmail(email, 'resetPassword')
                     if (mailSent) {
+                        setEmailError(null)
                         setEmailSuccess('¡Enlace de restablecimiento de contraseña enviado a su dirección de correo electrónico!')
                     } else {
                         setEmailError('¡Algo salió mal! ¡Por favor, inténtalo de nuevo!')
@@ -77,7 +77,7 @@ export default function ResetPassword() {
                     // UPDATE PASSWORD
                     setGlobalError(null)
                     try {
-                        const passwordUpdated = await updatePasswordByEmailFunc(emailParam , password)
+                        const passwordUpdated = await updatePasswordByEmailFunc(emailParam, password)
                         console.log(passwordUpdated)
                         setResetPasswordSuccess('Contraseña actualizada exitosamente')
                         setResetPasswordError(null)
@@ -162,4 +162,10 @@ export default function ResetPassword() {
 
         </PublicPageContainer >
     )
+}
+
+export default function ResetPassword() {
+    <Suspense fallback={<div className="w-full h-full fixed text-center flex items-center justify-center text-lg text-green-700">Loading...</div>}>
+        <ResetPasswordFunc />
+    </Suspense>
 }

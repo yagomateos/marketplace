@@ -15,7 +15,7 @@ export const confirmEmailTemplate = (email , tokenInserted) => {
       </tr>
       <tr>
           <td style="text-align: center; padding: 20px;">
-              <a href="http://localhost:3000/validar_correo_electronico?email=${encodedEmail}&token=${tokenInserted}" 
+              <a href="https://www.vendalia.es/validar_correo_electronico?email=${encodedEmail}&token=${tokenInserted}" 
                  style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
                   Confirmar correo electrónico
               </a>
