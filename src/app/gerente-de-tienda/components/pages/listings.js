@@ -52,8 +52,8 @@ export default function Listings(userData) {
           {/* current listings */}
 
           <div className="flex mt-6">
-            {products && products.map(product => {
-              return <div className="lg:w-[25%] p-4 ">
+            {products && products.map((product , key) => {
+              return <div key={key} className="lg:w-[25%] p-4 ">
                 <div className="border border-[#ccc]">
                   <div>
                     <img className="w-full" src={product.main_image_url && product.main_image_url} />
