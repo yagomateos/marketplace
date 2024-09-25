@@ -49,6 +49,8 @@ export default function Account({ setStep, userInfo, userId }) {
                 if (updatePassword) {
                     setPasswordError(null)
                     setPasswrdSuccess('Contraseña actualizada exitosamente')
+                    // send an email to the user
+                    sendEmail(session.user.email , 'passwordsuccess')
                 }
 
             } catch (error) {
@@ -74,6 +76,8 @@ export default function Account({ setStep, userInfo, userId }) {
                 if (userUpdated) {
                     setEmailError(null)
                     setEmailSuccess('Correo electrónico actualizado con éxito')
+                     // send an email to the user
+                     sendEmail(newEmail , 'emailsuccess')
                 }
             } catch (error) {
                 setEmailError('Contraseña incorrecta')
@@ -128,7 +132,6 @@ export default function Account({ setStep, userInfo, userId }) {
         // const email = user ? user.email_address : null
         const email = session?.user?.email;
 
-        console.log(email)
         if (email) {
             try {
                 const mailSent = sendEmail(email, 'confirmEmail')

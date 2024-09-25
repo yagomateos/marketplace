@@ -146,12 +146,23 @@ export const getUserByEmail = async (email) => {
 export const updateEmail = async (userId, emailAddress, password) => {
     try {
         const db = await dbConnection();
-        const [result] = await db.execute(`UPDATE marketplace.users SET email_address = '${emailAddress}' WHERE id = '${userId}' and password='${password}';`)
-        if (result.affectedRows && result.affectedRows > 0) {
-            return true
-        } else {
-            throw new Error('password wrong');
+
+        // First, check if the new email address already exists in the database
+        const [existingEmailCheck] = await db.execute(`SELECT COUNT(*) as count FROM marketplace.users WHERE email_address = ?`, [emailAddress]);
+        
+        if (existingEmailCheck[0].count > 0) {
+            throw new Error('Email address already exists');
         }
+        
+        // Proceed with updating the email address if it's not already in use
+        const [result] = await db.execute(`UPDATE marketplace.users SET email_address = ? WHERE id = ? AND password = ?`, [emailAddress, userId, password]);
+        
+        if (result.affectedRows && result.affectedRows > 0) {
+            return true;
+        } else {
+            throw new Error('Password incorrect or no matching user found');
+        }
+        
     } catch (error) {
         console.error(error)
         throw error;

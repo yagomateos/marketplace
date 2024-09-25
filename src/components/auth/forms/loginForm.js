@@ -5,6 +5,7 @@ export default function LoginForm() {
 
     const [loginError, setLoginError] = useState(null)
     const [loginSuccess, setLoginSuccess] = useState(null)
+    const [keepSignIn , setKeepSignIn] = useState(false)
 
     const handleCustomLogin = async (event) => {
         event.preventDefault();
@@ -16,6 +17,7 @@ export default function LoginForm() {
             redirect: false,
             email,
             password,
+            keepMeLoggedIn: keepSignIn,
         });
 
         if (result.error) {
@@ -55,7 +57,7 @@ export default function LoginForm() {
                 </div>
                 <div className='flex justify-between items-center pb-4'>
                     <div>
-                        <input type='checkbox' value="remember-me" /> &nbsp; Mantener la sesión iniciada
+                        <input value='remeber-me' checked={keepSignIn} onChange={(e)=>{setKeepSignIn(e.target.checked) }} type='checkbox' /> &nbsp; Mantener la sesión iniciada
                     </div>
                     <div>
                         <a className='text-sm underline leading-tight' href='/olvidado_tu_contrasena'>¿Has olvidado tu contraseña?</a>
@@ -67,7 +69,7 @@ export default function LoginForm() {
                 {loginError && <div className='text-red-700 text-sm mt-3'>{loginError}</div>}
                 {loginSuccess && <div className='text-green-700 text-sm mt-3'>{loginSuccess}</div>}
             </form>
-            <a href="/" className='block text-center text-sm underline'>¿Tienes problemas para iniciar sesión?</a>
+            <a href="/no-puedo-iniciar-sesion" className='block text-center text-sm underline'>¿Tienes problemas para iniciar sesión?</a>
         </>
 
     )

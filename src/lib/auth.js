@@ -7,9 +7,11 @@ import {findUser} from "../lib/middleware/user";
 const userLogin = async (credentials) => {
     try {
         const user = await findUser(credentials.email, credentials.password);
-        // console.log('comes here');
-        // console.log(user)
+        
         if(user){
+            user.keepMeLoggedIn = credentials.keepMeLoggedIn;
+            console.log('hkpn')
+            console.log(user)
             return user;
         }
     } catch (error) {
@@ -48,7 +50,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                     const userav = await userLogin(credentials);
 // console.log(userav.identity_url)
                     if (userav) {
-                        const user = { id: userav.id, name: userav.username, email: credentials.email , image:userav.identity_url }
+                        const user = { id: userav.id, name: userav.username, email: credentials.email , image:userav.identity_url , keepMeLoggedIn: userav.keepMeLoggedIn }
 
                         if (user) {
                             return Promise.resolve(user)
@@ -72,7 +74,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
         },
         async session({ session, user, token }) {
             // Custom session handling
-            console.log(token)
+            console.log(token.keepMeLoggedIn)
 
             if (token) {
                 session.user.id = token.id;
@@ -80,10 +82,17 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 session.user.email = token.email;
                 session.user.image = token.image
                 session.user.providers = token.providers || [];
+                session.maxAge = token.keepMeLoggedIn=='true' ? 30 * 24 * 60 * 60 : 0;
+                console.log(session.maxAge)
+            }else{
+                session.maxAge =  0;
             }
             return session;
         },
         async jwt({ token, user, account }) {
+
+            console.log('comes there')
+            console.log(user)
             if (user) {
                 token.id = user.id;
                 token.name = user.name;
@@ -94,9 +103,14 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 } else {
                     token.image = user.image; // Use image for other providers
                 }
+
+                token.keepMeLoggedIn = user.keepMeLoggedIn
             }
 
             if (account) {
+
+                console.log(account)
+                console.log(account.keepMeLoggedIn)
                 const provider = account.provider;
                 token.providers = token.providers || [];
                 if (!token.providers.includes(provider)) {

@@ -4,6 +4,8 @@
 import nodemailer from 'nodemailer';
 import { confirmEmailTemplate } from './mailTemplates/confirmEmail'
 import { ResetPasswordEmailTemplate } from './mailTemplates/resetEmail'
+import{PasswordSuccessEmailTemplate} from './mailTemplates/passwordSuccess'
+import {EmailSuccessEmailTemplate} from './mailTemplates/emailSuccess'
 import { TokenManager } from './tokenManager'
 
 
@@ -73,6 +75,31 @@ export default async function sendEmail(email, what) {
           console.log(error)
         }
       }
+      break;
+    case 'passwordsuccess' : 
+    {
+      try {
+        const conFirmEmail = PasswordSuccessEmailTemplate()
+        const sendEmailFunc = sendMailFunc(email, conFirmEmail.subject, conFirmEmail.body)
+        return sendEmailFunc;
+      } catch (error) {
+        console.log(error)
+      }
+      
+    }
+    break;
+    case 'emailsuccess' : 
+    {
+      try {
+        const conFirmEmail = EmailSuccessEmailTemplate()
+        const sendEmailFunc = sendMailFunc(email, conFirmEmail.subject, conFirmEmail.body)
+        return sendEmailFunc;
+      } catch (error) {
+        console.log(error)
+      }
+
+    }
+    break;
   }
 
 

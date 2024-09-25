@@ -17,7 +17,6 @@ export default function PublicNavbar({cartUpdated, checkPopups, categoriesMenuOp
     const router = useRouter();
     const { data: session } = useSession()
     
-
     // console.clear()
     // console.log(session.user)
 

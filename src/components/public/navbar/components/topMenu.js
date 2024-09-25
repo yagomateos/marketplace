@@ -16,7 +16,8 @@ export default function TopMenu({ cartUpdated, session, setOpenedPopup, userPopu
 
     const signOutUser = async (e) => {
         e.preventDefault();
-        signOut({ redirect: false });
+        // signOut({ redirect: false });
+        await signOut({ callbackUrl: '/' });
     }
 
     // const [userPopupOpen, setUserPopupOpen] = useState(false)

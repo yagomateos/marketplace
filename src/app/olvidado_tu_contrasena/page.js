@@ -4,7 +4,7 @@ import React, { Suspense, useEffect, useState } from 'react'
 import PublicPageContainer from '../../components/containers/publicPageContainer'
 import { getUserInfoByEmail } from '../../lib/actions/users/getUserInfo'
 import sendEmail from '../../lib/utils/sendMail'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { matchEmailToken } from '../../lib/utils/tokenManager'
 import { updatePasswordByEmailFunc } from '../../lib/actions/users/updateUser'
 
@@ -21,6 +21,7 @@ function ResetPasswordFunc() {
     const [resetPasswordSuccess, setResetPasswordSuccess] = useState(null)
     const [formShown, setFormShown] = useState(1)
     const [globalError, setGlobalError] = useState(null)
+    const router = useRouter();
 
     const searchParams = useSearchParams();
 
@@ -81,6 +82,7 @@ function ResetPasswordFunc() {
                         console.log(passwordUpdated)
                         setResetPasswordSuccess('Contraseña actualizada exitosamente')
                         setResetPasswordError(null)
+                        router.push('/')
                     } catch (error) {
                         setResetPasswordSuccess(null)
                         setResetPasswordError('¡Algo salió mal! Por favor, inténtalo de nuevo')
@@ -152,7 +154,7 @@ function ResetPasswordFunc() {
                                 </div>
                             </div>
 
-                            <button type='submit' className='py-3 px-6 rounded-full bg-black text-white lg:max-w-[40%]' >Envíame un enlace de inicio de sesión</button>
+                            <button type='submit' className='py-3 px-6 rounded-full bg-black text-white lg:max-w-[40%]' >Reiniciar</button>
                         </form>
                         {resetPasswrdError && <div className='text-red-700 text-sm mt-3'>{resetPasswrdError}</div>}
                         {resetPasswordSuccess && <div className='text-green-700 text-sm mt-3'>{resetPasswordSuccess}</div>}
