@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react"
 import { getProductsByUserID } from "../../../../lib/actions/products/getProducts";
+import DefaultView from './listing-views/DefaultView'
+import QuickEditView from './listing-views/QuickEditView'
 
 export default function Listings(userData) {
 
   const [products, setProducts] = useState(null)
+  const [settingsOpen, setSettingsOpen] = useState(null)
+  const [view, setView] = useState('default')
+  const [currentStatus , setCurrentStatus] = useState(null)
+  const [selectedProduct , setSelectedProduct] = useState(null)
+
 
   useEffect(() => {
-
-
     const userId = userData?.userData?.[0]?.id || null;
-
-
-    console.log(userId)
-
+ 
     const getUserProducts = async () => {
       try {
         const products = await getProductsByUserID(userId)
+        console.log(products)
         setProducts(products)
       } catch (error) {
         console.log(error)
@@ -27,7 +30,7 @@ export default function Listings(userData) {
   }, [userData])
 
 
-  console.log(products)
+  console.log(settingsOpen)
 
   return (
     <div className="w-full">
@@ -42,37 +45,21 @@ export default function Listings(userData) {
       {/* listings body */}
       <div className="mt-6 flex justify-between">
         <div className="w-75%">
-          {/* quick actons */}
-          <div className="flex gap-3">
-            <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc]">Renovar</a>
-            <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc]">Desactivar</a>
-            <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc]">Borrar</a>
-          </div>
 
-          {/* current listings */}
 
-          <div className="flex mt-6">
-            {products && products.map((product , key) => {
-              return <div key={key} className="lg:w-[25%] p-4 ">
-                <div className="border border-[#ccc]">
-                  <div>
-                    <img className="w-full" src={product.main_image_url && product.main_image_url} />
-                  </div>
-                  <div className="p-4">
-                    <h3>{product.name && product.name}</h3>
-                    <p>{product.quantity ? product.quantity : 0} En la tienda</p>
-                    <p>{product.regular_price && product.regular_price}</p>
-                  </div>
-
-                  <div className="border-t border-[#ccc] mt-6 p-4 ">
-                    <div className="flex items-center justify-between">
-                      <input type="checkbox" />
-                    </div>
-                  </div>
-                </div>
+          {/* default view */}
+          {
+            view == 'default' ? <>
+              <div className="flex gap-3">
+                <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc]">Renovar</a>
+                <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc]">Desactivar</a>
+                <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc]">Borrar</a>
               </div>
-            })}
-          </div>
+              <DefaultView products={products} settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} currentStatus={currentStatus} />
+            </>
+              : view == 'quickEdit' ? <QuickEditView products={products} settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} currentStatus={currentStatus} />
+                : <DefaultView products={products} settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} currentStatus={currentStatus} />
+          }
 
 
 
@@ -80,7 +67,7 @@ export default function Listings(userData) {
 
         <div className="w-25%">
           <div className="mb-6">
-            <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc] w-full block">Edición rápida</a>
+            <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc] w-full block" onClick={(e) => { e.preventDefault(); view != 'quickEdit' ? setView('quickEdit') : setView('default') }}>{view != 'quickEdit' ? `Edición rápida` : `Salir de la vista rápida`}</a>
           </div>
 
           <div className="mb-6">
@@ -92,10 +79,11 @@ export default function Listings(userData) {
           </div>
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-4">Estado del listado</h3>
-            <label className="block text-sm mb-3"><input type="radio" checked /> Activo</label>
-            <label className="block text-sm mb-3"><input type="radio" /> Borrador</label>
-            <label className="block text-sm mb-3"><input type="radio" /> Caducado</label>
-            <label className="block text-sm mb-3"><input type="radio" /> Agotado</label>
+            <label className="block text-sm mb-3"><input type="radio" onChange={(e)=>setCurrentStatus(null)} checked={currentStatus===null} /> Todo</label>
+            <label className="block text-sm mb-3"><input type="radio" onChange={(e)=>setCurrentStatus('active')} checked={currentStatus==='active'} /> Activo</label>
+            <label className="block text-sm mb-3"><input type="radio" onChange={(e)=>setCurrentStatus('draft')}  checked={currentStatus==='draft'} /> Borrador</label>
+            <label className="block text-sm mb-3"><input type="radio" onChange={(e)=>setCurrentStatus('expired')}  checked={currentStatus==='expired'} /> Caducado</label>
+            <label className="block text-sm mb-3"><input type="radio" onChange={(e)=>setCurrentStatus('inactive')}  checked={currentStatus==='inactive'} /> Agotado</label>
           </div>
         </div>
       </div>

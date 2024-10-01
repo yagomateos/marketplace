@@ -3,15 +3,15 @@ import Dashboard from './pages/dashboard'
 import Listings from './pages/listings'
 import Messages from './pages/messages'
 import Orders from './pages/orders'
-import Help from './pages/help'
 import Settings from './pages/settings'
+import { useState } from 'react'
 
-export default function PageContainer({ step , userData }) {
+export default function PageContainer({ step , userData , searchOpen , setSearchOpen , storeOpen , setStoreOpen }) {
+
+  const [settingPage , setSettingsPage] = useState(1)
 
   const returnComponent = () => {
     switch (step) {
-      case 0:
-        return <Search/>;
         case 1:
           return <Dashboard userData={userData}/>; 
           case 2:
@@ -20,17 +20,43 @@ export default function PageContainer({ step , userData }) {
               return <Messages/>
               case 4:
               return <Orders/>
-              case 5:
-                return <Help/>
-                case 6:
-                return <Settings/>
+                case 5:
+                return <Settings settingPage={settingPage}/>
       default:
         return <>default component</>; 
     }
   }
 
   return (
-    <div className='p-6 flex items-start w-full justify-center'>
+    <div className='p-6 flex items-start w-full justify-center relative'>
+      {searchOpen&&
+      <div className='absolute bg-[#00000061] w-full h-full left-0 top-0 z-10'>
+        <div className='bg-white lg:w-[35%] p-8 h-full relative'>
+          <Search/>
+        <a onClick={(e)=>{e.preventDefault(); setSearchOpen(false)}} className='absolute -right-6 text-white top-0 text-3xl cursor-pointer'>x</a>
+        </div>
+        
+      </div>
+      }
+       {storeOpen&&
+      <div className='absolute bg-[#00000061] w-full h-full left-0 top-0 z-10'>
+        <div className='bg-white lg:w-[35%] p-8 h-full relative'>
+          <div>
+            <h3 className='text-lgf mb-12 font-semibold'>Ajustes</h3>
+            <ul>
+              <li><a className='py-4 hover:bg-[#f2f2f2] block px-3 cursor-pointer' onClick={(e)=>{e.preventDefault(); setStoreOpen(false); setSettingsPage(1)}}>Información y apariencia</a></li>
+              <li><a className='py-4 hover:bg-[#f2f2f2] block px-3 cursor-pointer' onClick={(e)=>{e.preventDefault(); setStoreOpen(false); setSettingsPage(2)}}>Acerca de su tienda</a></li>
+              <li><a className='py-4 hover:bg-[#f2f2f2] block px-3 cursor-pointer' onClick={(e)=>{e.preventDefault(); setStoreOpen(false); setSettingsPage(3)}}>Opciones</a></li>
+              <li><a className='py-4 hover:bg-[#f2f2f2] block px-3 cursor-pointer' onClick={(e)=>{e.preventDefault(); setStoreOpen(false); setSettingsPage(4)}}>Configuración de entrega</a></li>  
+              <li><a className='py-4 hover:bg-[#f2f2f2] block px-3 cursor-pointer' onClick={(e)=>{e.preventDefault(); setStoreOpen(false); setSettingsPage(5)}}>Configuración de políticas</a></li>  
+            </ul>
+          </div>
+
+        <a onClick={(e)=>{e.preventDefault(); setStoreOpen(false)}} className='absolute -right-6 text-white top-0 text-3xl cursor-pointer'>x</a>
+        </div>
+        
+      </div>
+      }
       {returnComponent()}
     </div> 
   );

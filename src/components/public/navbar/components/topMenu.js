@@ -82,6 +82,14 @@ export default function TopMenu({ cartUpdated, session, setOpenedPopup, userPopu
             {
                 session && (
                     <>
+                    <li>
+                    <span className='tooltip-nav-item relative'>
+                    <a href='/gerente-de-tienda' className="tooltip-trigger flex items-center justify-center w-10 h-10 rounded-full hover:bg-green-200"><img className="w-5" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/shop.svg" /></a>
+                    <span className='kd-tooltip absolute left-1/2 bg-green-500 text-white rounded-lg p-3 -bottom-12 w-max'>
+                    Administrador de la tienda
+                    </span>
+                    </span>
+                    </li>
                         <li>
                             <a onClick={(e) => { e.preventDefault(); setUserPopupOpen(!userPopupOpen) }} className='flex w-7 h-7 justify-center items-center' href=""><img className='w-7 h-7 object-cover rounded-full border-2 border-green-500' src={session?.user?.image ? session.user.image : 'https://i.etsystatic.com/site-assets/images/global-nav/no-user-avatar.svg'} /></a>
                             {userPopupOpen &&
