@@ -81,7 +81,7 @@ export default function InventoryFirstStep({ setProductInfo1 }) {
                             <label className="mb-3 block font-semibold">¿Qué tipo de artículo es? <span className="text-red-700">*</span></label>
                             <div className="flex justify-between gap-4">
                                 <div className="w-full lg:w-[49%] border border-[#000] p-4 rounded-2xl">
-                                    <div className="text-right"><input onChange={(e) => setProductType(e.target.value)} name="product-type" type="radio" /></div>
+                                    <div className="text-right"><input value="physical" onChange={(e) => setProductType(e.target.value)} name="product-type" type="radio" /></div>
                                     <div>
                                         <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/physical-product.svg" className="w-20" />
                                         <h4 className="text-xl mt-3 font-medium">Artículo físico</h4>
@@ -90,7 +90,7 @@ export default function InventoryFirstStep({ setProductInfo1 }) {
                                 </div>
 
                                 <div className="w-full lg:w-[49%] border border-[#000] p-4 rounded-2xl">
-                                    <div className="text-right"><input onChange={(e) => setProductType(e.target.value)} name="product-type" type="radio" /></div>
+                                    <div className="text-right"><input value="digital" onChange={(e) => setProductType(e.target.value)} name="product-type" type="radio" /></div>
                                     <div>
                                         <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/digital-product.svg" className="w-20" />
                                         <h4 className="text-xl mt-3 font-medium">Artículo digital</h4>

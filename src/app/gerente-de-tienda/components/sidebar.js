@@ -1,8 +1,8 @@
 
 export default function Sidebar({ setStep , setSearchOpen , setStoreOpen }) {
     return (
-        <div className="w-[20%] border-r border-[#ccc] py-4 min-h-screen shadow-sm shadow-[#ccc]">
-            <div className="flex px-4">
+        <div className="w-[35%] lg:w-[20%] border-r border-[#ccc] py-4 min-h-screen shadow-sm shadow-[#ccc]">
+            <div className="flex px-4 flex-col lg:flex-row text-center items-center">
                 <img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/shop-icon.svg" /> <h3 className="ml-2 font-semibold">Gerente de tienda</h3>
             </div>
             <ul className="mt-6">

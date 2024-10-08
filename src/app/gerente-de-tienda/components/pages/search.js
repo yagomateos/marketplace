@@ -7,11 +7,11 @@ export default function Search() {
   return (
     <div>
 
-      <input type='text' placeholder='Buscar...' className='border border-[#ccc] p-3 w-full' />
+      <input type='text' placeholder='Buscar...' className='border border-[#ccc] p-2 lg:p-3 w-full' />
 
-      <ul className='flex gap-4 border-b border-b[#ccc] mt-14'>
-        <li><a className={`py-4 block ${where === 'shop-manager' ? 'border-b-4 border-b-green-800' : ''}`} href='#' onClick={(e)=>{e.preventDefault(); setWhere('shop-manager')}}>Gerente de tienda</a></li>
-        <li><a className={`py-4 block ${where === 'marketplace' ? 'border-b-4 border-b-green-800' : ''}`} href='#' onClick={(e)=>{e.preventDefault(); setWhere('marketplace')}}>Mercado Etsy</a></li>
+      <ul className='flex gap-4 border-b border-b[#ccc] mt-6 lg:mt-14'>
+        <li><a className={`text-sm lg:text-base text-center lg:text-left py-4 block ${where === 'shop-manager' ? 'border-b-4 border-b-green-800' : ''}`} href='#' onClick={(e)=>{e.preventDefault(); setWhere('shop-manager')}}>Gerente de tienda</a></li>
+        <li><a className={`text-sm lg:text-base text-center lg:text-left py-4 block ${where === 'marketplace' ? 'border-b-4 border-b-green-800' : ''}`} href='#' onClick={(e)=>{e.preventDefault(); setWhere('marketplace')}}>Mercado Etsy</a></li>
       </ul>
 
       <div className='search-result'>

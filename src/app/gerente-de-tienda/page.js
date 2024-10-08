@@ -18,8 +18,8 @@ export default function ShopDashboard() {
     useEffect(() => {
 
         if (session) {
-            console.clear()
-            console.log(session)
+            // console.clear()
+            // console.log(session)
             setUserId(session.user.id)
             console.log(userId)
         }
@@ -49,7 +49,7 @@ export default function ShopDashboard() {
     return (
         <div className="flex">
             <Sidebar setStep={setStep} setSearchOpen={setSearchOpen} setStoreOpen={setStoreOpen} />
-            <PageContainer step={step} userData={userData} searchOpen={searchOpen} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
+            <PageContainer setStep={setStep} step={step} userData={userData} searchOpen={searchOpen} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
         </div>
     )
 }

@@ -15,35 +15,35 @@ export default function PoliciesSettings() {
   return (
     <div className='max-w-5xl'>
       {/* Navigation Tabs */}
-      <div>
-        <ul className='flex border-b mb-6 border-[#ccc] px-6'>
-          <li>
+      <div className='w-full overflow-x-auto'>
+        <ul className='flex border-b mb-6 border-[#ccc] lg:px-6 pb-4 lg:pb-0'>
+          <li className='flex min-w-full lg:min-w-min text-sm lg:text-base'>
             <a
-              className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer ${selectedTab === 1 && 'bg-[#f2f2f2]'}`}
+              className={`py-2 w-full border border-[#ccc] flex items-center px-3 lg:border-b-0 cursor-pointer ${selectedTab === 1 && 'bg-[#f2f2f2]'}`}
               onClick={() => setSelectedTab(1)}
             >
               Devoluciones e Intercambios
             </a>
           </li>
-          <li>
+          <li className='flex min-w-full lg:min-w-min text-sm lg:text-base'>
             <a
-              className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer ${selectedTab === 2 && 'bg-[#f2f2f2]'}`}
+              className={`py-2 w-full border border-[#ccc] flex items-center px-3 lg:border-b-0 cursor-pointer ${selectedTab === 2 && 'bg-[#f2f2f2]'}`}
               onClick={() => setSelectedTab(2)}
             >
               Cancelaciones
             </a>
           </li>
-          <li>
+          <li className='flex min-w-full lg:min-w-min text-sm lg:text-base'>
             <a
-              className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer ${selectedTab === 3 && 'bg-[#f2f2f2]'}`}
+              className={`py-2 w-full border border-[#ccc] flex items-center px-3 lg:border-b-0 cursor-pointer ${selectedTab === 3 && 'bg-[#f2f2f2]'}`}
               onClick={() => setSelectedTab(3)}
             >
               Privacidad
             </a>
           </li>
-          <li>
+          <li className='flex min-w-full lg:min-w-min text-sm lg:text-base'>
             <a
-              className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer ${selectedTab === 4 && 'bg-[#f2f2f2]'}`}
+              className={`py-2 w-full border border-[#ccc] flex items-center px-3 lg:border-b-0 cursor-pointer ${selectedTab === 4 && 'bg-[#f2f2f2]'}`}
               onClick={() => setSelectedTab(4)}
             >
               Políticas Fijas
@@ -55,13 +55,13 @@ export default function PoliciesSettings() {
       {/* Tab 1: Return and Exchange */}
       {selectedTab === 1 && (
         <div>
-          <h2 className='text-2xl font-semibold mb-4'>Devoluciones e Intercambios</h2>
+          <h2 className='text-lg leading-tight lg:text-2xl font-semibold mb-4'>Devoluciones e Intercambios</h2>
           <p className='mb-4'>
             Aquí puedes crear tu política de devoluciones e intercambios. Define un período de tiempo, condiciones, y responsabilidades para los compradores.
           </p>
 
           {/* Box for creating a return policy */}
-          <div className='border border-[#ccc] rounded-lg p-6 mb-6'>
+          <div className='border border-[#ccc] rounded-lg p-3 lg:p-6 mb-6 text-sm lg:text-base'>
             <h3 className='mb-4'>Crear Política</h3>
 
             {/* Radio buttons for return and exchange */}
@@ -75,7 +75,7 @@ export default function PoliciesSettings() {
             {/* Select time frame */}
             <div className='mb-4'>
               <label>Plazo máximo para devolución o intercambio</label><br />
-              <select className='p-2 border border-[#ccc]'>
+              <select className='p-2 border border-[#ccc] w-full lg:w-min'>
                 <option>7 días</option>
                 <option>14 días</option>
                 <option>30 días</option>
@@ -105,13 +105,13 @@ export default function PoliciesSettings() {
       {/* Tab 2: Cancellations */}
       {selectedTab === 2 && (
         <div>
-          <h2 className='text-2xl font-semibold mb-4'>Cancelaciones</h2>
+          <h2 className='text-lg lg:text-2xl font-semibold mb-4'>Cancelaciones</h2>
           <p className='mb-4'>
             Aquí puedes crear tu política de cancelaciones. Indica si permites cancelaciones y en qué plazo.
           </p>
 
           {/* Box for creating a cancellation policy */}
-          <div className='border border-[#ccc] rounded-lg p-6 mb-6'>
+          <div className='border border-[#ccc] rounded-lg p-3 lg:p-6 text-sm lg:text-base mb-6'>
             <h3 className='mb-4'>Crear Política</h3>
 
             {/* Radio buttons for cancellations */}
@@ -134,13 +134,13 @@ export default function PoliciesSettings() {
       {/* Tab 3: Privacy */}
       {selectedTab === 3 && (
         <div>
-          <h2 className='text-2xl font-semibold mb-4'>Política de Privacidad</h2>
+          <h2 className='text-lg lg:text-2xl font-semibold mb-4'>Política de Privacidad</h2>
           <p className='mb-4'>
             Define aquí tu política de privacidad. Establece cómo manejas la información personal de tus compradores.
           </p>
 
           {/* Box for creating a privacy policy */}
-          <div className='border border-[#ccc] rounded-lg p-6 mb-6'>
+          <div className='border border-[#ccc] rounded-lg p-3 lg:p-6 text-sm lg:text-base mb-6'>
             <h3 className='mb-4'>Crear Política de Privacidad</h3>
 
             {/* Example fields for privacy policy */}
@@ -158,13 +158,13 @@ export default function PoliciesSettings() {
       {/* Tab 4: Fixed Policies */}
       {selectedTab === 4 && (
         <div>
-          <h2 className='text-2xl font-semibold mb-4'>Políticas Fijas</h2>
+          <h2 className='text-lg lg:text-2xl font-semibold mb-4'>Políticas Fijas</h2>
           <p className='mb-4'>
             Aquí puedes definir políticas fijas que aplicarán a todos tus productos.
           </p>
 
           {/* Box for creating fixed policies */}
-          <div className='border border-[#ccc] rounded-lg p-6 mb-6'>
+          <div className='border border-[#ccc] rounded-lg p-3 lg:p-6 text-sm lg:text-base mb-6'>
             <h3 className='mb-4'>Crear Políticas Fijas</h3>
 
             {/* Example textarea for fixed policies */}

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 export default function Orders() {
 
-  const [type , setType] = useState('new')
+  const [type, setType] = useState('new')
 
   return (
     <div className="w-full">
@@ -13,17 +13,19 @@ export default function Orders() {
       </div>
 
       {/* listings body */}
-      <div className="mt-6 flex justify-between">
+      <div className="mt-6 flex flex-col lg:flex-row justify-between">
         {/* order filter */}
-        <div className='w-[75%] py-4 px-12'>
-          <ul className='border-b border-[#ccc] flex gap-4'>
-            <li><a onClick={(e)=>{e.preventDefault(); setType('new')}} className={`cursor-pointer py-3 block ${type=='new' ? 'border-b-2 border-[black]' : '' }`}>Nuevo</a></li>
-            <li><a onClick={(e)=>{e.preventDefault(); setType('completed')}} className={`cursor-pointer py-3 block ${type=='completed' ? 'border-b-2 border-[black]' : '' }`}>Terminado</a></li>
-          </ul>
+        <div className='w-full lg:w-[75%] py-4 px-2 lg:px-12 '>
+          <div className="overflow-x-auto">
+            <ul className='border-b border-[#ccc] flex gap-4 w-full'>
+              <li><a onClick={(e) => { e.preventDefault(); setType('new') }} className={`cursor-pointer py-3 block ${type == 'new' ? 'border-b-2 border-[black]' : ''}`}>Nuevo</a></li>
+              <li><a onClick={(e) => { e.preventDefault(); setType('completed') }} className={`cursor-pointer py-3 block ${type == 'completed' ? 'border-b-2 border-[black]' : ''}`}>Terminado</a></li>
+            </ul>
+          </div>
 
-          <div className='order-content min-h-[50vh] flex flex-col justify-center items-center'>
+          <div className='order-content lg:min-h-[50vh] flex flex-col justify-center items-center py-4'>
             <div className='p-4 bg-[#eee] rounded-full'>
-            <img className='max-w-18' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-box-128.png" />
+              <img className='max-w-18' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-box-128.png" />
             </div>
             <p className='mt-2'>No hay pedidos para mostrar</p>
           </div>
@@ -36,7 +38,7 @@ export default function Orders() {
             <a>Revisar tiempos de procesamiento</a>
           </div>
         </div>
-        <div className='w-[25%]'>
+        <div className='w-full lg:w-[25%] px-4 lg:px-0'>
           <h4 className='text-lg font-semibold mb-3'>Envío por fecha</h4>
           <ul>
             <li><input type='radio' name='dispatch-date' /> &nbsp; Todo</li>

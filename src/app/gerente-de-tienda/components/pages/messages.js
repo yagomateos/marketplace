@@ -34,40 +34,40 @@ export default function Messages() {
       </div>
 
       {/* listings body */}
-      <div className="mt-6 flex justify-start">
+      <div className="mt-6 flex flex-col lg:flex-row justify-start">
         {/* left side */}
-        <div className='w-[25%] border-r border-[#ccc] p-4 min-h-[80vh]'>
-          <ul>
-            <li>
+        <div className='w-full lg:w-[25%] lg:border-r border-[#ccc] p-4 lg:min-h-[80vh] overflow-x-auto'>
+          <ul className='flex overflow-x-auto lg:flex-col'>
+            <li className='w-full min-w-[100%]'>
               <a onClick={(e) => { e.preventDefault(); setStep(0); }}
-                className={`cursor-pointer py-2 px-4 mb-6 w-full block rounded-full ${step === 0 ? 'bg-[#f2f2f2]' : ''}`}>
+                className={`w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${step === 0 ? 'bg-[#f2f2f2]' : ''}`}>
                 Bandeja de entrada
               </a>
             </li>
-            <li>
+            <li className='w-full min-w-[100%]'>
               <a onClick={(e) => { e.preventDefault(); setStep(1); }}
-                className={`cursor-pointer py-2 px-4 mb-6 w-full block rounded-full ${step === 1 ? 'bg-[#f2f2f2]' : ''}`}>
+                className={`w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${step === 1 ? 'bg-[#f2f2f2]' : ''}`}>
                 Desde Vendalia
               </a>
             </li>
-            <li>
+            <li className='w-full min-w-[100%]'>
               <a onClick={(e) => { e.preventDefault(); setStep(2); }}
-                className={`cursor-pointer py-2 px-4 mb-6 w-full block rounded-full ${step === 2 ? 'bg-[#f2f2f2]' : ''}`}>
+                className={`w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${step === 2 ? 'bg-[#f2f2f2]' : ''}`}>
                 Enviado
               </a>
             </li>
-            <li>
+            <li className='w-full min-w-[100%]'>
               <a onClick={(e) => { e.preventDefault(); setStep(3); }}
-                className={`cursor-pointer py-2 px-4 mb-6 w-full block rounded-full ${step === 3 ? 'bg-[#f2f2f2]' : ''}`}>
+                className={`w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${step === 3 ? 'bg-[#f2f2f2]' : ''}`}>
                 No leído
               </a>
             </li>
-
           </ul>
+
         </div>
 
         {/* right side */}
-        <div className='p-4'>
+        <div className='p-4 border border-[#ccc] lg:border-0'>
           {returnMessageStep()}
         </div>
       </div>

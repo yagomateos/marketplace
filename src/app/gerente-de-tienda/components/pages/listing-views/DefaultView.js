@@ -1,13 +1,56 @@
-import { useState } from "react";
+import SettingsView from './settingsView';
 
-export default function DefaultView({ products, settingsOpen, setSettingsOpen, currentStatus }) {
+export default function DefaultView({ setSelectedproductToEdit , setEditListing , selectedStars, setSelectedStars, setSelectAll, selectedProd, selectAll, setSelectedProd, products, settingsOpen, setSettingsOpen, currentStatus }) {
+    let selectedProds = [];
+
+    console.clear();
+    console.log(selectedProd);
+    console.log(selectedProds);
+
+    const handleSelect = (prodId) => {
+        if (selectedProd && selectedProd.length > 0) {
+            selectedProds = [...selectedProd];
+
+            if (selectedProds.includes(prodId)) {
+                selectedProds = selectedProds.filter(item => item !== prodId);
+            } else {
+                selectedProds.push(prodId);
+            }
+        } else {
+            selectedProds = [prodId];
+        }
+
+        setSelectedProd(selectedProds);
+
+        if (selectedProds.length >= products.length) {
+            setSelectAll(true);
+        } else {
+            setSelectAll(false);
+        }
+    };
+
+    const handleStarClick = (prodId) => {
+        let updatedStars;
+
+        if (selectedStars && selectedStars.includes(prodId)) {
+            // If the product ID is already in selectedStars, remove it
+            updatedStars = selectedStars.filter(id => id !== prodId);
+        } else {
+            // If it's not, add it
+            updatedStars = [...(selectedStars || []), prodId];
+        }
+
+        setSelectedStars(updatedStars); // Update the selectedStars state
+    };
 
     const returnSelectedProds = (product, key) => {
         const isStatusChecked = currentStatus ? product.status === currentStatus : true;
 
         if (isStatusChecked) {
+            const isStarred = selectedStars && selectedStars.includes(product.id); // Check if the product is starred
+
             return (
-                <div key={key} className="lg:w-[25%] p-4">
+                <div key={key} className="lg:w-[25%] w-full p-2 lg:p-4">
                     <div className="border border-[#ccc] relative">
                         <div>
                             <img className="w-full" src={product.main_image_url} alt={product.name} />
@@ -18,11 +61,16 @@ export default function DefaultView({ products, settingsOpen, setSettingsOpen, c
                             <p>€ {product.regular_price}</p>
                         </div>
 
-                        <div className="border-t border-[#ccc] mt-6 p-4">
+                        <div className="border-t border-[#ccc] mt-2 lg:mt-6 p-4">
                             <div className="flex items-center justify-between">
-                                <input type="checkbox" />
-                                <span>
-                                    <img className="w-[20px]" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-star-50.png" alt="star" />
+                                <input
+                                    type="checkbox"
+                                    checked={selectedProd && selectedProd.includes(product.id)} // Check if the product is selected
+                                    onChange={() => handleSelect(product.id)}
+                                />
+                                <span onClick={() => handleStarClick(product.id)} style={{ cursor: 'pointer' }}>
+                                    {/* Conditionally render the star image based on whether it's selected */}
+                                    <img className="w-[20px] star" src={isStarred ? "https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/star-filled.png" : "https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-star-50.png"} alt="star" />
                                 </span>
                                 <a onClick={(e) => { e.preventDefault(); setSettingsOpen(key); }} href="#">
                                     <img className="w-[20px]" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-settings-50.png" alt="settings" />
@@ -32,29 +80,7 @@ export default function DefaultView({ products, settingsOpen, setSettingsOpen, c
 
                         {/* settings opened */}
                         {settingsOpen === key && (
-                            <div className="absolute bg-white bottom-0 left-[80%] z-10 shadow-md w-[60%] rounded-xl">
-                                <div className="relative h-full w-full p-4">
-                                    <ul className="mb-12">
-                                        <li>
-                                            <a className="py-3 block" target="blank" href={`/listado?pid=${product.id}`}>
-                                                Ver en Vendalia
-                                            </a>
-                                        </li>
-                                        <hr className="border-b border-[#ccc]" />
-                                        <li><a className="py-3 block" href="#">Editar</a></li>
-                                        <li><a className="py-3 block" href="#">Desactivar</a></li>
-                                        <li><a className="py-3 block" href="#">Compartir</a></li>
-                                        <li><a className="py-3 block" href="#">Borrar</a></li>
-                                    </ul>
-                                    <a
-                                        className="absolute left-3 bottom-[15px]"
-                                        onClick={(e) => { e.preventDefault(); setSettingsOpen(null); }}
-                                        href="#"
-                                    >
-                                        <img className="w-[20px]" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-settings-50.png" alt="close settings" />
-                                    </a>
-                                </div>
-                            </div>
+                            <SettingsView setSelectedproductToEdit={setSelectedproductToEdit} setEditListing={setEditListing} view="default" product={product} setSettingsOpen={setSettingsOpen} />
                         )}
                     </div>
                 </div>
