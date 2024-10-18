@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import FileUploader from '../../../../vender/sections/snippets/store-forms/inventory-steps/snippets/fileUploader'
+import { UploadMultipleImgs } from '../../../../../lib/utils/uploadImg'
+import { updarteProductFunc } from '../../../../../lib/actions/products/updateProduct'
 
-export default function EditListing({ selectedProduct , setEditListing }) {
+
+export default function EditListing({ selectedProduct, setEditListing }) {
     const [productType, setProductType] = useState(null)
     const [productVendor, setProductVendor] = useState(null)
     const [whatProduct, setWhatProduct] = useState(null)
@@ -20,18 +23,55 @@ export default function EditListing({ selectedProduct , setEditListing }) {
     const [seconcolor, setseconcolor] = useState(null)
     const [festivity, setfestivity] = useState(null)
     const [materials, setmaterials] = useState([])
+    const [fileObjects, setFileObjects] = useState(null)
 
     const [selectedCategory, setselectedCategory] = useState(null)
+
+    const [currentTag, setCurrentTag] = useState(null)
+    const [currentMat, setCurrentMat] = useState(null)
+
+    const addTagsFunc = (e) => {
+        currentTag && tags.indexOf(currentTag) === -1 && setTags([...tags, currentTag])
+        e.target.previousElementSibling.value = ""
+    }
+
+    const removeTags = (tagToRemove) => {
+        setTags(tags.filter(tag => tag !== tagToRemove));
+    }
+
+    const addMaterialsFunc = (e) => {
+        console.log('comes here')
+        currentMat && materials.indexOf(currentMat) === -1 && setmaterials([...materials, currentMat])
+        e.target.previousElementSibling.value = ""
+    }
+
+    const removeMaterials = (matToRemove) => {
+        setmaterials(materials.filter(mat => mat !== matToRemove));
+    }
+
 
     console.log(selectedProduct)
 
     useEffect(() => {
-        if(selectedProduct){
-            selectedProduct.name&&setProdTitle(selectedProduct.name)
+        if (selectedProduct) {
+            selectedProduct.name && setProdTitle(selectedProduct.name)
+            selectedProduct.product_type && setProductType(selectedProduct.product_type)
+            selectedProduct.who_did_it && setProductVendor(selectedProduct.who_did_it)
+            selectedProduct.what_product && setWhatProduct(selectedProduct.what_product)
+            selectedProduct.regular_price && setPrice(parseFloat(selectedProduct.regular_price))
+            selectedProduct.quantity && setQuantity(selectedProduct.quantity)
+            selectedProduct.SKU && setSku(selectedProduct.SKU)
+            selectedProduct.category_name && setselectedCategoryName(selectedProduct.category_name)
+            selectedProduct.tags && setTags(selectedProduct.tags)
+            selectedProduct.material && setMaterial(selectedProduct.material)
+            selectedProduct.main_color && setMaincolor(selectedProduct.main_color)
+            selectedProduct.second_color && setseconcolor(selectedProduct.second_color)
+            selectedProduct.festivity && setfestivity(selectedProduct.festivity)
+            selectedProduct.materials && setmaterials(selectedProduct.materials)
         }
-        
+
     }, [selectedProduct])
-    
+
 
 
     const searchCategories = async (e) => {
@@ -52,6 +92,25 @@ export default function EditListing({ selectedProduct , setEditListing }) {
         setselectedCategory(value)
         setselectedCategoryName(name)
         setCategories(null)
+    }
+
+    const submitEditFunc = async (e) => {
+        e.preventDefault()
+        console.clear();
+        console.log(prodTitle, price, quantity, sku, selectedCategoryName, material, maincolor, seconcolor, festivity, tags, materials)
+        console.log(fileObjects)
+        const fileObjectsFormDta = new FormData();
+        fileObjects.forEach((file, index) => {
+            fileObjectsFormDta.append(`file${index + 1}`, file); // `file1`, `file2`, etc.
+        });
+
+        try {
+            const updateProduct = await updarteProductFunc(null , fileObjectsFormDta)
+            console.log(updateProduct)
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     return (
@@ -88,7 +147,7 @@ export default function EditListing({ selectedProduct , setEditListing }) {
                             <div className='border border-dashed border-[#ccc] round-md p-6 relative'>
                                 <div class="file-upload-wrapper w-full flex flex-col items-center justify-center ">
                                     <p className='text-center'>Arrastra y suelta, o bien</p>
-                                    <FileUploader setPhotos={setPhotos} />
+                                    <FileUploader setPhotos={setPhotos} setFileObjects={setFileObjects} />
 
                                 </div>
                             </div>
@@ -103,13 +162,13 @@ export default function EditListing({ selectedProduct , setEditListing }) {
 
                         <div className='relative mt-4'>
                             <p className='text-md text-black'>Precio  <span className='text-red-700'>*</span></p>
-                            <input type='number' onChange={e => setPrice(e.target.value)} className='lg:w-50 p-3 border border-[#ccc] rounded-lg' />
+                            <input type='number' value={price} onChange={e => setPrice(e.target.value)} className='lg:w-50 p-3 border border-[#ccc] rounded-lg' />
                             <span className='absolute left[50%] translate-x-[-120%] top-[50%] '>EUR</span>
                         </div>
 
                         <div className='relative mt-4'>
                             <p className='text-md text-black'>Cantidad  <span className='text-red-700'>*</span></p>
-                            <input type='number' onChange={e => setQuantity(e.target.value)} className='lg:w-50 p-3 border border-[#ccc] rounded-lg' />
+                            <input type='number' value={quantity} onChange={e => setQuantity(e.target.value)} className='lg:w-50 p-3 border border-[#ccc] rounded-lg' />
                         </div>
 
                         <div className='relative mt-4'>
@@ -170,74 +229,74 @@ export default function EditListing({ selectedProduct , setEditListing }) {
 
                             <div className='mt-5'>
                                 <p className='text-lg'>Material</p>
-                                <select onChange={e => setMaterial(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
+                                <select value={material} onChange={e => setMaterial(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
                                     <option value="">seleccionar…</option>
-                                    <option>Plata</option>
-                                    <option>Acero inoxidable</option>
-                                    <option>Acero</option>
-                                    <option>Fibra sintética</option>
-                                    <option>Estaño</option>
-                                    <option>Titanio</option>
-                                    <option>Oro blanco</option>
-                                    <option>Madera</option>
+                                    <option value='Plata'>Plata</option>
+                                    <option value='Acero inoxidable'>Acero inoxidable</option>
+                                    <option value='Acero'>Acero</option>
+                                    <option value='Fibra sintética'>Fibra sintética</option>
+                                    <option value='Estaño'>Estaño</option>
+                                    <option value='Titanio'>Titanio</option>
+                                    <option value='Oro blanco'>Oro blanco</option>
+                                    <option value='Madera'>Madera</option>
                                 </select>
                             </div>
 
                             <div className='mt-5'>
                                 <p className='text-lg'>Color principal</p>
-                                <select onChange={e => setMaincolor(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
+                                <select value={maincolor} onChange={e => setMaincolor(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
                                     <option value="">seleccionar…</option>
-                                    <option>Negro</option>
-                                    <option>Azul</option>
-                                    <option>Marrón</option>
-                                    <option>Verde</option>
-                                    <option>Gris</option>
-                                    <option>Naranja</option>
-                                    <option>Rosa</option>
-                                    <option>Morado</option>
-                                    <option>Rojo</option>
-                                    <option>Blanco</option>
-                                    <option>Amarillo</option>
-                                    <option>Beis</option>
-                                    <option>Oro</option>
-                                    <option>Plata</option>
-                                    <option>Bronce</option>
-                                    <option>Oro rosa</option>
-                                    <option>Cobre</option>
-                                    <option>Transparente</option>
-                                    <option>Arcoíris</option>
+                                    <option value="Negro">Negro</option>
+                                    <option value="Azul">Azul</option>
+                                    <option value="Marrón">Marrón</option>
+                                    <option value="Verde">Verde</option>
+                                    <option value="Gris">Gris</option>
+                                    <option value="Naranja">Naranja</option>
+                                    <option value="Rosa">Rosa</option>
+                                    <option value="Morado">Morado</option>
+                                    <option value="Rojo">Rojo</option>
+                                    <option value="Blanco">Blanco</option>
+                                    <option value="Amarillo">Amarillo</option>
+                                    <option value="Beis">Beis</option>
+                                    <option value="Oro">Oro</option>
+                                    <option value="Plata">Plata</option>
+                                    <option value="Bronce">Bronce</option>
+                                    <option value="Oro rosa">Oro rosa</option>
+                                    <option value="Cobre">Cobre</option>
+                                    <option value="Transparente">Transparente</option>
+                                    <option value="Arcoíris">Arcoíris</option>
                                 </select>
                             </div>
 
                             <div className='mt-5'>
                                 <p className='text-lg'>Color secundario</p>
-                                <select onChange={e => setseconcolor(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
+                                <select value={seconcolor} onChange={e => setseconcolor(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
                                     <option value="">seleccionar…</option>
-                                    <option>Negro</option>
-                                    <option>Azul</option>
-                                    <option>Marrón</option>
-                                    <option>Verde</option>
-                                    <option>Gris</option>
-                                    <option>Naranja</option>
-                                    <option>Rosa</option>
-                                    <option>Morado</option>
-                                    <option>Rojo</option>
-                                    <option>Blanco</option>
-                                    <option>Amarillo</option>
-                                    <option>Beis</option>
-                                    <option>Oro</option>
-                                    <option>Plata</option>
-                                    <option>Bronce</option>
-                                    <option>Oro rosa</option>
-                                    <option>Cobre</option>
-                                    <option>Transparente</option>
-                                    <option>Arcoíris</option>
+                                    <option value="Negro">Negro</option>
+                                    <option value="Azul">Azul</option>
+                                    <option value="Marrón">Marrón</option>
+                                    <option value="Verde">Verde</option>
+                                    <option value="Gris">Gris</option>
+                                    <option value="Naranja">Naranja</option>
+                                    <option value="Rosa">Rosa</option>
+                                    <option value="Morado">Morado</option>
+                                    <option value="Rojo">Rojo</option>
+                                    <option value="Blanco">Blanco</option>
+                                    <option value="Amarillo">Amarillo</option>
+                                    <option value="Beis">Beis</option>
+                                    <option value="Oro">Oro</option>
+                                    <option value="Plata">Plata</option>
+                                    <option value="Bronce">Bronce</option>
+                                    <option value="Oro rosa">Oro rosa</option>
+                                    <option value="Cobre">Cobre</option>
+                                    <option value="Transparente">Transparente</option>
+                                    <option value="Arcoíris">Arcoíris</option>
                                 </select>
                             </div>
 
                             <div className='mt-5'>
                                 <p className='text-lg'>Festividad</p>
-                                <select onChange={e => setfestivity(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
+                                <select value={festivity} onChange={e => setfestivity(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
                                     <option value="">seleccionar…</option>
                                     <option value="Año Nuevo Lunar">Año Nuevo Lunar</option>
                                     <option value="Navidad">Navidad</option>
@@ -302,7 +361,7 @@ export default function EditListing({ selectedProduct , setEditListing }) {
                 </div>
 
                 <div className='flex justify-end'>
-                    <a href="" className='py-3 px-6 bg-black text-white rounded-full'>Publicar</a>
+                    <a href="" className='py-3 px-6 bg-black text-white rounded-full' onClick={(e) => { submitEditFunc(e) }}>Publicar</a>
                 </div>
 
             </div>

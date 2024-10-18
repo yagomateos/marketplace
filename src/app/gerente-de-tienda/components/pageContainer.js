@@ -13,7 +13,7 @@ export default function PageContainer({ setStep, step, userData, searchOpen, set
   const returnComponent = () => {
     switch (step) {
       case 1:
-        return <Dashboard userData={userData} />;
+        return <Dashboard userData={userData} setSettingsPage={setSettingsPage} />;
       case 2:
         return <Listings setSettingsPage={setSettingsPage} setStep={setStep} userData={userData} />;
       case 3:
@@ -28,7 +28,7 @@ export default function PageContainer({ setStep, step, userData, searchOpen, set
   }
 
   return (
-    <div className='p-2 lg:p-6 flex items-start lg:w-full justify-center relative w-[65%]'>
+    <div className='p-2 lg:p-6 flex items-start w-full justify-center relative'>
       {searchOpen &&
         <div className='absolute bg-[#00000061] w-full h-full left-0 top-0 z-10'>
           <div className='bg-white lg:w-[35%] p-4 lg:p-8 pt-20 lg:pt-8 h-full relative'>

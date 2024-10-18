@@ -1,6 +1,6 @@
 import SettingsView from './settingsView';
 
-export default function DefaultView({ setSelectedproductToEdit , setEditListing , selectedStars, setSelectedStars, setSelectAll, selectedProd, selectAll, setSelectedProd, products, settingsOpen, setSettingsOpen, currentStatus }) {
+export default function DefaultView({ deleteProduct , copyProductPublicUrl, deactivateProduct, setSelectedproductToEdit, setEditListing, selectedStars, setSelectedStars, setSelectAll, selectedProd, selectAll, setSelectedProd, products, settingsOpen, setSettingsOpen, currentStatus }) {
     let selectedProds = [];
 
     console.clear();
@@ -50,15 +50,15 @@ export default function DefaultView({ setSelectedproductToEdit , setEditListing 
             const isStarred = selectedStars && selectedStars.includes(product.id); // Check if the product is starred
 
             return (
-                <div key={key} className="lg:w-[25%] w-full p-2 lg:p-4">
+                <div key={key} className="lg:w-[25%] w-[50%] p-2 lg:p-4">
                     <div className="border border-[#ccc] relative">
                         <div>
                             <img className="w-full" src={product.main_image_url} alt={product.name} />
                         </div>
-                        <div className="p-4">
+                        <div className="p-2 lg:p-4">
                             <h3 className="font-semibold">{product.name}</h3>
-                            <p>{product.quantity ? product.quantity : 0} En la tienda</p>
-                            <p>€ {product.regular_price}</p>
+                            <p className='text-sm lg:text-base'>{product.quantity ? product.quantity : 0} En la tienda</p>
+                            <p className='text-sm lg:text-base'>€ {product.regular_price}</p>
                         </div>
 
                         <div className="border-t border-[#ccc] mt-2 lg:mt-6 p-4">
@@ -80,7 +80,7 @@ export default function DefaultView({ setSelectedproductToEdit , setEditListing 
 
                         {/* settings opened */}
                         {settingsOpen === key && (
-                            <SettingsView setSelectedproductToEdit={setSelectedproductToEdit} setEditListing={setEditListing} view="default" product={product} setSettingsOpen={setSettingsOpen} />
+                            <SettingsView deleteProduct={deleteProduct} copyProductPublicUrl={copyProductPublicUrl} deactivateProduct={deactivateProduct} setSelectedproductToEdit={setSelectedproductToEdit} setEditListing={setEditListing} view="default" product={product} setSettingsOpen={setSettingsOpen} />
                         )}
                     </div>
                 </div>

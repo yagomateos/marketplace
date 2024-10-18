@@ -3,8 +3,9 @@ import DefaultView from '../listing-views/DefaultView'
 import QuickEditView from '../listing-views/QuickEditView'
 import ListView from '../listing-views/ListView'
 import { getProductsByUserID } from '../../../../../lib/actions/products/getProducts'
+import { deactivateProductFunc , deleteProductFunc } from '../../../../../lib/actions/products/updateProduct'
 
-export default function ManageListing({ setSelectedproductToEdit , setSettingsPage, setStep, userData, setCreateListing, setEditListing, setCreatePopup }) {
+export default function ManageListing({ setSelectedproductToEdit, setSettingsPage, setStep, userData, setCreateListing, setEditListing, setCreatePopup }) {
 
     const [products, setProducts] = useState(null)
     const [settingsOpen, setSettingsOpen] = useState(null)
@@ -13,6 +14,8 @@ export default function ManageListing({ setSelectedproductToEdit , setSettingsPa
     const [selectAll, setSelectAll] = useState(false)
     const [selectedProd, setSelectedProd] = useState(null)
     const [selectedStars, setSelectedStars] = useState(null)
+    const [actionSuccess, setActionSuccess] = useState(null)
+    const [actionError, setActionError] = useState(null)
 
     const [isActive, setIsActive] = useState(false);
 
@@ -23,6 +26,51 @@ export default function ManageListing({ setSelectedproductToEdit , setSettingsPa
 
     console.clear();
     console.log(selectedProd)
+
+    const deactivateProduct = async (product_id) => {
+        if (confirm('Estas seguro')) {
+            try {
+                const deactivated = await deactivateProductFunc(product_id)
+                if (deactivated) {
+                    setActionSuccess('Producto desactivado exitosamente')
+                } else {
+                    setActionError('La desactivación del producto falló')
+                }
+                setSettingsOpen(false)
+                console.log(deactivated)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+    const deleteProduct = async (product_id) => {
+        if (confirm('Estas seguro')) {
+            try {
+                const deactivated = await deleteProductFunc(product_id)
+                if (deactivated) {
+                    setActionSuccess('Producto eliminado exitosamente')
+                } else {
+                    setActionError('La eliminación del producto falló')
+                }
+                setSettingsOpen(false)
+                console.log(deactivated)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+    const copyProductPublicUrl = (product_id) => {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(`http://vendalia.es/listado?pid=${product_id}`).then(function () {
+                setActionSuccess('La URL del producto se copió correctamente')
+                setSettingsOpen(false)
+            }).catch(function (err) {
+                console.error('Failed to copy URL: ', err);
+            });
+        }
+    }
 
     useEffect(() => {
         console.log('comes here')
@@ -62,7 +110,7 @@ export default function ManageListing({ setSelectedproductToEdit , setSettingsPa
     return (
         <div className="w-full">
             {/* header */}
-            <div className="flex flex-col  lg:flex-row justify-between border-b border-b-[#ccc] py-4">
+            <div className="flex items-center justify-between border-b border-b-[#ccc] py-4">
                 <h2 className="text-xl font-semibold">Listado</h2>
                 <div className='pt-4 lg:pt-0'>
                     <a onClick={e => { e.preventDefault(); setCreateListing(true); setCreatePopup(true) }} className="py-3 px-4 bg-black text-white cursor-pointer">Añadir un listado</a>
@@ -73,10 +121,13 @@ export default function ManageListing({ setSelectedproductToEdit , setSettingsPa
             <div className="mt-6 flex justify-between flex-col-reverse lg:flex-row">
                 <div className="w-full lg:w-[75%]">
 
+                    {/* action success or error */}
+                    {actionSuccess && <div className='w-[80%] p-4 shadow-md bg-white text-green-700 text-sm mb-4'>{actionSuccess}</div>}
+                    {actionError && <div className='w-[80%]  p-4 shadow-md bg-white text-red-700 text-sm mb-4'>{actionError}</div>}
 
                     {/* default view */}
 
-                    {view === 'default' || view === 'list' ? <><div className="flex gap-3 px-2 lg:px-5 flex-col lg:flex-row w-full">
+                    {view === 'default' || view === 'list' ? <><div className="hidden lg:flex gap-3 px-2 lg:px-5 flex-col lg:flex-row w-full">
                         <input type='checkbox' checked={selectAll} onChange={() => { selectAllProds() }} />
                         <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc] w-full lg:w-auto">Renovar</a>
                         <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc] w-full lg:w-auto">Desactivar</a>
@@ -84,17 +135,17 @@ export default function ManageListing({ setSelectedproductToEdit , setSettingsPa
                     </div></> : <></>}
                     {
                         view == 'default' ? <>
-                            <DefaultView setSelectedproductToEdit={setSelectedproductToEdit} setEditListing={setEditListing} selectedStars={selectedStars} setSelectedStars={setSelectedStars} setSelectAll={setSelectAll} selectedProd={selectedProd} selectAll={selectAll} setSelectedProd={setSelectedProd} products={products} settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} currentStatus={currentStatus} />
+                            <DefaultView deleteProduct={deleteProduct} copyProductPublicUrl={copyProductPublicUrl} deactivateProduct={deactivateProduct} setSelectedproductToEdit={setSelectedproductToEdit} setEditListing={setEditListing} selectedStars={selectedStars} setSelectedStars={setSelectedStars} setSelectAll={setSelectAll} selectedProd={selectedProd} selectAll={selectAll} setSelectedProd={setSelectedProd} products={products} settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} currentStatus={currentStatus} />
                         </>
                             : view == 'quickEdit' ? <QuickEditView products={products} settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} currentStatus={currentStatus} />
-                                : <ListView setSelectedproductToEdit={setSelectedproductToEdit} setEditListing={setEditListing} selectedStars={selectedStars} setSelectedStars={setSelectedStars} selectedProd={selectedProd} selectAll={selectAll} setSelectedProd={setSelectedProd} products={products} settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} />
+                                : <ListView deleteProduct={deleteProduct} copyProductPublicUrl={copyProductPublicUrl} deactivateProduct={deactivateProduct} setSelectedproductToEdit={setSelectedproductToEdit} setEditListing={setEditListing} selectedStars={selectedStars} setSelectedStars={setSelectedStars} selectedProd={selectedProd} selectAll={selectAll} setSelectedProd={setSelectedProd} products={products} settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} />
                     }
 
 
 
                 </div>
 
-                <div className="w-full lg:w-[25%]">
+                <div className="hidden lg:block lg:w-[25%]">
                     <div className="mb-6">
                         <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc] w-full block" onClick={(e) => { e.preventDefault(); view != 'quickEdit' ? setView('quickEdit') : setView('default') }}>{view != 'quickEdit' ? `Edición rápida` : `Salir de la vista rápida`}</a>
                     </div>

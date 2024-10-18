@@ -27,6 +27,8 @@ export default function Profile({setStep, userInfo, userId }) {
         e.preventDefault();
         const file = e.target.files[0];
         if (file) {
+
+            console.log(file)
             setUserImgObj(file)
 
             // create blob and assign it into the preview

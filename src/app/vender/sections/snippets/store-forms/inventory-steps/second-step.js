@@ -155,14 +155,14 @@ export default function InventorySecondStep({setProductInfo2} ) {
                                 <p className='text-lg'>Material</p>
                                 <select onChange={e => setMaterial(e.target.value)} className='w-full p-4 border border-[#ccc] rounded-lg'>
                                     <option value="">seleccionar…</option>
-                                    <option>Plata</option>
-                                    <option>Acero inoxidable</option>
-                                    <option>Acero</option>
-                                    <option>Fibra sintética</option>
-                                    <option>Estaño</option>
-                                    <option>Titanio</option>
-                                    <option>Oro blanco</option>
-                                    <option>Madera</option>
+                                    <option value='Plata'>Plata</option>
+                                    <option value='Acero inoxidable'>Acero inoxidable</option>
+                                    <option value='Acero'>Acero</option>
+                                    <option value='Fibra sintética'>Fibra sintética</option>
+                                    <option value='Estaño'>Estaño</option>
+                                    <option value='Titanio'>Titanio</option>
+                                    <option value='Oro blanco'>Oro blanco</option>
+                                    <option value='Madera'>Madera</option>
                                 </select>
                             </div>
 

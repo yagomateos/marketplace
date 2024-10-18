@@ -1,7 +1,7 @@
 import React from 'react';
 import SettingsView from './settingsView';
 
-export default function ListView({ setSelectedproductToEdit, setEditListing, selectedStars, setSelectedStars, selectedProd, selectAll, setSelectedProd, products, settingsOpen, setSettingsOpen }) {
+export default function ListView({deleteProduct , copyProductPublicUrl, deactivateProduct , setSelectedproductToEdit, setEditListing, selectedStars, setSelectedStars, selectedProd, selectAll, setSelectedProd, products, settingsOpen, setSettingsOpen }) {
 
     const handleStarClick = (prodId) => {
         let updatedStars;
@@ -66,7 +66,7 @@ export default function ListView({ setSelectedproductToEdit, setEditListing, sel
                             </div>
 
                             {settingsOpen === key && (
-                                <SettingsView setSelectedproductToEdit={setSelectedproductToEdit} setEditListing={setEditListing} view="list" product={product} setSettingsOpen={setSettingsOpen} />
+                                <SettingsView deleteProduct={deleteProduct} copyProductPublicUrl={copyProductPublicUrl} deactivateProduct={deactivateProduct} setSelectedproductToEdit={setSelectedproductToEdit} setEditListing={setEditListing} view="list" product={product} setSettingsOpen={setSettingsOpen} />
                             )}
                         </div>
                     </div>

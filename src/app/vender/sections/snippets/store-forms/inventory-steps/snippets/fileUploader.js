@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-export default function FileUploader({ setPhotos }) {
+export default function FileUploader({ setPhotos , setFileObjects }) {
     const [files, setFiles] = useState([]);
     const [blobUrls, setBlobUrls] = useState([]);
     const [error, setError] = useState("");
@@ -37,6 +37,7 @@ export default function FileUploader({ setPhotos }) {
     useEffect(() => {
         if (blobUrls.length > 0) {
             setPhotos(blobUrls)
+            setFileObjects(files)
         }
 
     }, [blobUrls])
@@ -45,6 +46,7 @@ export default function FileUploader({ setPhotos }) {
     const handleClick = () => {
         document.getElementById('fileInput').click();
     };
+
 
     return (
         <div className='text-center'>
