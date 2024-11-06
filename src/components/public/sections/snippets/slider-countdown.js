@@ -31,7 +31,7 @@ export default function SliderCountdown() {
 
     return (
         <>
-            <div className='rounded-lg bg-orange-100 text-center text-amber-900 h-full p-4 lg:p-8 flex flex-col items-center'>
+            <div className='rounded-lg bg-slate-100 text-center text-amber-900 h-full p-4 lg:p-8 flex flex-col items-center'>
                 <p className='text-sm font-semibold'>Oferta de tiempo limitado</p>
                 <div className='bg-white rounded-md py-1 lg:py-3 px-8 w-max shadow-sm shadow-gray-200 mt-2 lg:mt-4 mb-2'>
                     <p className=' text-lg font-semibold'><span>{hours}</span> &nbsp;:&nbsp; <span>{mins}</span> &nbsp;:&nbsp; <span>{seconds}</span></p>
