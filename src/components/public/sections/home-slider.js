@@ -59,6 +59,7 @@ export default function Homeslider() {
                                         className="single-banner-item kd-home-slider-element h-80 p-11 bg-cover rounded-lg"
                                         style={{
                                             backgroundImage: slide && slide.banner_image ? `url(${slide.banner_image})` : '',
+                                            backgroundSize: 'initial'  // Cambia la posicion del slider
                                         }}
                                     >
                                         <p className="text-white mb-2 text-sm font-semibold">
