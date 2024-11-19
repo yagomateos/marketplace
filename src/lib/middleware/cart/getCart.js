@@ -7,7 +7,7 @@ export const getCart = async (userId) => {
         if (results.length > 0) {
             return results
         } else {
-            throw new Error('cart empty')
+            // throw new Error('cart empty')
         }
     } catch (error) {
         throw error;

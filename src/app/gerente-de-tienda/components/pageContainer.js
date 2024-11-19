@@ -17,7 +17,7 @@ export default function PageContainer({ setStep, step, userData, searchOpen, set
       case 2:
         return <Listings setSettingsPage={setSettingsPage} setStep={setStep} userData={userData} />;
       case 3:
-        return <Messages />
+        return <Messages userData={userData} />
       case 4:
         return <Orders />
       case 5:

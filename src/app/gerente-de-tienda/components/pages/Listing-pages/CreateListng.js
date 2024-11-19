@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ProductFormFirst from '../../../../../components/admin/ProductFormFirst'
 import FileUploader from '../../../../vender/sections/snippets/store-forms/inventory-steps/snippets/fileUploader'
 import { categorySearchFunc } from '../../../../../lib/actions/search/categorySearch'
+import { getStrByUserId } from '../../../../../lib/actions/stores/getStores'
+import { createNewProduct } from '../../../../../lib/actions/products/createProduct'
 
-export default function CreateListng({ createPopup, setCreatePopup, setCreateListing }) {
+export default function CreateListng({ userData, createPopup, setCreatePopup, setCreateListing }) {
 
     const [productType, setProductType] = useState(null)
     const [productVendor, setProductVendor] = useState(null)
@@ -23,8 +25,33 @@ export default function CreateListng({ createPopup, setCreatePopup, setCreateLis
     const [seconcolor, setseconcolor] = useState(null)
     const [festivity, setfestivity] = useState(null)
     const [materials, setmaterials] = useState([])
-
+    const [fileObjects, setFileObjects] = useState(null)
+    const [description, setDescription] = useState(null);
+    const [currentTag, setCurrentTag] = useState(null)
+    const [currentMat, setCurrentMat] = useState(null)
     const [selectedCategory, setselectedCategory] = useState(null)
+    const [store, setStore] = useState(null)
+    const [productSuccess, setProductSuccess] = useState(null)
+
+    const addTagsFunc = (e) => {
+        currentTag && tags.indexOf(currentTag) === -1 && setTags([...tags, currentTag])
+        console.log(e.target)
+        e.target.previousElementSibling.value = ""
+    }
+
+    const removeTags = (tagToRemove) => {
+        setTags(tags.filter(tag => tag !== tagToRemove));
+    }
+
+    const addMaterialsFunc = (e) => {
+        console.log('comes here')
+        currentMat && materials.indexOf(currentMat) === -1 && setmaterials([...materials, currentMat])
+        e.target.previousElementSibling.value = ""
+    }
+
+    const removeMaterials = (matToRemove) => {
+        setmaterials(materials.filter(mat => mat !== matToRemove));
+    }
 
     console.log(selectedCategory, selectedCategoryName)
 
@@ -61,6 +88,86 @@ export default function CreateListng({ createPopup, setCreatePopup, setCreateLis
         setCategories(null)
     }
 
+    // Get active listings
+    useEffect(() => {
+        const getStores = async () => {
+            try {
+                const Listings = await getStrByUserId(userData[0].id)
+                console.log(Listings)
+                const str = Listings[0].s_id
+
+                console.clear();
+                console.log(str)
+                setStore(str)
+
+            } catch (error) {
+                console.log(error)
+                setStore(null)
+            }
+        }
+
+        userData && getStores()
+    }, [userData])
+
+    const createListingFunc = async (e) => {
+        e.preventDefault();
+        const productData = {
+            firstPart: [selectedCategory, productAge, productType, productVendor, whatProduct],
+            secondPart: [prodTitle, photos, description, price, quantity, sku, material, maincolor, seconcolor, festivity, tags, materials],
+            userId: userData[0].id,
+            storeId: store
+        }
+
+        const fileObjectsFormData = new FormData();
+
+        // Loop through all files and append each to the FormData object
+        fileObjects.forEach((file, index) => {
+            fileObjectsFormData.append(`file${index}`, file);
+        });
+
+
+        console.clear();
+        console.log(fileObjectsFormData)
+
+
+
+        try {
+            const productInserted = await createNewProduct(productData, fileObjectsFormData)
+            console.log(productInserted)
+            setProductSuccess('¡Producto creado exitosamente!')
+            setTimeout(() => {
+                setCreateListing(false)
+            }, 1000);
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
+
+    // New state for tracking sticky status
+    const [isSticky, setIsSticky] = useState(false);
+
+    useEffect(() => {
+        const kdNav = document.querySelector('.kd-fixed-nav-list');
+        const handleScroll = () => {
+            if (kdNav) {
+                // const offsetTop = kdNav.getBoundingClientRect().top;
+
+                // console.clear()
+                // console.log(offsetTop)
+
+                setIsSticky(window.scrollY >= 140);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        // Clean up the event listener
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
         <div className='w-full relative'>
             {/* popup */}
@@ -94,11 +201,11 @@ export default function CreateListng({ createPopup, setCreatePopup, setCreateLis
                     <h2 className='mt-3 text-lg lg:text-3xl leading-tight font-semibold'>Nuevo listado</h2>
                 </div>
 
-                <div className='w-full'>
-                    <ul className='flex w-full flex-col lg:flex-row border-b mb-6 border-[#ccc] lg:px-6'>
-                        <li><a className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer `} href="#about-box">Acerca de</a></li>
-                        <li><a className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer lg:border-l-0 `} href="#price-box">Variaciones</a></li>
-                        <li><a className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer lg:border-l-0 `} href="#details-box">Detalles</a></li>
+                <div className={`w-full kd-fixed-nav-list ${isSticky ? 'fixed top-0 bg-white z-30' : ''}`}>
+                    <ul className='flex w-full flex-col lg:flex-row border-b border-[#ccc] lg:px-0 '>
+                        <li><a className={`py-2 w-[100%] block px-3 border-b-0 cursor-pointer font-semibold`} href="#about-box">Acerca de</a></li>
+                        <li><a className={`py-2 w-[100%] block px-3 border-b-0 cursor-pointer lg:border-l-0 font-semibold`} href="#price-box">Variaciones</a></li>
+                        <li><a className={`py-2 w-[100%] block px-3 border-b-0 cursor-pointer lg:border-l-0 font-semibold`} href="#details-box">Detalles</a></li>
                     </ul>
                 </div>
 
@@ -119,7 +226,7 @@ export default function CreateListng({ createPopup, setCreatePopup, setCreateLis
                             <div className='border border-dashed border-[#ccc] round-md p-6 relative'>
                                 <div class="file-upload-wrapper w-full flex flex-col items-center justify-center ">
                                     <p className='text-center'>Arrastra y suelta, o bien</p>
-                                    <FileUploader setPhotos={setPhotos} />
+                                    <FileUploader setPhotos={setPhotos} setFileObjects={setFileObjects} />
 
                                 </div>
                             </div>
@@ -171,6 +278,14 @@ export default function CreateListng({ createPopup, setCreatePopup, setCreateLis
                                 </div>
 
                             </div>}
+                        </div>
+
+                        {/* descreiption */}
+                        <div className='lg:flex gap-4 flex-wrap mb-6 mt-6 relative'>
+                            <p className='text-lg'>Descripción  <span className='text-red-700'>*</span></p>
+                            <p className='text-sm mb-3'>¿Qué hace que tu artículo sea especial? Los compradores solo verán las primeras líneas a menos que expandan la descripción.</p>
+                            <textarea className='border border-{#ccc] w-full rounded-lg' rows="6" onChange={e => setDescription(e.target.value)}></textarea>
+
                         </div>
 
                         {/* categories */}
@@ -333,7 +448,11 @@ export default function CreateListng({ createPopup, setCreatePopup, setCreateLis
                 </div>
 
                 <div className='flex justify-end mt-2'>
-                    <a href="" className='py-3 px-6 bg-black text-white rounded-full'>Publicar</a>
+                    <a href="" className='py-3 px-6 bg-black text-white rounded-full' onClick={createListingFunc}>Publicar</a>
+                </div>
+
+                <div className='mt-3'>
+                    {productSuccess && <div className='text-sm text-green-800'>{productSuccess}</div>}
                 </div>
 
             </div>

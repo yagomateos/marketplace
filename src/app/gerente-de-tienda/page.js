@@ -33,8 +33,8 @@ export default function ShopDashboard() {
             console.clear()
             try {
                 const userInfo = await GetUserInfo(userId)
-                console.clear();
-                console.log(userInfo)
+                // console.clear();
+                // console.log(userInfo)
                 setUserData(userInfo)
             } catch (error) {
                 console.log(error)

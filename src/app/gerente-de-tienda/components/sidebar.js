@@ -13,12 +13,12 @@ export default function Sidebar({sidebarOpen , setSidebarOpen ,  setStep , setSe
                 <li className="hidden lg:block">
                     <a onClick={(e) => { e.preventDefault(); setSearchOpen(true) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/search.svg" /> &nbsp;Buscar</a>
                 </li>
-                <li><a onClick={(e) => { e.preventDefault(); setSidebarOpen(false); setStep(1) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer">Panel</a></li>
-                <li><a onClick={(e) => { e.preventDefault(); setSidebarOpen(false); setStep(2) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer">Listados</a></li>
-                <li><a onClick={(e) => { e.preventDefault(); setSidebarOpen(false); setStep(3) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer">Mensajes</a></li>
-                <li><a onClick={(e) => { e.preventDefault(); setSidebarOpen(false); setStep(4) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer">Pedidos y entregas</a></li>
-                <li><a href="/Ayuda" className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer">Ayuda</a></li>
-                <li><a onClick={(e) => { e.preventDefault(); setSidebarOpen(false); setStoreOpen(true); setStep(5) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer">Ajustes</a></li>
+                <li><a onClick={(e) => { e.preventDefault(); setSearchOpen(false); setSidebarOpen(false); setStep(1) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-home-50.png" /> &nbsp;Panel</a></li>
+                <li><a onClick={(e) => { e.preventDefault(); setSearchOpen(false); setSidebarOpen(false); setStep(2) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-objects-24.png" /> &nbsp;Listados</a></li>
+                <li><a onClick={(e) => { e.preventDefault(); setSearchOpen(false); setSidebarOpen(false); setStep(3) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-messages-50.png" /> &nbsp;Mensajes</a></li>
+                <li><a onClick={(e) => { e.preventDefault(); setSearchOpen(false); setSidebarOpen(false); setStep(4) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-list-64.png" /> &nbsp;Pedidos y entregas</a></li>
+                <li><a href="/Ayuda" className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-help-50.png" /> &nbsp; Ayuda</a></li>
+                <li><a onClick={(e) => { e.preventDefault(); setSidebarOpen(false); setStoreOpen(true); setStep(5) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-gear-50.png" /> &nbsp;Ajustes</a></li>
             </ul>
         </div>
     )

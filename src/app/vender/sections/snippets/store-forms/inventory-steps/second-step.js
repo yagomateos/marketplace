@@ -18,6 +18,7 @@ export default function InventorySecondStep({setProductInfo2} ) {
     const [festivity, setfestivity] = useState(null)
     const [tags, setTags] = useState([])
     const [materials, setmaterials] = useState([])
+    const [fileObjects, setFileObjects] = useState(null)
 
 
     // manage tags
@@ -47,7 +48,7 @@ export default function InventorySecondStep({setProductInfo2} ) {
     useEffect(() => {
         if (prodTitle && photos && description && price && quantity && sku && material && maincolor && seconcolor && festivity && tags && materials) {
             console.log('all good')
-            setProductInfo2([prodTitle, photos, description, price, quantity, sku, material, maincolor, seconcolor, festivity, tags, materials])
+            setProductInfo2([prodTitle, photos, fileObjects, description, price, quantity, sku, material, maincolor, seconcolor, festivity, tags, materials])
         }
     }, [prodTitle, photos, description, price, quantity, sku, material, maincolor, seconcolor, festivity, tags, materials])
 
@@ -87,7 +88,7 @@ export default function InventorySecondStep({setProductInfo2} ) {
                             <div className='border border-dashed border-[#ccc] round-md p-6 relative'>
                                 <div class="file-upload-wrapper w-full flex flex-col items-center justify-center ">
                                     <p className='text-center'>Arrastra y suelta, o bien</p>
-                                    <FileUploader setPhotos={setPhotos} />
+                                    <FileUploader setPhotos={setPhotos} setFileObjects={setFileObjects} />
 
                                 </div>
                             </div>

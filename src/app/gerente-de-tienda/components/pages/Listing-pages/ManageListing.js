@@ -3,7 +3,7 @@ import DefaultView from '../listing-views/DefaultView'
 import QuickEditView from '../listing-views/QuickEditView'
 import ListView from '../listing-views/ListView'
 import { getProductsByUserID } from '../../../../../lib/actions/products/getProducts'
-import { deactivateProductFunc , deleteProductFunc } from '../../../../../lib/actions/products/updateProduct'
+import { deactivateProductFunc, deleteProductFunc } from '../../../../../lib/actions/products/updateProduct'
 
 export default function ManageListing({ setSelectedproductToEdit, setSettingsPage, setStep, userData, setCreateListing, setEditListing, setCreatePopup }) {
 
@@ -44,6 +44,18 @@ export default function ManageListing({ setSelectedproductToEdit, setSettingsPag
         }
     }
 
+    const getUserProducts = async () => {
+        const userId = userData?.[0]?.id || null;
+        
+        try {
+            const products = await getProductsByUserID(userId)
+            // console.log(products)
+            setProducts(products)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const deleteProduct = async (product_id) => {
         if (confirm('Estas seguro')) {
             try {
@@ -55,6 +67,7 @@ export default function ManageListing({ setSelectedproductToEdit, setSettingsPag
                 }
                 setSettingsOpen(false)
                 console.log(deactivated)
+                getUserProducts()
             } catch (error) {
                 console.log(error)
             }
@@ -76,15 +89,6 @@ export default function ManageListing({ setSelectedproductToEdit, setSettingsPag
         console.log('comes here')
         const userId = userData?.[0]?.id || null;
         // console.log(userId)
-        const getUserProducts = async () => {
-            try {
-                const products = await getProductsByUserID(userId)
-                // console.log(products)
-                setProducts(products)
-            } catch (error) {
-                console.log(error)
-            }
-        }
 
         userId && getUserProducts();
 
@@ -128,10 +132,16 @@ export default function ManageListing({ setSelectedproductToEdit, setSettingsPag
                     {/* default view */}
 
                     {view === 'default' || view === 'list' ? <><div className="hidden lg:flex gap-3 px-2 lg:px-5 flex-col lg:flex-row w-full">
-                        <input type='checkbox' checked={selectAll} onChange={() => { selectAllProds() }} />
-                        <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc] w-full lg:w-auto">Renovar</a>
-                        <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc] w-full lg:w-auto">Desactivar</a>
-                        <a href="#" className="p-3 bg-[#fffffa] border border-[#ccc] w-full lg:w-auto">Borrar</a>
+                        <span className="p-2 bg-[#fffffa] border border-[#ccc] w-full lg:w-auto flex">
+                            <input type='checkbox' checked={selectAll} onChange={() => { selectAllProds() }} /> &nbsp;
+                            <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-arrow-down-30.png" className='w-4'/>
+                        </span>
+                        <div className='flex'>
+                            <a href="#" className="p-2 bg-[#fffffa] border border-[#ccc] w-full lg:w-auto">Renovar</a>
+                            <a href="#" className="p-2 bg-[#fffffa] border border-[#ccc] w-full lg:w-auto">Desactivar</a>
+                            <a href="#" className="p-2 bg-[#fffffa] border border-[#ccc] w-full lg:w-auto">Borrar</a>
+                        </div>
+
                     </div></> : <></>}
                     {
                         view == 'default' ? <>

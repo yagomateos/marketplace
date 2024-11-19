@@ -15,7 +15,7 @@ export default function Listings({ setSettingsPage, setStep, userData }) {
 
   return (<>
     {createListing ?
-      <CreateListng setCreateListing={setCreateListing} createPopup={createPopup} setCreatePopup={setCreatePopup} /> :
+      <CreateListng userData={userData} setCreateListing={setCreateListing} createPopup={createPopup} setCreatePopup={setCreatePopup} /> :
       editListing ?
         <EditListing selectedProduct={selectedProduct} setEditListing={setEditListing} /> :
         <ManageListing setSelectedproductToEdit={setSelectedproductToEdit} setSettingsPage={setSettingsPage} setStep={setStep} userData={userData} setCreateListing={setCreateListing} setEditListing={setEditListing} setCreatePopup={setCreatePopup} />

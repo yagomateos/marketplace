@@ -12,6 +12,7 @@ import { updateUserFunc } from '../../../lib/actions/users/updateUser'
 import { createNewProduct } from '../../../lib/actions/products/createProduct'
 import { useRouter } from 'next/navigation'
 import { createStr } from '../../../lib/actions/stores/createStore'
+import { UploadMultipleImgs , UploadImg } from '../../../lib/utils/uploadImg'
 
 
 export default function Storesetup({ reason, options }) {
@@ -41,7 +42,7 @@ export default function Storesetup({ reason, options }) {
 
 
     const [storeStep, setStoreStep] = useState(0)
-    const [completedStep , setCompletedStep] = useState(0)
+    const [completedStep, setCompletedStep] = useState(0)
     const [inventoryStep, setInventoryStep] = useState(0)
     const [bankStep, setBankStep] = useState(0)
 
@@ -62,10 +63,10 @@ export default function Storesetup({ reason, options }) {
             console.log(storeName)
             if (storeName) {
                 console.clear()
-                    console.log(completedStep , storeStep)
+                console.log(completedStep, storeStep)
                 setErr(null)
                 setStoreStep(storeStep + 1)
-                if(completedStep<=storeStep){
+                if (completedStep <= storeStep) {
                     setCompletedStep(1)
                 }
             } else {
@@ -92,12 +93,12 @@ export default function Storesetup({ reason, options }) {
                             setErr('Por favor complete el formulario anterior');
                         }
                     }
-                } else { 
+                } else {
                     setStoreStep(storeStep + 1)
-                    if(completedStep<=storeStep){
+                    if (completedStep <= storeStep) {
                         setCompletedStep(2)
                     }
-                   
+
                 }
             } else {
                 setErr('Por favor complete el formulario anterior');
@@ -115,7 +116,7 @@ export default function Storesetup({ reason, options }) {
                 if (identityInfo) {
                     // setBankStep(bankStep + 1)
                     setStoreStep(storeStep + 1)
-                    if(completedStep<=storeStep){
+                    if (completedStep <= storeStep) {
                         setCompletedStep(3)
                     }
                 } else {
@@ -123,7 +124,7 @@ export default function Storesetup({ reason, options }) {
                 }
             } else {
                 setStoreStep(storeStep + 1)
-                if(completedStep<=storeStep){
+                if (completedStep <= storeStep) {
                     setCompletedStep(3)
                 }
             }
@@ -148,7 +149,7 @@ export default function Storesetup({ reason, options }) {
 
         else {
             setStoreStep(storeStep + 1)
-            if(completedStep<=storeStep){
+            if (completedStep <= storeStep) {
                 setCompletedStep(storeStep)
             }
         }
@@ -194,21 +195,41 @@ export default function Storesetup({ reason, options }) {
                             // insert the product
 
                             if (storeCreated) {
-                                
+
 
                                 const productData = {
                                     firstPart: productInfo1, secondPart: productInfo2, userId: userId, storeId: storeCreated
                                 }
 
+                                // images object
+                                console.log('cariya')
+                                console.log(productInfo2)
+
+                                const fileObjectsFormDta = new FormData();
+                                fileObjectsFormDta.append('file' , productInfo2[2][0])
+                                // productInfo2[2].forEach((file, index) => {
+                                //     fileObjectsFormDta.append('file' , file); // `file1`, `file2`, etc.
+                                // });
+
                                 try {
-                                    const productInserted = await createNewProduct(productData)
-                                    console.log(productInserted)
-                                    if (productInserted) {
-                                        router.push('/registrado-en-la-tienda')
+                                    const uploadedImages = await UploadImg(fileObjectsFormDta)
+                                    console.clear();
+                                    console.log(uploadedImages)
+                                    // create product
+                                    try {
+                                        const productInserted = await createNewProduct(productData)
+                                        console.log(productInserted)
+                                        if (productInserted) {
+                                            router.push('/registrado-en-la-tienda')
+                                        }
+                                    } catch (error) {
+                                        console.log(error)
                                     }
                                 } catch (error) {
                                     console.log(error)
                                 }
+
+
                             }
 
 
