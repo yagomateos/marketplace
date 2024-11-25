@@ -44,7 +44,7 @@ export default function SliderCountdown() {
 
                 <div>
                     <h3 className='text-lg lg:text-3xl text-orange-950 font-semibold mb-0 lg:mb-2'>Jogger nocturno</h3>
-                    <p className='text-sm mb-1 lg:mb-4'>Hasta 40% de descuento en zapatillas deportivas para mujer</p>
+                    <p className='text-sm mb-1 lg:mb-4'>Hasta 40% de descuento en zapatillas deportivas</p>
                     <a href="" className='text-sm underline'>Compra ahora</a>
                 </div>
             </div>
