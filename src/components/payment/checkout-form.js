@@ -33,7 +33,7 @@ const CheckoutForm = ({ clientSecret, setFormEl = null , setPaymentSuceeded }) =
             elements,
             clientSecret,
             confirmParams: {
-                return_url: `https://www.vendalia.es/registrado-en-la-tienda`
+                return_url: `https://www.vendalia.es/`
             },
             redirect: 'if_required',
         })

@@ -1,9 +1,15 @@
 import dbConnection from '../../base/db';
 
-export const deleteFromCart = async (item_id)=>{
+export const deleteFromCart = async (userId , item_id) => {
     try {
         const db = await dbConnection();
-        const [results] = await db.execute(`DELETE from cart where Id = ${item_id}`);
+        let sql = `DELETE from cart where Id = ${item_id} and user_id = ${userId}`;
+
+        if (item_id == -1) {
+            sql = `DELETE from cart where user_id = ${userId}`;
+        }
+
+        const [results] = await db.execute(sql);
         await db.end();
         if (results.affectedRows > 0) {
             return true

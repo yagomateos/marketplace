@@ -20,7 +20,7 @@ export default function PublicPageContainer({ children }) {
             // check search result
             searchMenuOpen && setSearchMenuOpen(false)
 
-            userPopupOpen&&setUserPopupOpen(false)
+            userPopupOpen && setUserPopupOpen(false)
         }
     }
 
@@ -50,7 +50,7 @@ export default function PublicPageContainer({ children }) {
                     setUserPopupOpen={setUserPopupOpen}
                 />
 
-                <div onClick={(e)=>{userPopupOpen&&setUserPopupOpen(false)}}>{childrenWithProps}</div>
+                <div onClick={(e) => { userPopupOpen && setUserPopupOpen(false) }}>{childrenWithProps}</div>
 
                 <Footer />
                 <Popup
