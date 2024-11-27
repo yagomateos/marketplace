@@ -203,8 +203,8 @@ export default function Dashboard({ userData, setSettingsPage }) {
                 Pon a punto vendalia hoy
               </h3>
               <p className="text-sm lg:text-base">
-                Aprenda de los expertos de Vandalia y de la comunidad de vendedores en este evento gratuito de un día.
-                Además, por primera vez, revelaremos las finales de diseño de Vandalia.
+                Aprenda de los expertos de Vendalia y de la comunidad de vendedores en este evento gratuito de un día.
+                Además, por primera vez, revelaremos las finales de diseño de Vendalia.
               </p>
             </div>
             <div className="w-full mt-4 lg:mt-auto lg:w-[30%] text-center lg:text-right">
