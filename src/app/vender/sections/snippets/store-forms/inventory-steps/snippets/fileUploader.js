@@ -12,7 +12,7 @@ export default function FileUploader({ setPhotos , setFileObjects }) {
         const validFiles = selectedFiles.filter(file => file.type === 'image/jpeg' || file.type === 'image/png');
 
         if (validFiles.length > 10) {
-            setError("You can upload a maximum of 10 photos.");
+            setError("Puedes subir un máximo de 10 fotos.");
             return;
         }
 
@@ -51,7 +51,7 @@ export default function FileUploader({ setPhotos , setFileObjects }) {
     return (
         <div className='text-center'>
             <button onClick={handleClick} className="file-upload-button ml-auto mr-auto mt-4">
-                Añade hasta 10 fotos y 1 vídeo
+                Añade hasta 10 fotos. <span className='text-red-600 tex-sm'>(El tamaño recomendado es 900px x 1200px)</span>
             </button>
             <input
                 type="file"

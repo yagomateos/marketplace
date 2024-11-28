@@ -15,8 +15,11 @@ const appReducer = (state, action) => {
     switch (action.type) {
         case 'SET_CART_UPDATED':
             return { ...state, cartUpdated: action.payload.updated, lastUpdated: action.payload.time };
-        case 'SET_CHECKOUT_ITEMS':
-            return { ...state, checkoutItems: action.payload.checkoutItems, checkoutType:action.payload.checkoutType };
+        case 'SET_CHECKOUT_ITEM':
+            return { ...state, checkoutItem: action.payload.checkoutItem, checkoutType:action.payload.checkoutType , checkoutQty:action.payload.checkoutQty? action.payload.checkoutQty : null };
+        
+        case 'SET_ORDERED_ITEMS' : 
+            return {...state, ordered_items : action.payload.ordered_items , total: action.payload.total , order_id:action.payload.order_id}
         default:
             return state;
     }

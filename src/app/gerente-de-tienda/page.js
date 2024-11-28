@@ -71,7 +71,7 @@ export default function ShopDashboard() {
 
 
             <div className="flex">
-                <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} setStep={setStep} setSearchOpen={setSearchOpen} setStoreOpen={setStoreOpen} />
+                <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} setStep={setStep} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
                 <PageContainer setStep={setStep} step={step} userData={userData} searchOpen={searchOpen} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
             </div>
         </>

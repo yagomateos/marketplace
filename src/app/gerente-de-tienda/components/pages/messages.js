@@ -110,9 +110,8 @@ export default function Messages({ userData }) {
                   e.preventDefault();
                   setStep(0);
                 }}
-                className={`w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${
-                  step === 0 ? 'bg-[#f2f2f2]' : ''
-                }`}
+                className={`hover:bg-[#ccc] w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${step === 0 ? 'bg-[#f2f2f2]' : ''
+                  }`}
               >
                 Bandeja de entrada
               </a>
@@ -123,9 +122,8 @@ export default function Messages({ userData }) {
                   e.preventDefault();
                   setStep(1);
                 }}
-                className={`w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${
-                  step === 1 ? 'bg-[#f2f2f2]' : ''
-                }`}
+                className={`hover:bg-[#ccc] w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${step === 1 ? 'bg-[#f2f2f2]' : ''
+                  }`}
               >
                 Desde Vendalia
               </a>
@@ -136,9 +134,8 @@ export default function Messages({ userData }) {
                   e.preventDefault();
                   setStep(2);
                 }}
-                className={`w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${
-                  step === 2 ? 'bg-[#f2f2f2]' : ''
-                }`}
+                className={`hover:bg-[#ccc] w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${step === 2 ? 'bg-[#f2f2f2]' : ''
+                  }`}
               >
                 Enviado
               </a>
@@ -149,9 +146,8 @@ export default function Messages({ userData }) {
                   e.preventDefault();
                   setStep(3);
                 }}
-                className={`w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${
-                  step === 3 ? 'bg-[#f2f2f2]' : ''
-                }`}
+                className={`hover:bg-[#ccc] w-full cursor-pointer py-2 px-4 mb-2 lg:mb-6 block rounded-full whitespace-nowrap ${step === 3 ? 'bg-[#f2f2f2]' : ''
+                  }`}
               >
                 No leído
               </a>
@@ -161,6 +157,13 @@ export default function Messages({ userData }) {
 
         {/* right side */}
         <div className="p-4 border border-[#ccc] lg:border-0 w-[75%]">
+          <ul className='flex mb-4'>
+            <li className='px-6 py-3 inline-block'><input type='checkbox' /></li>
+            <li><a className='px-6 py-3 inline-block hover:bg-[#f2f2f2] rounded-full' href="#">Papelera de reciclaje</a></li>
+            <li><a className='px-6 py-3 inline-block hover:bg-[#f2f2f2] rounded-full' href="#">Marcar como no leído</a></li>
+            <li><a className='px-6 py-3 inline-block hover:bg-[#f2f2f2] rounded-full' href='#'>Marcar como leído</a></li>
+          </ul>
+          <hr />
           {returnMessageStep()}
         </div>
       </div>

@@ -1,11 +1,11 @@
 import dbConnection from '../../base/db';
 
-export const createOrder = async (userId, cartItems) => {
+export const createOrder = async (userId, cartItems, singleCheckout = false, qty = 0) => {
     let db;
 
     try {
         db = await dbConnection();
-        const placeholders = cartItems.map(() => '?').join(',');
+        const placeholders = cartItems.map(item => item.id).map(() => '?').join(',');
 
         // Begin transaction
         await db.query('BEGIN');
@@ -25,11 +25,19 @@ export const createOrder = async (userId, cartItems) => {
         console.log('Order ID:', orderId);
 
         // Select items from cart
-        const cartSelectQuery = `
+        let cartItemsResult = []
+        if (!singleCheckout) {
+            const cartSelectQuery = `
             SELECT * FROM marketplace.cart
             WHERE user_id = ? AND id IN (${placeholders})
         `;
-        const [cartItemsResult] = await db.query(cartSelectQuery, [userId, ...cartItems]);
+            const [cartItemsRst] = await db.query(cartSelectQuery, [userId, ...cartItems]);
+            cartItemsResult = cartItemsRst
+
+        } else {
+            cartItemsResult = [{ item_id: cartItems[0], quantity: qty }]
+        }
+
 
         if (!cartItemsResult.length) {
             throw new Error('No matching cart items found');
@@ -38,21 +46,22 @@ export const createOrder = async (userId, cartItems) => {
 
         // Insert into order_items
         const orderItemsInsertQuery = `
-            INSERT INTO marketplace.order_items (order_id, product_id)
-            VALUES (?, ?)
+            INSERT INTO marketplace.order_items (order_id, product_id, qty)
+            VALUES (?, ?, ?)
         `;
         for (const item of cartItemsResult) {
-            await db.query(orderItemsInsertQuery, [orderId, item.item_id]);
+            await db.query(orderItemsInsertQuery, [orderId, item.item_id, item.quantity]);
         }
 
-        // Delete the cart items
-        const deleteCartItemsQuery = `
+        if (!singleCheckout) {
+            // Delete the cart items
+            const deleteCartItemsQuery = `
             DELETE FROM marketplace.cart
             WHERE user_id = ? AND id IN (${placeholders})
         `;
-        await db.query(deleteCartItemsQuery, [userId, ...cartItems]);
-        console.log('Deleted cart items for user:', userId);
-
+            await db.query(deleteCartItemsQuery, [userId, ...cartItems]);
+            console.log('Deleted cart items for user:', userId);
+        }
         // Commit transaction
         await db.query('COMMIT');
 

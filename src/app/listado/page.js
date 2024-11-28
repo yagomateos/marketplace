@@ -13,12 +13,14 @@ import 'yet-another-react-lightbox/styles.css';
 import FeaturedProducts from '../../components/public/sections/featured-products';
 import { addToCartFunc } from '../../lib/actions/cart/addToCart'
 import { setFavourite, getFavorites } from '../../lib/actions/products/favourite'
-// import { setFavourite, getFavorites } from '../../../../lib/actions/products/favourite'
+import { useAppContext } from '../context/AppContext';
 
 function ListingFunc() {
 
     const searchParams = useSearchParams();
     const pid = searchParams.get('pid');
+
+    const { state, dispatch } = useAppContext();
 
     const [product, setProduct] = useState(null);
 
@@ -100,6 +102,13 @@ function ListingFunc() {
             );
         }
     };
+
+    const singleCheckout = (itemId , sale_price = '' , regular_price = 0 , name=null)=>{
+        console.clear();
+        console.log()
+        dispatch({ type: 'SET_CHECKOUT_ITEM', payload: { checkoutItem:  {Id : itemId , sale_price : sale_price , regular_price:regular_price , cartQuantity:quantity , name:name } , checkoutType:'single' , checkoutQty : quantity } });
+        router.push('/verificar')
+    }
 
 
     useEffect(() => {
@@ -342,7 +351,7 @@ function ListingFunc() {
             return (
                 <div>
                     <input onChange={(e) => updateQuantity(e)} className='p-3 mt-5 w-full rounded-lg border border-black' type='number' max={product[0].quantity} placeholder='Cantidad' />
-                    <a href="/" className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black my-3 lg:my-6'> Comprar ahora</a>
+                    <a href="/" onClick={(e)=>{e.preventDefault(); singleCheckout(product[0].id , product[0].sale_price , product[0].regular_price , product[0].name )}} className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black my-3 lg:my-6'> Comprar ahora</a>
                     <a href="/" onClick={(e) => { addToCart(e) }} className={`flex justify-center items-center py-3 px-6 border-2 border-black rounded-full text-white ${cartError ? 'bg-[#ccc] cursor-text' : 'bg-black cursor-pointer'} my-3 lg:my-6`} > Añadir al carrito</a>
                     {return_fav_Button(product[0].id)}
 

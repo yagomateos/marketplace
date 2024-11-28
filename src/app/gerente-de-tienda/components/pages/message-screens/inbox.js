@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { sendMessage } from '../../../../../lib/actions/messages/messages';
 
-export default function Inbox({ receivedMsg, sentMsg , setMessageSent , userId }) {
+export default function Inbox({ receivedMsg, sentMsg, setMessageSent, userId }) {
   const [currentConversation, setCurrentConversation] = useState(null);
-  const [currentReciver , setCurrentReciver] = useState(null);
+  const [currentReciver, setCurrentReciver] = useState(null);
   const [messagesArray, setMessagesArray] = useState([]);
 
   useEffect(() => {
@@ -16,15 +16,15 @@ export default function Inbox({ receivedMsg, sentMsg , setMessageSent , userId }
   // Group messages to show only the last message from each sender in the inbox view
   const lastMessages = groupMessagesBySender(messagesArray);
 
-  const openConversation = (senderId , reciverId) => {
+  const openConversation = (senderId, reciverId) => {
     setCurrentConversation(senderId);
 
-    if(reciverId != userId){
+    if (reciverId != userId) {
       setCurrentReciver(reciverId)
-    }else{
+    } else {
       setCurrentReciver(senderId)
     }
-    
+
   };
 
   return (
@@ -35,7 +35,7 @@ export default function Inbox({ receivedMsg, sentMsg , setMessageSent , userId }
           messages={messagesArray}
           onBack={() => setCurrentConversation(null)}
           currentReciver={currentReciver}
-          setMessageSent = {setMessageSent}
+          setMessageSent={setMessageSent}
           userId={userId}
         />
       ) : (
@@ -43,12 +43,19 @@ export default function Inbox({ receivedMsg, sentMsg , setMessageSent , userId }
           lastMessages.map((message) => (
             <div
               key={message.id}
-              onClick={() => openConversation(message.sender_id , message.receiver_id)}
-              className={`message-item cursor-pointer w-full p-4 border border-[#ccc] mb-4 rounded-[20px]`}
+              onClick={() => openConversation(message.sender_id, message.receiver_id)}
+              className={`message-item cursor-pointer w-full p-4 border border-[#ccc] mb-4 rounded-[20px] flex justify-between items-center`}
             >
-              <p><strong>User {message.sender_id}</strong></p>
-              <p>{message.message}</p>
-              <p className='text-xs text-green-700'><em>{new Date(message.timestamp).toLocaleString()}</em></p>
+
+              <div className='w-[10%] flex gap-3'>
+                <input type='checkbox' />
+                <img className='w-[60px] h-[60px] rounded-full' src={message.identity_url} />
+              </div>
+              <div className='w-[70%]'>
+                <p><strong>{message.username ? message.username  :  `User ${message.sender_id}`}</strong></p>
+                <p>{message.message}</p>
+              </div>
+              <p className='text-xs text-green-700 w-[20%]'><em>{new Date(message.timestamp).toLocaleString()}</em></p>
             </div>
           ))
         ) : (
@@ -77,8 +84,8 @@ const groupMessagesBySender = (messages) => {
 };
 
 // Conversation component to display the full thread with a sender
-const Conversation = ({ senderId, messages, onBack , currentReciver , setMessageSent , userId}) => { 
-  
+const Conversation = ({ senderId, messages, onBack, currentReciver, setMessageSent, userId }) => {
+
   const [replyMessage, setReplyMessage] = useState('');
 
   // Filter to get both sent and received messages for the selected sender, and sort by timestamp
@@ -94,7 +101,7 @@ const Conversation = ({ senderId, messages, onBack , currentReciver , setMessage
     setReplyMessage('');
 
     try {
-      const messageSent = await sendMessage( currentReciver , replyMessage , userId )
+      const messageSent = await sendMessage(currentReciver, replyMessage, userId)
 
       console.log(messageSent)
       setMessageSent(messageSent)
@@ -102,7 +109,7 @@ const Conversation = ({ senderId, messages, onBack , currentReciver , setMessage
       console.log(error)
     }
 
-    
+
   };
 
   return (
@@ -111,8 +118,8 @@ const Conversation = ({ senderId, messages, onBack , currentReciver , setMessage
       <h2 className='text-xl mb-6 font-semibold'>Conversation with User {senderId}</h2>
       <div className="messages flex flex-col max-w-4xl">
         {conversationMessages.map((msg) => (
-          <div key={msg.id} className={`message p-3 border border-[#ccc] rounded-2xl mb-4 w-max ${msg.message_type!=="Received" ? 'self-end' : ''}`}>
-            <p><strong>{msg.message_type==="Received" ? 'Them' : 'You'}</strong></p>
+          <div key={msg.id} className={`message p-3 border border-[#ccc] rounded-2xl mb-4 w-max ${msg.message_type !== "Received" ? 'self-end' : ''}`}>
+            <p><strong>{msg.message_type === "Received" ? 'Them' : 'You'}</strong></p>
             <p>{msg.message}</p>
             <p className='text-xs text-green-700'><em>{new Date(msg.timestamp).toLocaleString()}</em></p>
           </div>
@@ -125,7 +132,7 @@ const Conversation = ({ senderId, messages, onBack , currentReciver , setMessage
           onChange={(e) => setReplyMessage(e.target.value)}
           placeholder="Type your reply..."
         />
-        <button className='ml-auto py-3 px-6 border border-[#ccc]' onClick={()=>handleSendReply()}>Send</button>
+        <button className='ml-auto py-3 px-6 border border-[#ccc]' onClick={() => handleSendReply()}>Send</button>
       </div>
     </div>
   );

@@ -6,24 +6,33 @@ export const getMessages = async (userId) => {
         const db = await dbConnection();
         const [results] = await db.execute(`
             SELECT 
-                id, 
+                m.id, 
                 CASE  
-                    WHEN \`from\` = ${userId} THEN 'Sent'
-                    WHEN \`to\` = ${userId} THEN 'Received'
+                    WHEN m.\`from\` = ${userId} THEN 'Sent'
+                    WHEN m.\`to\` = ${userId} THEN 'Received'
                 END AS message_type,
                 CASE 
-                    WHEN \`from\` = -1 THEN 1 
+                    WHEN m.\`from\` = -1 THEN 1 
                     ELSE 0 
                 END AS from_vendalia,
-                message, -- Replace this with actual content column name if different
-                \`from\` AS sender_id,
-                \`to\` AS receiver_id,
-                timestamp -- Adjust column name if necessary
+                m.message, -- Replace this with actual content column name if different
+                m.\`from\` AS sender_id,
+                m.\`to\` AS receiver_id,
+                m.timestamp, -- Adjust column name if necessary
+                u.* -- Replace with specific columns from the users table (e.g., u.name, u.email)
             FROM 
-                marketplace.messages
+                marketplace.messages m
+            LEFT JOIN 
+                users u
+            ON 
+                u.id = CASE 
+                           WHEN m.\`from\` = ${userId} THEN m.\`to\`
+                           WHEN m.\`to\` = ${userId} THEN m.\`from\`
+                       END
             WHERE 
-                \`from\` = ${userId} OR \`to\` = ${userId};
+                m.\`from\` = ${userId} OR m.\`to\` = ${userId};
         `);
+        
         await db.end();
 
         if (results.length > 0) {

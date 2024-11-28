@@ -14,8 +14,8 @@ export default function AdjustSettings() {
   return (
     <div className='max-w-5xl'>
       <div className='w-full overflow-x-auto'>
-        <ul className='flex border-b mb-6 border-[#ccc] lg:px-6 pb-3 lg:pb-0 overflow-x-auto'>
-          <li className='min-w-[100%]'>
+        <ul className='flex border-b mb-6 border-[#ccc] lg:px-6 pb-3 lg:pb-0 overflow-x-auto lg:overflow-hidden'>
+          <li className='min-w-[100%] lg:min-w-max'>
             <a
               className={`text-sm py-2 border border-[#ccc] block px-3 lg:border-b-0 cursor-pointer ${selectedTab === 1 ? 'bg-[#f2f2f2]' : ''}`}
               onClick={(e) => { e.preventDefault(); setSelectedTab(1); }}
@@ -23,7 +23,7 @@ export default function AdjustSettings() {
               Información y apariencia
             </a>
           </li>
-          <li className='min-w-[100%]'>
+          <li className='min-w-[100%] lg:min-w-max'>
             <a
               className={`text-sm py-2 border border-[#ccc] block px-3 lg:border-b-0 cursor-pointer border-l-0 ${selectedTab === 2 ? 'bg-[#f2f2f2]' : ''}`}
               onClick={(e) => { e.preventDefault(); setSelectedTab(2); }}

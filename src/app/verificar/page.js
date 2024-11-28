@@ -22,6 +22,7 @@ export default function Checkout() {
     const [formEl, setFormEl] = useState(null)
     const [totalPrice, setTotalPrice] = useState(0)
     const [cartItemIds, setCartItemIds] = useState([])
+    const [orderItems, setOrderItems] = useState([])
     const [orderSuccess, setOrderSuccess] = useState(null)
     const [orderError, setOrderError] = useState(null)
     const [paymentSuceeded, setPaymentSuceeded] = useState(false)
@@ -42,14 +43,17 @@ export default function Checkout() {
         // Run only when session.user.id is available
         if (session?.user?.id) {
             setUserId(session?.user?.id)
-            if (state.checkoutType === 'single' && state.checkoutItems) {
-                setCartDta(state.checkoutItems);
+
+            console.clear()
+            console.log(state)
+            if (state.checkoutType === 'single' && state.checkoutItem) {
+                setCartDta([state.checkoutItem]);
                 setSingleCheckout(true);
             } else if (!cartDta) {
                 getCartData();
             }
         } else {
-            router.push('/')
+            // router.push('/')
         }
     }, [session?.user?.id, state.checkoutType, state.checkoutItems]);
 
@@ -58,37 +62,52 @@ export default function Checkout() {
         console.log(cartDta)
         let totalAmt = 0;
         let cartItems = [];
+        const orderItms = []
 
         cartDta && cartDta.forEach(itm => {
-            itm.sale_price && itm.sale_price != '' ? totalAmt += parseFloat(itm.sale_price) : totalAmt += parseFloat(itm.regular_price)
-            // console.log(itm)
+            console.log(itm)
+            itm.sale_price && itm.sale_price != '' ? totalAmt += (parseFloat(itm.sale_price) * parseInt(itm.cartQuantity)) : totalAmt += (parseFloat(itm.regular_price) * parseInt(itm.cartQuantity))
             cartItems.push(itm.Id)
+            orderItms.push({ id: itm.Id, sale_price: itm.sale_price, regular_price: itm.regular_price, qty: itm.cartQuantity, name: itm.name })
         });
 
 
+        setOrderItems(orderItms)
         setTotalPrice(totalAmt)
         setCartItemIds(cartItems)
 
-        console.clear();
-        console.log(totalPrice)
-        console.log(cartItemIds)
+
 
     }, [cartDta])
 
     useEffect(() => {
+        console.clear();
+        console.log(cartDta)
+        console.log(totalPrice)
+        console.log(cartItemIds)
+        console.log(orderItems)
+    }, [totalPrice, cartItemIds, orderItems])
 
-        console.clear()
-        console.log('creating order')
+    useEffect(() => {
+
+        // console.clear()
+        // console.log('creating order')
 
         const createOrder = async () => {
 
             console.clear()
-            console.log(userId)
+            // console.log(userId)
             try {
                 console.log(userId)
-                const orderCreated = await createOrderFunc(userId, cartItemIds)
+                console.log(cartItemIds)
+                const orderCreated = await createOrderFunc(userId, cartItemIds , singleCheckout , cartDta[0].cartQuantity)
                 console.log(orderCreated)
+                console.log(orderCreated.orderId)
                 setOrderSuccess('Su pedido ha sido realizado');
+
+                dispatch({ type: 'SET_ORDERED_ITEMS', payload: { ordered_items: orderItems, total: totalPrice , order_id :  orderCreated.orderId} });
+
+
                 router.push('/verificar/pedido_confirmado')
 
             } catch (error) {
@@ -98,9 +117,9 @@ export default function Checkout() {
 
         }
 
-        paymentSuceeded&&createOrder();
+        paymentSuceeded && createOrder();
 
-        
+
 
 
     }, [paymentSuceeded])

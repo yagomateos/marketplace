@@ -16,8 +16,8 @@ export default function AboutSettings() {
 
             <div>
                 <ul className='flex border-b mb-6 border-[#ccc] lg:px-6'>
-                    <li className='min-w-[50%]'><a className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer ${selectedTab == 1 && 'bg-[#f2f2f2]'}`} onClick={(e) => { e.preventDefault(); setSelectedTab(1) }}>Miembros</a></li>
-                    <li className='min-w-[50%]'><a className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer border-l-0 ${selectedTab == 2 && 'bg-[#f2f2f2]'}`} onClick={(e) => { e.preventDefault(); setSelectedTab(2) }}>Historia</a></li>
+                    <li className='min-w-[50%] lg:min-w-max'><a className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer ${selectedTab == 1 && 'bg-[#f2f2f2]'}`} onClick={(e) => { e.preventDefault(); setSelectedTab(1) }}>Miembros</a></li>
+                    <li className='min-w-[50%] lg:min-w-max'><a className={`py-2 border border-[#ccc] block px-3 border-b-0 cursor-pointer border-l-0 ${selectedTab == 2 && 'bg-[#f2f2f2]'}`} onClick={(e) => { e.preventDefault(); setSelectedTab(2) }}>Historia</a></li>
                 </ul>
             </div>
 

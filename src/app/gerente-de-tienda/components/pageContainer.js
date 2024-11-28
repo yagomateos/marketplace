@@ -19,7 +19,7 @@ export default function PageContainer({ setStep, step, userData, searchOpen, set
       case 3:
         return <Messages userData={userData} />
       case 4:
-        return <Orders />
+        return <Orders userData={userData}/>
       case 5:
         return <Settings settingPage={settingPage} />
       default:
@@ -39,10 +39,10 @@ export default function PageContainer({ setStep, step, userData, searchOpen, set
         </div>
       }
       {storeOpen &&
-        <div className='absolute bg-[#00000061] w-full h-full left-0 top-0 z-10'>
-          <div className='bg-white lg:w-[35%] p-4 lg:p-8 h-full relative'>
+        <div className='absolute bg-white w-[20%] left-0 top-0 z-10 translate-x-[-100%]'>
+          <div className='bg-white lg:w-full p-4 lg:p-8 h-full relative'>
             <div>
-              <h3 className='text-lgf mb-12 font-semibold'>Ajustes</h3>
+              <h3 className='text-lgf mb-6 font-semibold pl-4'>Ajustes</h3>
               <ul>
                 <li><a className='py-4 hover:bg-[#f2f2f2] block px-3 cursor-pointer' onClick={(e) => { e.preventDefault(); setStoreOpen(false); setSettingsPage(1) }}>Información y apariencia</a></li>
                 <li><a className='py-4 hover:bg-[#f2f2f2] block px-3 cursor-pointer' onClick={(e) => { e.preventDefault(); setStoreOpen(false); setSettingsPage(2) }}>Acerca de su tienda</a></li>
