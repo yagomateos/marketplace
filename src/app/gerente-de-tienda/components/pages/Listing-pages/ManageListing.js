@@ -162,7 +162,7 @@ export default function ManageListing({ setSelectedproductToEdit, setSettingsPag
                     <div className='mb-6'>
                         <div className='flex justify-between'>
                             <div className="flex items-center space-x-4">
-                                <label htmlFor="status-toggle" className="text-lg font-medium text-gray-900">
+                                {/* <label htmlFor="status-toggle" className="text-lg font-medium text-gray-900">
                                     Status
                                 </label>
                                 <div className="relative inline-flex items-center">
@@ -180,7 +180,7 @@ export default function ManageListing({ setSelectedproductToEdit, setSettingsPag
                                         className={`absolute left-1 top-1 w-4 h-4 bg-white border border-gray-300 rounded-full transition-transform duration-200 ${isActive ? "translate-x-5" : ""
                                             }`}
                                     ></div>
-                                </div>
+                                </div> */}
                             </div>
                             <div className='flex items-end'>
                                 <a className='p-3 border border-[#ccc] cursor-pointer' onClick={(e) => { e.preventDefault(); setView('default') }}><img className='w-5' src='https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-windows-30.png' /></a>

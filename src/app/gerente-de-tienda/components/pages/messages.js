@@ -156,14 +156,14 @@ export default function Messages({ userData }) {
         </div>
 
         {/* right side */}
-        <div className="p-4 border border-[#ccc] lg:border-0 w-[75%]">
-          <ul className='flex mb-4'>
+        <div className="lg:p-4 border border-[#ccc] lg:border-0 w-full lg:w-[75%]">
+          <ul className='hidden lg:flex mb-4'>
             <li className='px-6 py-3 inline-block'><input type='checkbox' /></li>
             <li><a className='px-6 py-3 inline-block hover:bg-[#f2f2f2] rounded-full' href="#">Papelera de reciclaje</a></li>
             <li><a className='px-6 py-3 inline-block hover:bg-[#f2f2f2] rounded-full' href="#">Marcar como no leído</a></li>
             <li><a className='px-6 py-3 inline-block hover:bg-[#f2f2f2] rounded-full' href='#'>Marcar como leído</a></li>
           </ul>
-          <hr />
+          <hr className='hidden lg:block' />
           {returnMessageStep()}
         </div>
       </div>

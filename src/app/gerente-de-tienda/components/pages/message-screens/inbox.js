@@ -47,11 +47,11 @@ export default function Inbox({ receivedMsg, sentMsg, setMessageSent, userId }) 
               className={`message-item cursor-pointer w-full p-4 border border-[#ccc] mb-4 rounded-[20px] flex justify-between items-center`}
             >
 
-              <div className='w-[10%] flex gap-3'>
+              <div className='lg:w-[10%] w-[30%] flex gap-3'>
                 <input type='checkbox' />
-                <img className='w-[60px] h-[60px] rounded-full' src={message.identity_url} />
+                <img className='w-[30px] lg:w-[60px] h-[30px] lg:h-[60px] rounded-full' src={message.identity_url} />
               </div>
-              <div className='w-[70%]'>
+              <div className='lg:w-[70%] w-[50%]'>
                 <p><strong>{message.username ? message.username  :  `User ${message.sender_id}`}</strong></p>
                 <p>{message.message}</p>
               </div>

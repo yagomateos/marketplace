@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import FileUploader from '../../../../vender/sections/snippets/store-forms/inventory-steps/snippets/fileUploader'
-import { UploadMultipleImgs } from '../../../../../lib/utils/uploadImg'
 import { updarteProductFunc } from '../../../../../lib/actions/products/updateProduct'
 
 

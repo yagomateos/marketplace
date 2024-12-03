@@ -40,3 +40,20 @@ WHERE s.userid = ${userId};;
         throw error;
     }
 }
+
+export const getStoresInformation = async (userId) => {
+    try {
+        const db = await dbConnection();
+        const [results] = await db.execute(`SELECT * from stores where userid = ${userId};;
+`);
+        await db.end();
+
+        if (results.length > 0) {
+            return results;
+        } else {
+            throw new Error('no stores found');
+        }
+    } catch (error) {
+        throw error;
+    }
+}

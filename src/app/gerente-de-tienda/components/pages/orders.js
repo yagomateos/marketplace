@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getOrdersFunc } from '../../../../lib/actions/orders/getOrders'
-import {updateOrderFunc} from '../../../../lib/actions/orders/updateOrders'
+import { updateOrderFunc } from '../../../../lib/actions/orders/updateOrders'
 
 export default function Orders({ userData }) {
 
@@ -9,7 +9,7 @@ export default function Orders({ userData }) {
   const [closedOrders, setClosedOrders] = useState([])
   const [moreInfo, setMoreInfo] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState(null)
-  const [refresh , setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function Orders({ userData }) {
     if (userData && userData[0] && userData[0]?.id) { // Check if userData[0] exists and has an id
       getAllOrders(); // Call the function
     }
-  }, [userData , refresh]);
+  }, [userData, refresh]);
 
 
   // useEffect(() => {
@@ -64,12 +64,12 @@ export default function Orders({ userData }) {
     setMoreInfo(true)
   }
 
-  const completeOrder = async (e , order_id) =>{
+  const completeOrder = async (e, order_id) => {
     e.preventDefault();
     try {
-      const orderUpdated = await updateOrderFunc('status' , order_id)
+      const orderUpdated = await updateOrderFunc('status', order_id)
       console.log(orderUpdated)
-      if(orderUpdated){
+      if (orderUpdated) {
         setRefresh(!refresh)
         setMoreInfo(false)
         setType('completed')
@@ -95,8 +95,8 @@ export default function Orders({ userData }) {
         <div className='w-full lg:w-[75%] py-4 px-2 lg:px-12 '>
           <div className="overflow-x-auto">
             <ul className='border-b border-[#ccc] flex gap-4 w-full'>
-              <li><a onClick={(e) => { e.preventDefault(); setType('new'); setMoreInfo(false)  }} className={`cursor-pointer py-3 block ${type == 'new' ? 'border-b-2 border-[black]' : ''}`}>Nuevo</a></li>
-              <li><a onClick={(e) => { e.preventDefault(); setType('completed'); setMoreInfo(false)  }} className={`cursor-pointer py-3 block ${type == 'completed' ? 'border-b-2 border-[black]' : ''}`}>Terminado</a></li>
+              <li><a onClick={(e) => { e.preventDefault(); setType('new'); setMoreInfo(false) }} className={`cursor-pointer py-3 block ${type == 'new' ? 'border-b-2 border-[black]' : ''}`}>Nuevo</a></li>
+              <li><a onClick={(e) => { e.preventDefault(); setType('completed'); setMoreInfo(false) }} className={`cursor-pointer py-3 block ${type == 'completed' ? 'border-b-2 border-[black]' : ''}`}>Terminado</a></li>
             </ul>
           </div>
 
@@ -106,7 +106,7 @@ export default function Orders({ userData }) {
                 {newOrders && newOrders.length > 0 ? <div className='my-12'>
                   {newOrders.map((order, key) => {
 
-                    return <div key={key} className='border p-5 border-[#ccc] flex justify-between items-center'>
+                    return <div key={key} className='border p-5 border-[#ccc] flex justify-between items-center mb-5'>
                       <div>
                         <p>Order - #{order.order_id}</p>
                         <small>{order.date_time
@@ -131,7 +131,7 @@ export default function Orders({ userData }) {
                   {closedOrders && closedOrders.length > 0 ? <div className='my-12'>
                     {closedOrders.map((order, key) => {
 
-                      return <div key={key} className='border p-5 border-[#ccc] flex justify-between items-center'>
+                      return <div key={key} className='border p-5 border-[#ccc] flex justify-between items-center mb-5'>
                         <div>
                           <p>Order - #{order.order_id}</p>
                           <small>{order.date_time
@@ -139,7 +139,7 @@ export default function Orders({ userData }) {
                             : "No hay fecha proporcionada"}</small>
                         </div>
 
-                        <a href="#" onClick={(e) => { e.preventDefault(); seeMoreInfo(order.order_id) }}>Más información</a>
+                        <a href="#" onClick={(e) => { e.preventDefault(); setMoreInfo(order.order_id) }}>Más información</a>
                       </div>
 
                     })}
@@ -197,7 +197,13 @@ export default function Orders({ userData }) {
                 </tbody>
               </table>
               <div className='my-6 text-right'>
-                <a href='#' className='inline-block ml-auto py-3 px-20 bg-black text-white rounded-full' onClick={(e)=>{completeOrder(e , selectedOrder.order_id)}}>Establecer como completado</a>
+
+                {
+                  type == 'new' ?
+                    <a href='#' className='inline-block ml-auto py-3 px-20 bg-black text-white rounded-full' onClick={(e) => { completeOrder(e, selectedOrder.order_id) }}>Establecer como completado</a>
+
+                    : ''
+                }
 
               </div>
             </div>

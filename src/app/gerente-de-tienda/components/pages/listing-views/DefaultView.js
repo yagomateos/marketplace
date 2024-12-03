@@ -91,7 +91,7 @@ export default function DefaultView({ deleteProduct , copyProductPublicUrl, deac
 
     return (
         <div className="flex mt-6 flex-wrap">
-            {products && products.map((product, key) => returnSelectedProds(product, key))}
+            {products ? products.map((product, key) => returnSelectedProds(product, key)) : <div className='max-w-7xl text-red-800 flex justify-center items-center text-4xl h-full'>¡No se encontraron productos!</div>}
         </div>
     );
 }

@@ -10,20 +10,26 @@ export default function Dashboard({ userData, setSettingsPage }) {
   const [soldOutListings, setSoldOutListings] = useState(null)
   const [listings, setListings] = useState(null)
   const [notifications, setNotifications] = useState(null)
+  // const [ignoredNotifications , setIgnoredNotifications] = useState([])
 
   // Helper function to get ignored notifications from localStorage
-  const getIgnoredNotifications = () => {
-    const ignored = localStorage.getItem('ignore_notification')
-    return ignored ? JSON.parse(ignored) : {}
-  }
+  // const getIgnoredNotifications = () => {
+  //   const ignored = localStorage.getItem('ignore_notification')
+  //   return ignored ? JSON.parse(ignored) : {}
+  // }
 
-  // Function to handle "Ahora no" click
+  // // Function to handle "Ahora no" click
+  // const handleIgnoreNotification = (id) => {
+  //   const ignored = getIgnoredNotifications()
+  //   ignored[id] = true // Mark this notification as ignored
+  //   localStorage.setItem('ignore_notification', JSON.stringify(ignored))
+
+  //   // Update the state to remove the ignored notification from the display
+  //   setNotifications((prev) => prev.filter((notification) => notification.id !== id))
+  // }
+
   const handleIgnoreNotification = (id) => {
-    const ignored = getIgnoredNotifications()
-    ignored[id] = true // Mark this notification as ignored
-    localStorage.setItem('ignore_notification', JSON.stringify(ignored))
-
-    // Update the state to remove the ignored notification from the display
+    // setIgnoredNotifications([...ignoredNotifications , id])
     setNotifications((prev) => prev.filter((notification) => notification.id !== id))
   }
 
@@ -76,14 +82,14 @@ export default function Dashboard({ userData, setSettingsPage }) {
     const getNotificationsFunc = async () => {
       try {
         const notifications = await getNoticesFunc()
-        const ignoredNotifications = getIgnoredNotifications()
+        // const ignoredNotifications = getIgnoredNotifications()
 
         // Filter out notifications that are in the ignored list
-        const filteredNotifications = notifications.filter(
-          (notification) => !ignoredNotifications[notification.id]
-        )
+        // const filteredNotifications = notifications.filter(
+        //   (notification) => !ignoredNotifications[notification.id]
+        // )
 
-        setNotifications(filteredNotifications)
+        setNotifications(notifications)
       } catch (error) {
         console.error(error)
       }
@@ -281,7 +287,7 @@ export default function Dashboard({ userData, setSettingsPage }) {
             {listings &&
               listings.map((listing, key) => (
                 <div key={key} className="w-[46%]">
-                  <a href={`http://localhost:3000/listado?pid=${listing.id}`}>
+                  <a href={`/listado?pid=${listing.id}`}>
                     <img src={listing.main_image_url} />
                     <p className="text-sm">{listing?.name?.substring(0, 60)}...</p>
                   </a>

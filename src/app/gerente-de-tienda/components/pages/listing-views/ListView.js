@@ -19,7 +19,7 @@ export default function ListView({deleteProduct , copyProductPublicUrl, deactiva
 
     return (
         <div className="flex mt-6 flex-col lg:gap-3">
-            {products && products.map((product, key) => {
+            {products ? products.map((product, key) => {
                 const isStarred = selectedStars && selectedStars.includes(product.id); // Check if the product is starred
 
                 return (
@@ -71,7 +71,7 @@ export default function ListView({deleteProduct , copyProductPublicUrl, deactiva
                         </div>
                     </div>
                 );
-            })}
+            }) :  <div className='max-w-7xl text-red-800 flex justify-center items-center text-4xl h-full'>¡No se encontraron productos!</div>}
         </div>
     );
 }

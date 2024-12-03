@@ -1,14 +1,129 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { addStoreManagers, deleteMemberFunc, getStoremanagersFunc, uploadImages } from '../../../../../lib/actions/stores/storeManagers'
+import { updateStoreHistoryFunc } from '../../../../../lib/actions/stores/updateStore'
+import { getStoresInformationFunc } from '../../../../../lib/actions/stores/getStores'
 
-export default function AboutSettings() {
+export default function AboutSettings({ userId }) {
     const [selectedTab, setSelectedTab] = useState(1)
     const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+    const [image, setImage] = useState(null)
+    const [userImage, setUserImage] = useState(null)
+    const [name, setName] = useState(null)
+    const [biology, setBiology] = useState(null)
+    const [existingMembers, setExistingMembers] = useState([])
+    const [updated, setUpdated] = useState(false)
 
-    const handleSave = () => {
-        setShowSuccessMessage(true)
-        setTimeout(() => {
-            setShowSuccessMessage(false)
-        }, 3000) // Message will disappear after 3 seconds
+    const [historyTitle, setHistoryTitle] = useState(null)
+    const [historyDesc, setHistoryDesc] = useState(null)
+
+
+    useEffect(() => {
+        // get store managers
+        const getStrMembers = async () => {
+            try {
+                const storeManagers = await getStoremanagersFunc(userId)
+                console.clear();
+                console.log(storeManagers)
+                setExistingMembers(storeManagers)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        // get history
+
+        const getHistory = async () => {
+            try {
+                const storeDta = await getStoresInformationFunc(userId)
+                console.clear();
+                console.log(storeDta)
+                storeDta&&storeDta[0]&&setHistoryTitle(storeDta[0].history_title)
+                storeDta&&storeDta[0]&&setHistoryDesc(storeDta[0].history_desc)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        if (userId) {
+            getStrMembers()
+            getHistory()
+        }
+    }, [userId, updated])
+
+
+    const setUserImg = (e) => {
+
+        e.preventDefault();
+        const file = e.target.files[0];
+        const imageUrl = URL.createObjectURL(file);
+
+        if (file) {
+            setImage(file)
+            setUserImage(imageUrl)
+        }
+    }
+
+    const handleSave = async () => {
+        console.clear();
+        console.log(image)
+
+        const storeDta = { name: name, bio: biology }
+        let uploadedImg = null;
+
+        const imgFormDta = new FormData();
+        imgFormDta.append('file', image);
+
+        try {
+            const imgUploaded = await uploadImages(imgFormDta)
+            console.log(imgUploaded)
+            uploadedImg = imgUploaded;
+        } catch (error) {
+            console.log(error)
+        }
+
+        try {
+            const storeUpdated = await addStoreManagers(userId, storeDta, uploadedImg)
+            console.log(storeUpdated);
+            setUpdated(storeUpdated)
+
+            setUserImage(null)
+            setName('')
+            setBiology('')
+
+            setShowSuccessMessage(true)
+            setTimeout(() => {
+                setShowSuccessMessage(false)
+            }, 3000) // Message will disappear after 3 seconds
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const handleDelete = async (e, id) => {
+        e.preventDefault();
+        console.clear();
+        try {
+            const memberDeleted = await deleteMemberFunc(id)
+            setUpdated(parseInt(updated) * -1)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const updateHistory = async (e) => {
+        e.preventDefault()
+        console.clear();
+
+        try {
+            const historyUpdated = await updateStoreHistoryFunc(userId, { title: historyTitle, desc: historyDesc })
+            console.log(historyUpdated)
+            setShowSuccessMessage(true)
+            setTimeout(() => {
+                setShowSuccessMessage(false)
+            }, 3000) // Message will disappear after 3 seconds
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -27,27 +142,44 @@ export default function AboutSettings() {
                     <p className='mb-2'>Déjanos saber quién ayuda con la creación de tus artículos o la gestión de tu tienda.</p>
                     <p className='mb-6'>Las personas listadas aquí aparecerán en la página pública &quot;Acerca de&quot; de tu tienda.</p>
 
+                    <div className='my-6 w-full'>
+                        {existingMembers && existingMembers.map((existingMember, key) => {
+                            return <div className='flex justify-between mb-4 border-b border-b-[#ccc] pb-4' key={key}>
+                                <div className='w-[10%]'>
+                                    <img className='w-16 h-16 rounded-full' src={existingMember.image} />
+                                </div>
+                                <div className='w-[30%] text-left'>
+                                    <h3>{existingMember.name}</h3>
+                                </div>
+                                <div className='w-[50%] text-left'>{existingMember.bio}</div>
+                                <div className='w-[10%] text-right'>
+                                    <a href="#" onClick={(e) => handleDelete(e, existingMember.id)}>x</a>
+                                </div>
+                            </div>
+                        })}
+                    </div>
+
                     <div className='w-full p-3 lg:p-6 border border-[#ccc] rounded-lg'>
                         <h3 className='mb-5'>Crea tu propio perfil</h3>
                         <div className='flex flex-col lg:flex-row lg:p-4'>
                             <div className='w-full lg:w-[20%] lg:px-4'>
                                 <label htmlFor="fileInput">
-                                    <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/default_avatar_400x400.png" alt="Owner profile" className='w-32 h-32 rounded-full mb-4 cursor-pointer' />
+                                    <img src={`${userImage ? userImage : 'https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/default_avatar_400x400.png'}`} alt="Owner profile" className='w-32 h-32 rounded-full mb-4 cursor-pointer' />
                                 </label>
-                                <input id="fileInput" type="file" className="hidden" />
+                                <input id="fileInput" type="file" onChange={(e) => setUserImg(e)} className="hidden" />
                             </div>
                             <div className='w-full lg:w-[40%] lg:px-4'>
                                 <label>Nombre</label>
-                                <input className='p-2 border border-[#ccc] w-full' placeholder="Nombre" />
+                                <input className='p-2 border border-[#ccc] w-full' value={name} onChange={e => setName(e.target.value)} placeholder="Nombre" />
                             </div>
                             <div className='w-full lg:w-[40%] lg:px-4 mt-3 lg:mt-0'>
                                 <label>Biografía</label>
-                                <textarea className='p-2 border border-[#ccc] w-full min-h-[80px]' placeholder="Biografía" />
+                                <textarea value={biology} onChange={e => setBiology(e.target.value)} className='p-2 border border-[#ccc] w-full min-h-[80px]' placeholder="Biografía" />
                             </div>
                         </div>
                         <hr className='my-6' />
                         <div className='flex flex-col gap-3 lg:gap-0 lg:flex-row justify-end'>
-                            <button className='w-full lg:w-min py-2 px-5 bg-gray-400 text-white rounded-md cursor-pointer mr-2'>Cancelar</button>
+                            {/* <button className='w-full lg:w-min py-2 px-5 bg-gray-400 text-white rounded-md cursor-pointer mr-2'>Cancelar</button> */}
                             <button onClick={handleSave} className='w-full lg:w-min py-2 px-5 bg-black text-white rounded-md cursor-pointer'>Guardar</button>
                         </div>
                         {showSuccessMessage && (
@@ -65,7 +197,7 @@ export default function AboutSettings() {
                                 <label>Título de la historia</label>
                             </div>
                             <div className='w-full lg:w-[80%] lg:px-4'>
-                                <input className='p-2 border border-[#ccc] w-full' placeholder="Escribe el título de la historia" />
+                                <input value={historyTitle} onChange={(e) => { setHistoryTitle(e.target.value) }} className='p-2 border border-[#ccc] w-full' placeholder="Escribe el título de la historia" />
                             </div>
                         </div>
                         <div className='flex flex-col lg:flex-row'>
@@ -73,13 +205,13 @@ export default function AboutSettings() {
                                 <label>Historia</label>
                             </div>
                             <div className='w-full lg:w-[80%] lg:px-4'>
-                                <textarea className='p-2 border border-[#ccc] w-full min-h-[80px]' placeholder="Escribe la historia de la tienda"></textarea>
+                                <textarea value={historyDesc} onChange={(e) => { setHistoryDesc(e.target.value) }} className='p-2 border border-[#ccc] w-full min-h-[80px]' placeholder="Escribe la historia de la tienda"></textarea>
                             </div>
                         </div>
                     </div>
 
                     {/* Box 2: Shop Video */}
-                    <div className='border border-[#ccc] rounded-lg p-3 lg:p-6 mb-6 overflow-hidden'>
+                    {/* <div className='border border-[#ccc] rounded-lg p-3 lg:p-6 mb-6 overflow-hidden'>
                         <div className='flex flex-col lg:flex-row'>
                             <div className='w-full lg:w-[30%] lg:px-4'>
                                 <label className='text-sm lg:text-base'>Tienes un video listo para cargar</label>
@@ -91,7 +223,7 @@ export default function AboutSettings() {
                                 <input className='text-sm lg:text-base' type="file" />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Box 3: Shop Photos */}
                     <div className='border border-[#ccc] rounded-lg p-3 lg:p-6'>
@@ -108,8 +240,8 @@ export default function AboutSettings() {
 
                     {/* Cancel and Save buttons */}
                     <div className='flex flex-col lg:flex-row justify-end mt-6 gap-2 lg:gap-0'>
-                        <button className='w-full lg:w-min py-2 px-5 bg-gray-400 text-white rounded-md cursor-pointer mr-2'>Cancelar</button>
-                        <button onClick={handleSave} className='w-full lg:w-min py-2 px-5 bg-black text-white rounded-md cursor-pointer'>Guardar</button>
+                        {/* <button className='w-full lg:w-min py-2 px-5 bg-gray-400 text-white rounded-md cursor-pointer mr-2'>Cancelar</button> */}
+                        <button onClick={(e) => updateHistory(e)} className='w-full lg:w-min py-2 px-5 bg-black text-white rounded-md cursor-pointer'>Guardar</button>
                     </div>
                     {showSuccessMessage && (
                         <p className='text-green-700 text-sm mt-4'>Cambios guardados con éxito.</p>
