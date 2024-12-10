@@ -63,7 +63,7 @@ export default function PublicNavbar({cartUpdated, checkPopups, categoriesMenuOp
                         {/* categories menu  */}
 
                         {categoriesMenuOpen && (
-                            <Featuredcategories featuredCategories={featuredCategories} />
+                            <Featuredcategories featuredCategories={featuredCategories} setCatMenuOpen={setCatMenuOpen} setUserPopupOpen={setUserPopupOpen} />
                         )
                         }
 
@@ -87,7 +87,7 @@ export default function PublicNavbar({cartUpdated, checkPopups, categoriesMenuOp
                 {/* Menu for Mobile */}
                 {categoriesMenuOpen && (
                     <div className="lg:hidden">
-                        <Featuredcategories featuredCategories={featuredCategories} />
+                        <Featuredcategories featuredCategories={featuredCategories} setCatMenuOpen={setCatMenuOpen} setOpenedPopup={setOpenedPopup}  />
                     </div>
                 )
                 }

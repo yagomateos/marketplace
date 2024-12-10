@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Conversation } from './chatWindow/chatWindow'
 
-export default function Inbox({ inboxMessages, setMessageSent, userId, selectedAll }) {
+export default function Recycled({ recycledMessage, setMessageSent, userId, selectedAll }) {
   const [currentConversation, setCurrentConversation] = useState(null);
   const [currentReciver, setCurrentReciver] = useState(null);
   const [messagesArray, setMessagesArray] = useState([]);
 
   useEffect(() => {
-  
-    const lastMessages = groupMessagesBySender(inboxMessages , userId);
+
+    const lastMessages = groupMessagesBySender(recycledMessage, userId);
 
     setMessagesArray(lastMessages)
-  }, [userId, inboxMessages]);
+
+    console.clear();
+    console.log(recycledMessage)
+
+  }, [userId, recycledMessage]);
+
 
 
   // Helper function to group messages by sender and select the last message
-  const groupMessagesBySender = (messages , userId) => {
+  const groupMessagesBySender = (messages, userId) => {
 
     const grouped = {};
 
@@ -26,11 +31,11 @@ export default function Inbox({ inboxMessages, setMessageSent, userId, selectedA
 
       if (senderId == userId) {
 
-          grouped[receiverId] = message;
+        grouped[receiverId] = message;
 
       } else {
 
-          grouped[senderId] = message;
+        grouped[senderId] = message;
 
       }
 
@@ -56,18 +61,9 @@ export default function Inbox({ inboxMessages, setMessageSent, userId, selectedA
 
   return (
     <div className="w-full h-full p-4">
-      {currentConversation ? (
-        <Conversation
-          senderId={currentConversation}
-          messages={inboxMessages}
-          onBack={() => setCurrentConversation(null)}
-          currentReciver={currentReciver}
-          setMessageSent={setMessageSent}
-          userId={userId}
-        />
-      ) : (
+      {
         messagesArray.length > 0 ? (
-          messagesArray.map((message , key) => (
+          messagesArray.map((message, key) => (
             <div
               key={key}
               onClick={() => openConversation(message.sender_id, message.receiver_id)}
@@ -92,7 +88,7 @@ export default function Inbox({ inboxMessages, setMessageSent, userId, selectedA
 
           </div>
         )
-      )}
+      }
     </div>
   );
 }

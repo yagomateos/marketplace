@@ -6,7 +6,7 @@ export const getMessages = async (userId) => {
         const db = await dbConnection();
         const [results] = await db.execute(`
             SELECT 
-                m.id, 
+                m.id as mid, 
                 CASE  
                     WHEN m.\`from\` = ${userId} THEN 'Sent'
                     WHEN m.\`to\` = ${userId} THEN 'Received'
@@ -19,6 +19,8 @@ export const getMessages = async (userId) => {
                 m.\`from\` AS sender_id,
                 m.\`to\` AS receiver_id,
                 m.timestamp, -- Adjust column name if necessary
+                m.recycled,
+                m.read,
                 u.* -- Replace with specific columns from the users table (e.g., u.name, u.email)
             FROM 
                 marketplace.messages m
@@ -32,7 +34,7 @@ export const getMessages = async (userId) => {
             WHERE 
                 m.\`from\` = ${userId} OR m.\`to\` = ${userId};
         `);
-        
+
         await db.end();
 
         if (results.length > 0) {
@@ -62,7 +64,51 @@ export const setMessages = async (receiverId, message, senderId) => {
 
         // Check if rows were affected and return appropriate result
         if (results.affectedRows > 0) {
-            return true;
+            return results.insertId;
+        } else {
+            throw new Error('Something went wrong: No rows were affected.');
+        }
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw error;
+    }
+};
+
+export const updateMsg = async (type, ids) => {
+    const db = await dbConnection(); // Initialize database connection
+    let sql = '';
+
+    // Check if ids array is empty
+    if (!ids || ids.length === 0) {
+        throw new Error('No IDs provided for the update operation.');
+    }
+
+    switch (type) {
+        case 'recycle':
+            // Generate placeholders dynamically for the array
+            sql = `UPDATE marketplace.messages SET recycled = 1 WHERE id IN (${ids.map(() => '?').join(',')});`;
+            break;
+
+            case 'unread':
+                // Escape the column name `read` using backticks
+                sql = `UPDATE marketplace.messages SET \`read\` = NULL WHERE id IN (${ids.map(() => '?').join(',')});`;
+                break;
+            
+            case 'read':
+                // Escape the column name `read` using backticks
+                sql = `UPDATE marketplace.messages SET \`read\` = 1 WHERE id IN (${ids.map(() => '?').join(',')});`;
+                break;
+            
+
+        default:
+            throw new Error('Invalid type specified.');
+    }
+
+    try {
+        // Pass the `ids` array as values for the placeholders
+        const [results] = await db.execute(sql, ids);
+        if (results.affectedRows > 0) {
+            return results.affectedRows; // Return the number of affected rows
         } else {
             throw new Error('Something went wrong: No rows were affected.');
         }

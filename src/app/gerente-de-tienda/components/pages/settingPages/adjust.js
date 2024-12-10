@@ -135,7 +135,7 @@ export default function AdjustSettings({ userId }) {
               <h3 className='flex lg:gap-5 mb-5 flex-col lg:flex-row'>
                 <span className='font-semibold'>Nombre de la tienda </span>
                 <span className='text-sm'>Test Store </span>
-                <a className='underline text-sm'>Cambiar</a>
+                <a className='underline text-sm' href='#' onClick={e=>{e.preventDefault(); setSelectedTab(2)}}>Cambiar</a>
               </h3>
               <hr />
               <div className='w-full flex flex-col lg:flex-row py-4'>

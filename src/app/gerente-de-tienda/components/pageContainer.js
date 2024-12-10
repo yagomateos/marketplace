@@ -6,22 +6,22 @@ import Orders from './pages/orders'
 import Settings from './pages/settings'
 import { useState } from 'react'
 
-export default function PageContainer({ setStep, step, userData, searchOpen, setSearchOpen, storeOpen, setStoreOpen }) {
+export default function PageContainer({ refreshStr, setRefreshStr, storeDta, setStep, step, userData, searchOpen, setSearchOpen, storeOpen, setStoreOpen }) {
 
   const [settingPage, setSettingsPage] = useState(1)
 
   const returnComponent = () => {
     switch (step) {
       case 1:
-        return <Dashboard userData={userData} setSettingsPage={setSettingsPage} />;
+        return <Dashboard storeDta={storeDta} userData={userData} setSettingsPage={setSettingsPage} />;
       case 2:
         return <Listings setSettingsPage={setSettingsPage} setStep={setStep} userData={userData} />;
       case 3:
         return <Messages userData={userData} />
       case 4:
-        return <Orders userData={userData}/>
+        return <Orders userData={userData} />
       case 5:
-        return <Settings settingPage={settingPage}  userData={userData} />
+        return <Settings refreshStr={refreshStr} setRefreshStr={setRefreshStr} settingPage={settingPage} userData={userData} storeDta={storeDta} />
       default:
         return <>default component</>;
     }
@@ -43,10 +43,10 @@ export default function PageContainer({ setStep, step, userData, searchOpen, set
           <div className='bg-white lg:w-full p-4 lg:p-8 h-full relative'>
             <div>
               <div className='flex justify-between items-start mb-6'>
-              <h3 className='text-lgf  font-semibold pl-4'>Ajustes</h3>
-              <a href="#" className='text-3xl text-black' onClick={(e) => { e.preventDefault(); setStoreOpen(false) }}>x</a>
+                <h3 className='text-lgf  font-semibold pl-4'>Ajustes</h3>
+                <a href="#" className='text-3xl text-black' onClick={(e) => { e.preventDefault(); setStoreOpen(false) }}>x</a>
               </div>
-              
+
               <ul>
                 <li><a className='py-4 hover:bg-[#f2f2f2] block px-3 cursor-pointer' onClick={(e) => { e.preventDefault(); setStoreOpen(false); setSettingsPage(1) }}>Información y apariencia</a></li>
                 <li><a className='py-4 hover:bg-[#f2f2f2] block px-3 cursor-pointer' onClick={(e) => { e.preventDefault(); setStoreOpen(false); setSettingsPage(2) }}>Acerca de su tienda</a></li>

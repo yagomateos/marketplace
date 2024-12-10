@@ -22,6 +22,8 @@ export const getStoresByUserId = async (userId) => {
         const [results] = await db.execute(`SELECT 
     s.store_name AS store_name, 
     s.id AS s_id, 
+    s.logo as s_logo,
+    s.delivery_dates,
     p.*, 
     (SELECT COUNT(*) FROM products p2 WHERE p2.store_id = s.id) AS product_count,
     (SELECT COUNT(*) FROM stores s2 WHERE s2.userid = s.userid) AS store_count
@@ -50,6 +52,22 @@ export const getStoresInformation = async (userId) => {
 
         if (results.length > 0) {
             return results;
+        } else {
+            throw new Error('no stores found');
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const setDelDates = async (storeId, value) => {
+    try {
+        const db = await dbConnection();
+        const [results] = await db.execute(`Update marketplace.stores set delivery_dates = '${value}' where id = ${storeId};`);
+        await db.end();
+
+        if (results.affectedRows > 0) {
+            return true;
         } else {
             throw new Error('no stores found');
         }

@@ -5,7 +5,7 @@ import OptionsSettings from './settingPages/options'
 import DeliverySettings from './settingPages/delivery'
 import PoliciesSettings from './settingPages/policy'
 
-export default function Settings({ settingPage, userData }) {
+export default function Settings({ refreshStr, setRefreshStr, settingPage, userData, storeDta }) {
 
   const [userId, setUserId] = useState(null)
 
@@ -16,7 +16,7 @@ export default function Settings({ settingPage, userData }) {
   }, [userData])
 
 
-  const   renderSettingsPage = () => {
+  const renderSettingsPage = () => {
     switch (settingPage) {
       case 1:
         return <AdjustSettings userId={userId} />;
@@ -25,7 +25,7 @@ export default function Settings({ settingPage, userData }) {
       case 3:
         return <OptionsSettings userId={userId} />;
       case 4:
-        return <DeliverySettings userId={userId} />;
+        return <DeliverySettings refreshStr={refreshStr} setRefreshStr={setRefreshStr} userId={userId} storeDta={storeDta} />;
       case 5:
         return <PoliciesSettings userId={userId} />;
 

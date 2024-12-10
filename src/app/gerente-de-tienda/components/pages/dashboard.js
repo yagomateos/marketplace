@@ -3,13 +3,25 @@ import { getStrByUserId } from '../../../../lib/actions/stores/getStores'
 import { getNoticesFunc } from '../../../../lib/actions/backend/panel/notices'
 import Listings from './listings'
 
-export default function Dashboard({ userData, setSettingsPage }) {
+export default function Dashboard({ storeDta, userData, setSettingsPage }) {
   const [stores, setStores] = useState(null)
   const [activeListings, setActiveListings] = useState(null)
   const [expiredListings, setExpiredListings] = useState(null)
   const [soldOutListings, setSoldOutListings] = useState(null)
   const [listings, setListings] = useState(null)
   const [notifications, setNotifications] = useState(null)
+
+
+  useEffect(() => {
+    // console.clear()
+    console.log(storeDta)
+    storeDta.stores && setStores(storeDta.stores)
+    storeDta.activeListings && setActiveListings(storeDta.activeListings)
+    storeDta.expiredListings && setExpiredListings(storeDta.expiredListings)
+    storeDta.soldOutListings && setSoldOutListings(storeDta.soldOutListings)
+    storeDta.listings && setListings(storeDta.listings)
+  }, [storeDta])
+
   // const [ignoredNotifications , setIgnoredNotifications] = useState([])
 
   // Helper function to get ignored notifications from localStorage
@@ -34,48 +46,48 @@ export default function Dashboard({ userData, setSettingsPage }) {
   }
 
   // Get active listings
-  useEffect(() => {
-    const getStores = async () => {
-      try {
-        const Listings = await getStrByUserId(userData[0].id)
+  // useEffect(() => {
+  //   const getStores = async () => {
+  //     try {
+  //       const Listings = await getStrByUserId(userData[0].id)
 
-        setListings(Listings)
-        const str = { count: Listings[0].store_count, store_name: Listings[0].store_name }
-        setStores(str)
+  //       setListings(Listings)
+  //       const str = { count: Listings[0].store_count, store_name: Listings[0].store_name }
+  //       setStores(str)
 
-        const activeListingsObg = []
-        const expiredListingsObg = []
-        const soldOutListingsObg = []
+  //       const activeListingsObg = []
+  //       const expiredListingsObg = []
+  //       const soldOutListingsObg = []
 
-        Listings &&
-          Listings.forEach((listing) => {
-            switch (listing.status) {
-              case 'active':
-                activeListingsObg.push(listing)
-                break
-              case 'expired':
-                expiredListingsObg.push(listing)
-                break
-              case 'sold_out':
-                soldOutListingsObg.push(listing)
-                break
-              default:
-                activeListingsObg.push(listing)
-                break
-            }
-          })
+  //       Listings &&
+  //         Listings.forEach((listing) => {
+  //           switch (listing.status) {
+  //             case 'active':
+  //               activeListingsObg.push(listing)
+  //               break
+  //             case 'expired':
+  //               expiredListingsObg.push(listing)
+  //               break
+  //             case 'sold_out':
+  //               soldOutListingsObg.push(listing)
+  //               break
+  //             default:
+  //               activeListingsObg.push(listing)
+  //               break
+  //           }
+  //         })
 
-        setActiveListings(activeListingsObg)
-        setExpiredListings(expiredListingsObg)
-        setSoldOutListings(soldOutListingsObg)
-      } catch (error) {
-        console.log(error)
-        setStores(null)
-      }
-    }
+  //       setActiveListings(activeListingsObg)
+  //       setExpiredListings(expiredListingsObg)
+  //       setSoldOutListings(soldOutListingsObg)
+  //     } catch (error) {
+  //       console.log(error)
+  //       setStores(null)
+  //     }
+  //   }
 
-    userData && getStores()
-  }, [userData])
+  //   userData && getStores()
+  // }, [userData])
 
   // Get notices and filter out ignored notifications
   useEffect(() => {
@@ -127,9 +139,8 @@ export default function Dashboard({ userData, setSettingsPage }) {
           notifications.map((notification, key) => (
             <div
               key={key}
-              className={`p-3 lg:p-6 rounded-2xl mt-4 lg:mt-12 flex justify-between w-full flex-col lg:flex-row ${
-                notification.background_color && 'bg-' + notification.background_color
-              } ${notification.border_color && 'border border-' + notification.border_color}`}
+              className={`p-3 lg:p-6 rounded-2xl mt-4 lg:mt-12 flex justify-between w-full flex-col lg:flex-row ${notification.background_color && 'bg-' + notification.background_color
+                } ${notification.border_color && 'border border-' + notification.border_color}`}
             >
               {notification.image_position === 'left' ? (
                 <>
@@ -142,7 +153,7 @@ export default function Dashboard({ userData, setSettingsPage }) {
                     {!notification.permanent && (
                       <div className="mt-8 flex gap-2 flex-col lg:flex-row" bis_skin_checked="1">
                         <button
-                          onClick={(e) => {e.preventDefault(); handleIgnoreNotification(notification.id)}}
+                          onClick={(e) => { e.preventDefault(); handleIgnoreNotification(notification.id) }}
                           className="px-4 lg:px-8 text-center py-3 border-2 border-black rounded-full w-full lg:w-auto text-sm lg:text-base"
                         >
                           Ahora no
@@ -179,7 +190,7 @@ export default function Dashboard({ userData, setSettingsPage }) {
                     {!notification.permanent && (
                       <div className="mt-8 flex gap-2 flex-col lg:flex-row" bis_skin_checked="1">
                         <button
-                          onClick={(e) => {e.preventDefault(); handleIgnoreNotification(notification.id)}}
+                          onClick={(e) => { e.preventDefault(); handleIgnoreNotification(notification.id) }}
                           className="px-4 lg:px-8 text-center py-3 border-2 border-black rounded-full w-full lg:w-auto text-sm lg:text-base"
                         >
                           Ahora no

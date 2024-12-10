@@ -5,6 +5,7 @@ import Sidebar from "./components/sidebar";
 import PageContainer from "./components/pageContainer";
 import { GetUserInfo } from '../../lib/actions/users/getUserInfo'
 import { useEffect, useState } from "react";
+import { getStrByUserId } from "../../lib/actions/stores/getStores";
 
 export default function ShopDashboard() {
 
@@ -15,6 +16,14 @@ export default function ShopDashboard() {
     const [searchOpen, setSearchOpen] = useState(false)
     const [storeOpen, setStoreOpen] = useState(false)
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [stores, setStores] = useState(null)
+    const [listings, setListings] = useState(null)
+    const [activeListings, setActiveListings] = useState(null)
+    const [expiredListings, setExpiredListings] = useState(null)
+    const [soldOutListings, setSoldOutListings] = useState(null)
+    const [refreshStr , setRefreshStr] = useState(false)
+
+
 
     useEffect(() => {
 
@@ -47,6 +56,56 @@ export default function ShopDashboard() {
         }
     }, [userId])
 
+
+    // Get active listings
+    useEffect(() => {
+        const getStores = async () => {
+            console.clear()
+            try {
+                const Listings = await getStrByUserId(userId)
+
+                console.log(listings)
+
+                setListings(Listings)
+                const str = { count: Listings[0].store_count, store_name: Listings[0].store_name , logo :  Listings[0].s_logo , id : Listings[0].s_id , delivery_dates : Listings[0].delivery_dates}
+                setStores(str)
+
+                const activeListingsObg = []
+                const expiredListingsObg = []
+                const soldOutListingsObg = []
+
+                Listings &&
+                    Listings.forEach((listing) => {
+                        switch (listing.status) {
+                            case 'active':
+                                activeListingsObg.push(listing)
+                                break
+                            case 'expired':
+                                expiredListingsObg.push(listing)
+                                break
+                            case 'sold_out':
+                                soldOutListingsObg.push(listing)
+                                break
+                            default:
+                                activeListingsObg.push(listing)
+                                break
+                        }
+                    })
+
+                setActiveListings(activeListingsObg)
+                setExpiredListings(expiredListingsObg)
+                setSoldOutListings(soldOutListingsObg)
+            } catch (error) {
+                console.log(error)
+                setStores(null)
+            }
+        }
+
+        userId && getStores()
+    }, [userId , refreshStr])
+
+
+
     return (
         <>
             {/* mobile header */}
@@ -71,8 +130,8 @@ export default function ShopDashboard() {
 
 
             <div className="flex">
-                <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} setStep={setStep} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
-                <PageContainer setStep={setStep} step={step} userData={userData} searchOpen={searchOpen} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
+                <Sidebar userData={userData} stores={stores} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} setStep={setStep} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
+                <PageContainer refreshStr = {refreshStr }  setRefreshStr = {setRefreshStr} storeDta = {{stores , listings , activeListings , expiredListings, soldOutListings}} setStep={setStep} step={step} userData={userData} searchOpen={searchOpen} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
             </div>
         </>
     )

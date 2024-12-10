@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { setDelDatesFunc } from '../../../../../lib/actions/stores/getStores';
 
-export default function DeliverySettings() {
+export default function DeliverySettings({ refreshStr, setRefreshStr, storeDta }) {
   const [selectedTab, setSelectedTab] = useState(1);
   const [selectedDays, setSelectedDays] = useState([]);
   const [popup, setPopup] = useState(false)
-  const [deliverySuccess , setDeliverySuccess] = useState(false)
+  const [deliverySuccess, setDeliverySuccess] = useState(false)
+  const [strId, setStrId] = useState(null)
 
   const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
@@ -16,20 +18,67 @@ export default function DeliverySettings() {
     }
   };
 
+  const [delDates, setDelDates] = useState(null);
+  const [datesArr, setDatesArr] = useState([])
+
+  useEffect(() => {
+
+    console.log(storeDta);
+
+    // Safely check and set delivery dates
+    if (storeDta?.stores?.delivery_dates) {
+      setDelDates(storeDta.stores.delivery_dates);
+      setDatesArr(storeDta.stores.delivery_dates.split(','))
+      setStrId(storeDta.stores.id);
+    }
+  }, [storeDta]);
+
+  useEffect(() => {
+    console.clear();
+    console.log(delDates);
+  }, [delDates]);
+
+  const changeDate = (e) => {
+
+    let dates = [...datesArr];
+    console.log(e.target.value)
+    if (e.target.checked) {
+      if (!dates.includes(e.target.value)) {
+        dates.push(e.target.value);
+      }
+    } else {
+      if (dates.includes(e.target.value)) {
+        const updatedDates = dates.filter(date => date !== e.target.value); // Remove the relevant value
+        dates = [...updatedDates]; // Update the array
+      }
+    }
+
+    setDatesArr(dates)
+
+  }
+
+  useEffect(() => {
+    console.log(datesArr)
+    setDelDates(datesArr.join(','))
+  }, [datesArr])
+
+
   const deliverySubmit = async () => {
-    // Timeout function wrapped in a promise
-    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-  
-    // Execute your async logic
-    setDeliverySuccess('Actualizado exitosamente');
-    
-    // Wait for 2 seconds (2000 milliseconds) before proceeding
-    await delay(2000);
-  
-    // Close the popup after the delay
-    setPopup(false);
+
+    try {
+      const updated = await setDelDatesFunc(strId, delDates);
+      console.clear();
+      console.log(updated)
+      if (updated) {
+        setDeliverySuccess('Actualizado exitosamente');
+        setRefreshStr(!refreshStr)
+        setPopup(false);
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
-  
+
 
   return (
     <div className='max-w-5xl'>
@@ -65,7 +114,7 @@ export default function DeliverySettings() {
           </p>
 
           <div className='border border-[#ccc] rounded-lg p-3 lg:p-8 flex flex-col lg:flex-row lg:justify-between lg:items-center'>
-            <h3>Lunes - Viernes, Sábado, Domingo</h3>
+            <h3>{delDates}</h3>
             <a className='underline cursor-pointer' onClick={() => setPopup(true)}>Editar</a>
           </div>
         </div>
@@ -105,13 +154,13 @@ export default function DeliverySettings() {
 
             <ul className='flex gap-6 my-6'>
               <li>
-                <input type='checkbox' checked /> &nbsp;&nbsp; <label>Lunes - Viernes</label>
+                <input checked={datesArr.includes('Lunes - Viernes')} type='checkbox' value={'Lunes - Viernes'} onChange={e => { changeDate(e) }} /> &nbsp;&nbsp; <label>Lunes - Viernes</label>
               </li>
               <li>
-                <input type='checkbox' /> &nbsp;&nbsp; <label>Sábado</label>
+                <input checked={datesArr.includes('Sábado')} type='checkbox' value={'Sábado'} onChange={e => { changeDate(e) }} /> &nbsp;&nbsp; <label>Sábado</label>
               </li>
               <li>
-                <input type='checkbox' /> &nbsp;&nbsp; <label>Domingo</label>
+                <input checked={datesArr.includes('Domingo')} type='checkbox' value={'Domingo'} onChange={e => { changeDate(e) }} /> &nbsp;&nbsp; <label>Domingo</label>
               </li>
             </ul>
 
@@ -120,7 +169,7 @@ export default function DeliverySettings() {
               <a className='cursor-pointer bg-black rounded-full py-3 px-5 text-white' onClick={(e) => deliverySubmit()}>Actualizar</a>
             </div>
 
-            { deliverySuccess && <div className='text-green-700 text-sm'>{deliverySuccess}</div>}
+            {deliverySuccess && <div className='text-green-700 text-sm'>{deliverySuccess}</div>}
           </div>
         </div>
       }

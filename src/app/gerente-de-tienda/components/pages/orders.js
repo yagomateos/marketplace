@@ -7,6 +7,8 @@ export default function Orders({ userData }) {
   const [type, setType] = useState('new')
   const [newOrders, setNewOrders] = useState([])
   const [closedOrders, setClosedOrders] = useState([])
+  const [filterednewOrders, setFilteredNewOrders] = useState([])
+  const [filteredclosedOrders, setFilteredClosedOrders] = useState([])
   const [moreInfo, setMoreInfo] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState(null)
   const [refresh, setRefresh] = useState(false);
@@ -37,6 +39,8 @@ export default function Orders({ userData }) {
 
         setNewOrders(newOrds)
         setClosedOrders(compOrds)
+        setFilteredNewOrders(newOrds)
+        setFilteredClosedOrders(compOrds)
       } catch (error) {
         console.log(error);
       }
@@ -80,6 +84,49 @@ export default function Orders({ userData }) {
     }
   }
 
+  // Initialize filtered orders when newOrders or closedOrders change
+  useEffect(() => {
+    setFilteredNewOrders(newOrders);
+    setFilteredClosedOrders(closedOrders);
+  }, [newOrders, closedOrders]);
+
+  const filterByDate = (e, filterType) => {
+    const currentDate = new Date();
+
+    const filterOrders = (orders) => {
+      return orders.filter((order) => {
+        const orderDate = new Date(order.date_time);
+        switch (filterType) {
+          case 'all':
+            return true; // Show all orders
+          case 'late':
+            return orderDate < currentDate; // Orders with a past date
+          case 'today':
+            return orderDate.toDateString() === currentDate.toDateString(); // Orders scheduled for today
+          case 'tomorrow':
+            const tomorrow = new Date();
+            tomorrow.setDate(currentDate.getDate() + 1);
+            return orderDate.toDateString() === tomorrow.toDateString(); // Orders scheduled for tomorrow
+          case 'week':
+            const oneWeekFromNow = new Date();
+            oneWeekFromNow.setDate(currentDate.getDate() + 7);
+            return orderDate > currentDate && orderDate <= oneWeekFromNow; // Orders within the next week
+          case 'any':
+            return !order.date_time || order.date_time === ''; // Orders with no date
+          default:
+            return true; // Default to showing all
+        }
+      });
+    };
+
+    if (type === 'new') {
+      setFilteredNewOrders(filterType === 'all' || filterType === 'any' ? newOrders : filterOrders(newOrders));
+    } else {
+      setFilteredClosedOrders(filterType === 'all' || filterType === 'any' ? closedOrders : filterOrders(closedOrders));
+    }
+  };
+
+
 
   return (
     <div className="w-full">
@@ -103,8 +150,8 @@ export default function Orders({ userData }) {
           {!moreInfo ?
             <div>
               {type == 'new' ? <>
-                {newOrders && newOrders.length > 0 ? <div className='my-12'>
-                  {newOrders.map((order, key) => {
+                {filterednewOrders && filterednewOrders.length > 0 ? <div className='my-12'>
+                  {filterednewOrders.map((order, key) => {
 
                     return <div key={key} className='border p-5 border-[#ccc] flex justify-between items-center mb-5'>
                       <div>
@@ -128,8 +175,8 @@ export default function Orders({ userData }) {
               </>
                 :
                 <>
-                  {closedOrders && closedOrders.length > 0 ? <div className='my-12'>
-                    {closedOrders.map((order, key) => {
+                  {filteredclosedOrders && filteredclosedOrders.length > 0 ? <div className='my-12'>
+                    {filteredclosedOrders.map((order, key) => {
 
                       return <div key={key} className='border p-5 border-[#ccc] flex justify-between items-center mb-5'>
                         <div>
@@ -222,20 +269,20 @@ export default function Orders({ userData }) {
         <div className='w-full lg:w-[25%] px-4 lg:px-0'>
           <h4 className='text-lg font-semibold mb-3'>Envío por fecha</h4>
           <ul>
-            <li><input type='radio' name='dispatch-date' /> &nbsp; Todo</li>
-            <li><input type='radio' name='dispatch-date' /> &nbsp; Atrasado</li>
-            <li><input type='radio' name='dispatch-date' /> &nbsp; Hoy</li>
-            <li><input type='radio' name='dispatch-date' /> &nbsp; Mañana</li>
-            <li><input type='radio' name='dispatch-date' /> &nbsp; Dentro de una semana</li>
-            <li><input type='radio' name='dispatch-date' /> &nbsp; Sin estimación</li>
+            <li><input type='radio' name='dispatch-date' onChange={e => filterByDate(e, 'all')} /> &nbsp; Todo</li>
+            <li><input type='radio' name='dispatch-date' onChange={e => filterByDate(e, 'late')} /> &nbsp; Atrasado</li>
+            <li><input type='radio' name='dispatch-date' onChange={e => filterByDate(e, 'today')} /> &nbsp; Hoy</li>
+            <li><input type='radio' name='dispatch-date' onChange={e => filterByDate(e, 'tomorrow')} /> &nbsp; Mañana</li>
+            <li><input type='radio' name='dispatch-date' onChange={e => filterByDate(e, 'week')} /> &nbsp; Dentro de una semana</li>
+            <li><input type='radio' name='dispatch-date' onChange={e => filterByDate(e, 'any')} /> &nbsp; Sin estimación</li>
           </ul>
-
+          {/* 
           <h4 className='text-lg font-semibold mb-3 mt-5'>Destino</h4>
           <ul>
             <li><input type='radio' name='destination' /> &nbsp; Toda</li>
             <li><input type='radio' name='destination' /> &nbsp; España</li>
             <li><input type='radio' name='destination' /> &nbsp; En cualquier otro lugar</li>
-          </ul>
+          </ul> */}
         </div>
 
       </div>
