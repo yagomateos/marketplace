@@ -350,7 +350,7 @@ function ListingFunc() {
         if (product[0].quantity && product[0].quantity > 0) {
             return (
                 <div>
-                    <input onChange={(e) => updateQuantity(e)} className='p-3 mt-5 w-full rounded-lg border border-black' type='number' max={product[0].quantity} placeholder='Cantidad' />
+                    <input onChange={(e) => updateQuantity(e)} className='p-3 mt-5 w-full rounded-lg border border-black' type='number' max={product[0].quantity} min={0} placeholder='Cantidad' />
                     <a href="/" onClick={(e)=>{e.preventDefault(); singleCheckout(product[0].id , product[0].sale_price , product[0].regular_price , product[0].name )}} className='flex justify-center items-center py-3 px-6 bg-transparent border-2 border-black rounded-full text-black my-3 lg:my-6'> Comprar ahora</a>
                     <a href="/" onClick={(e) => { addToCart(e) }} className={`flex justify-center items-center py-3 px-6 border-2 border-black rounded-full text-white ${cartError ? 'bg-[#ccc] cursor-text' : 'bg-black cursor-pointer'} my-3 lg:my-6`} > Añadir al carrito</a>
                     {return_fav_Button(product[0].id)}

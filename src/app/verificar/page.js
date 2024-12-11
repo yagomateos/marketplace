@@ -9,6 +9,7 @@ import FirstStep from './components/firstStep'
 import { useRouter } from 'next/navigation';
 import StripeCheckout from '../../components/payment/checkout-form'
 import { createOrderFunc } from '../../lib/actions/orders/createOrder'
+import sendEmail from '../../lib/utils/sendMail'
 
 export default function Checkout() {
     const router = useRouter();
@@ -95,17 +96,22 @@ export default function Checkout() {
 
         const createOrder = async () => {
 
-            console.clear()
+            // console.clear()
             // console.log(userId)
             try {
                 console.log(userId)
                 console.log(cartItemIds)
-                const orderCreated = await createOrderFunc(userId, cartItemIds , singleCheckout , cartDta[0].cartQuantity)
+                const orderCreated = await createOrderFunc(userId, cartItemIds, singleCheckout, cartDta[0].cartQuantity)
                 console.log(orderCreated)
                 console.log(orderCreated.orderId)
+
+                const mailSent = sendEmail(session.user.email, 'orderSuccess')
+
+                console.clear()
+                console.log(mailSent)
                 setOrderSuccess('Su pedido ha sido realizado');
 
-                dispatch({ type: 'SET_ORDERED_ITEMS', payload: { ordered_items: orderItems, total: totalPrice , order_id :  orderCreated.orderId} });
+                dispatch({ type: 'SET_ORDERED_ITEMS', payload: { ordered_items: orderItems, total: totalPrice, order_id: orderCreated.orderId } });
 
 
                 router.push('/verificar/pedido_confirmado')

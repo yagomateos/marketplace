@@ -220,7 +220,7 @@ export default function CartPage() {
 
                                 {cartDta && cartDta.map((prod, key) => (
 
-                                    <div key={key} className='rounded-lg border border-[#ccc] p-5 mb-6'>
+                                    <div key={key} className='rounded-lg border border-[#ccc] p-2 lg:p-5 mb-6'>
                                         <div className='product-card-header flex w-full justify-between'>
                                             <a href={`/almacenar/${prod.store_name && prod.store_name}`}>
                                                 {/* <img src={prod.logo ? prod.logo : 'https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/placeholder-image.jpg'} className='inline-block w-[35px] lg:w-[45px] rounded-md mr-3' /> */}
@@ -228,7 +228,7 @@ export default function CartPage() {
                                             </a>
                                             <a className='hidden lg:block' href='/'>Contactar con la tienda</a>
                                         </div>
-                                        <div className='product-card-inner flex justify-between gap-6 mt-6'>
+                                        <div className='product-card-inner flex justify-between gap-6 lg:mt-6'>
                                             <div className='w-[24%]'>
                                                 <img src={prod.main_image_url ? prod.main_image_url : 'https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/placeholder-image.jpg'} className='w-full' />
                                             </div>
@@ -249,20 +249,32 @@ export default function CartPage() {
                                                 {favSuccess && <div className='text-green-800 font-sm my-6'>{favSuccess}</div>}
                                             </div>
                                             <div className='w-[73%] lg:w-[24%] lg:text-right'>
-                                                <h3 className="text-green-800 text-xl lg:text-2xl">{prod.sale_price && prod.sale_price > 0 ? convertToCurrency(parseFloat(prod.sale_price) * parseFloat(cartQtys[key].qty)) : convertToCurrency(parseFloat(prod.regular_price) * parseFloat(cartQtys[key].qty))}</h3>
-                                                <p className="line-through">{prod.regular_price && convertToCurrency(parseFloat(prod.regular_price) * parseFloat(cartQtys[key].qty))}</p>
-                                                <div className='lg:hidden mt-3'>
-                                                    <h3 className=''><a href={`listado?pid=${prod.item_id && prod.item_id}`}>{prod.name && prod.name}</a></h3>
-                                                    <p className='lowercase text-sm text-red-800 font-sm mb-2'>{prod.quantity > 1 ? `Quedan ${prod.quantity} productos y ${prod.cartQuantity} en el carrito` : `SOLO HAY ${prod.quantity} Y ESTÁ EN ${prod.cartQuantity} CARRITO`}</p>
+                                                <div className="flex lg:block items-center gap-3">
+                                                    <h3 className="text-green-800 text-md lg:text-2xl">{prod.sale_price && prod.sale_price > 0 ? convertToCurrency(parseFloat(prod.sale_price) * parseFloat(cartQtys[key].qty)) : convertToCurrency(parseFloat(prod.regular_price) * parseFloat(cartQtys[key].qty))}</h3>
+                                                    <p className="line-through text-sm lg:text-md">{prod.regular_price && convertToCurrency(parseFloat(prod.regular_price) * parseFloat(cartQtys[key].qty))}</p>
+                                                </div>
+
+                                                <div className='lg:hidden lg:mt-3'>
+                                                    <h3 className='text-sm'><a href={`listado?pid=${prod.item_id && prod.item_id}`}>{prod.name && prod.name}</a></h3>
+                                                    <p className='lowercase text-xs text-red-800 font-sm mb-2'>{prod.quantity > 1 ? `Quedan ${prod.quantity} productos y ${prod.cartQuantity} en el carrito` : `SOLO HAY ${prod.quantity} Y ESTÁ EN ${prod.cartQuantity} CARRITO`}</p>
                                                 </div>
                                             </div>
 
                                         </div>
                                         <div className='lg:text-right '>
                                             <a href="" className='hidden lg:block text-md font-semibold' onClick={(e) => { goToCheckout(prod.item_id, prod.sale_price, prod.regular_price, prod.cartQuantity, prod.name, e) }}>Pagar solo lo de esta tienda &nbsp; <img className='w-[15px] inline' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/right-arrow.svg" /></a>
-                                            <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden' onClick={(e) => { e.preventDefault(); favouritesSet('add', prod.item_id) }}>Guardar para más tarde</a>
-                                            <a className='py-2 px-4 hover:bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden' onClick={(e) => { e.preventDefault(); deleteFromCart(prod.id) }}>Eliminar</a>
-                                            {favSuccess && <div className='text-green-800 font-sm my-6 lg:hidden'>{favSuccess}</div>}
+                                            <div className='lg:hidden'>
+                                                <form onSubmit={e => chageCartQty(e, prod.item_id)}>
+                                                    <input type='number' className='border p-1 border-[#000] ml-0' min="0" value={cartQtys[key].qty} onChange={(e) => qtyChange(e, key)} />
+                                                    <button type='submit' className='text-sm ml-4 font-semibold '>ahorrar</button>
+                                                </form>
+                                            </div>
+                                            <div className='my-3'>
+                                                <a className='py-2 px-4 bg-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden' onClick={(e) => { e.preventDefault(); favouritesSet('add', prod.item_id) }}>Guardar para más tarde</a>
+                                                <a className='py-2 px-4 border border-[#f2f2f2] rounded-full cursor-pointer text-sm font-semibold lg:hidden' onClick={(e) => { e.preventDefault(); deleteFromCart(prod.id) }}>Eliminar</a>
+                                            </div>
+
+                                            {favSuccess && <div className='text-green-800 font-xs text-center my-3 lg:hidden'>{favSuccess}</div>}
                                         </div>
                                     </div>
                                 ))}
@@ -272,7 +284,7 @@ export default function CartPage() {
                                 <h3 className='font-semibold mb-3'>Forma de pago</h3>
                                 <ul>
                                     <li>
-                                        <input type='radio' value='stripe' className='inline' /> <img className='w-[70px] inline ml-4' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/stripe-logo.png" />
+                                        <input checked type='radio' value='stripe' className='inline' /> <img className='w-[70px] inline ml-4' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/stripe-logo.png" />
                                     </li>
                                 </ul>
                                 <div className='mt-6'>

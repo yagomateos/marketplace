@@ -4,9 +4,10 @@
 import nodemailer from 'nodemailer';
 import { confirmEmailTemplate } from './mailTemplates/confirmEmail'
 import { ResetPasswordEmailTemplate } from './mailTemplates/resetEmail'
-import{PasswordSuccessEmailTemplate} from './mailTemplates/passwordSuccess'
-import {EmailSuccessEmailTemplate} from './mailTemplates/emailSuccess'
+import { PasswordSuccessEmailTemplate } from './mailTemplates/passwordSuccess'
+import { EmailSuccessEmailTemplate } from './mailTemplates/emailSuccess'
 import { TokenManager } from './tokenManager'
+import { successOrderTemplate } from './mailTemplates/orderSuccess';
 
 
 async function sendMailFunc(email, subject, emailBody) {
@@ -76,30 +77,42 @@ export default async function sendEmail(email, what) {
         }
       }
       break;
-    case 'passwordsuccess' : 
-    {
-      try {
-        const conFirmEmail = PasswordSuccessEmailTemplate()
-        const sendEmailFunc = sendMailFunc(email, conFirmEmail.subject, conFirmEmail.body)
-        return sendEmailFunc;
-      } catch (error) {
-        console.log(error)
-      }
-      
-    }
-    break;
-    case 'emailsuccess' : 
-    {
-      try {
-        const conFirmEmail = EmailSuccessEmailTemplate()
-        const sendEmailFunc = sendMailFunc(email, conFirmEmail.subject, conFirmEmail.body)
-        return sendEmailFunc;
-      } catch (error) {
-        console.log(error)
-      }
+    case 'passwordsuccess':
+      {
+        try {
+          const conFirmEmail = PasswordSuccessEmailTemplate()
+          const sendEmailFunc = sendMailFunc(email, conFirmEmail.subject, conFirmEmail.body)
+          return sendEmailFunc;
+        } catch (error) {
+          console.log(error)
+        }
 
-    }
-    break;
+      }
+      break;
+    case 'emailsuccess':
+      {
+        try {
+          const conFirmEmail = EmailSuccessEmailTemplate()
+          const sendEmailFunc = sendMailFunc(email, conFirmEmail.subject, conFirmEmail.body)
+          return sendEmailFunc;
+        } catch (error) {
+          console.log(error)
+        }
+
+      }
+      break;
+
+    case 'orderSuccess':
+      {
+        try {
+          const conFirmEmail = successOrderTemplate()
+          const sendEmailFunc = sendMailFunc(email, conFirmEmail.subject, conFirmEmail.body)
+          return sendEmailFunc;
+        } catch (error) {
+          console.log(error)
+        }
+
+      }
   }
 
 

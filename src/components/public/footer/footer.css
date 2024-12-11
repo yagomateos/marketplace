@@ -3,14 +3,21 @@
         box-sizing : border-box;
         position : relative;
     }
+
+    .footer-subscribe-form input{
+        min-width : auto !important;
+        width : 100%;   
+    }
     
     .footer-subscribe-form button{
-        position: absolute;
+        width : 100%;
+        margin-top : 20px;
+        /* position: absolute;
         margin: 0 !important;
         height: 80%;
         right: 7%;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: center; */
     }
 }
