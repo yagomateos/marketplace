@@ -1,5 +1,5 @@
 'use server'
-import { getStoresByName, getStoresByUserId, getStoresInformation, setDelDates } from '../../middleware/store/getStores'
+import { getStoresById, getStoresByName, getStoresByUserId, getStoresInformation, setDelDates } from '../../middleware/store/getStores'
 
 export const getStrByName = async (storeName) => {
     try {
@@ -14,6 +14,16 @@ export const getStrByName = async (storeName) => {
 export const getStrByUserId = async (userId) => {
     try {
         const stores = await getStoresByUserId(userId)
+        console.log(stores)
+        return stores;
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getStrId = async (id) => {
+    try {
+        const stores = await getStoresById(id)
         console.log(stores)
         return stores;
     } catch (error) {

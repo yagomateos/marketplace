@@ -43,6 +43,65 @@ WHERE s.userid = ${userId};;
     }
 }
 
+
+export const getStoresById = async (id) => {
+    try {
+        const db = await dbConnection();
+
+        // Fetch store details with product count and store count
+        const [storeResults] = await db.execute(`
+            SELECT 
+                s.*,
+                p.*, 
+                (SELECT COUNT(*) FROM products p2 WHERE p2.store_id = s.id) AS product_count,
+                (SELECT COUNT(*) FROM stores s2 WHERE s2.userid = s.userid) AS store_count
+            FROM stores s
+            LEFT JOIN products p ON s.id = p.store_id
+            WHERE s.id = ${id};
+        `);
+
+        if (storeResults.length > 0) {
+            try {
+                // Fetch testimonials
+                const [testimonials] = await db.execute(`
+                    SELECT t.* , p.* FROM testimonials t LEFT JOIN products p on p.id = t.product_id
+                    WHERE t.product_id IN (
+                        SELECT id FROM products WHERE store_id = ${id}
+                    )
+                `);
+
+                // Fetch number of orders
+                const [orderCountResult] = await db.execute(`
+                    SELECT 
+                        COUNT(DISTINCT order_id) AS order_count
+                    FROM marketplace.order_items 
+                    WHERE product_id IN (
+                        SELECT id FROM marketplace.products WHERE store_id = ${id}
+                    );
+                `);
+
+                await db.end();
+
+                // Combine results
+                const response = {
+                    store: storeResults,
+                    test: testimonials.length > 0 ? testimonials : [],
+                    order_count: orderCountResult[0]?.order_count || 0 // Default to 0 if no orders found
+                };
+
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        } else {
+            throw new Error('No stores found');
+        }
+    } catch (error) {
+        throw error;
+    }
+};
+
+
 export const getStoresInformation = async (userId) => {
     try {
         const db = await dbConnection();

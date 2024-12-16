@@ -127,9 +127,9 @@ export default function Dashboard({ storeDta, userData, setSettingsPage }) {
             {userData && stores && (
               <a
                 className="underline text-sm mt-3 leading-2"
-                href={`https://www.vendalia.es/viveres/${userData[0].id}/${stores && stores.store_name}`}
+                href={`https://www.vendalia.es/viveres/${stores && stores.id}`}
               >
-                {`vendalia.es/viveres/${userData[0].id}/${stores && stores.store_name}`}
+                {`vendalia.es/viveres/${stores && stores.id}`}
               </a>
             )}
           </div>
@@ -277,7 +277,7 @@ export default function Dashboard({ storeDta, userData, setSettingsPage }) {
         <div className="flex gap-5">
           <a
             className="bg-black rounded-full text-white p-2 mt-3 block text-center w-[46%]"
-            href={`https://www.vendalia.es/viveres/${userData && userData[0].id}/${stores && stores.store_name}`}
+            href={`https://www.vendalia.es/viveres/${stores && stores.id}`}
           >
             Visita la tienda
           </a>
