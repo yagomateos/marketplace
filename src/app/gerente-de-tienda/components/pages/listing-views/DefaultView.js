@@ -1,6 +1,7 @@
+import Loading from '../../../../../components/loading/loading';
 import SettingsView from './settingsView';
 
-export default function DefaultView({ deleteProduct , copyProductPublicUrl, deactivateProduct, setSelectedproductToEdit, setEditListing, selectedStars, setSelectedStars, setSelectAll, selectedProd, selectAll, setSelectedProd, products, settingsOpen, setSettingsOpen, currentStatus }) {
+export default function DefaultView({ deleteProduct, copyProductPublicUrl, deactivateProduct, setSelectedproductToEdit, setEditListing, selectedStars, setSelectedStars, setSelectAll, selectedProd, selectAll, setSelectedProd, products, settingsOpen, setSettingsOpen, currentStatus }) {
     let selectedProds = [];
 
     console.clear();
@@ -89,9 +90,25 @@ export default function DefaultView({ deleteProduct , copyProductPublicUrl, deac
         return null;
     };
 
-    return (
-        <div className="flex mt-6 flex-wrap">
-            {products ? products.map((product, key) => returnSelectedProds(product, key)) : <div className='max-w-7xl text-red-800 flex justify-center items-center text-4xl h-full'>¡No se encontraron productos!</div>}
-        </div>
+    const isLoading = !products;
+
+    return (<>
+        {isLoading ? <Loading /> : <>
+            <div className="flex mt-6 flex-wrap">
+                {products ? products.map((product, key) => returnSelectedProds(product, key)) :
+                    (
+                        <div className="w-full p-4 text-lg text-center">
+                            <img
+                                src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/not-found.svg"
+                                alt="Not Found"
+                                className="mx-auto w-[200px] h-auto"
+                            />
+                            <p>¡No se encontraron productos!</p>
+                        </div>
+                    )}
+            </div>
+        </>}
+    </>
+
     );
 }

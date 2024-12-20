@@ -99,7 +99,7 @@ export default function FirstStep({ userId, setCheckoutAddress, setCheckoutStep 
                             <input placeholder="Ciudad" className="block w-80 p-2 mt-3 border border-[#ccc]" value={city} type="text" onChange={e => setCity(e.target.value)} />
                             <input placeholder="Código Postal" className="block w-80 p-2 mt-3 border border-[#ccc]" value={postalCode} type="number" onChange={e => setPostalCode(e.target.value)} />
                             <input placeholder="Número de teléfono" className="block w-80 p-2 mt-3 border border-[#ccc]" value={phoneNumber} type="number" onChange={e => setPhoneNumber(e.target.value)} />
-                            <a className={`${editAddress ? 'block' : 'hidden'} font-semibold py-1 px-3 hover:bg-[#f2f2f2] cursor-pointer rounded-full mt-3 inline-block`} onClick={e => handleAddressUpdate(e)} > Ahorrar</a>
+                            <a className={`${editAddress ? 'block' : 'hidden'} font-semibold py-1 px-3 hover:bg-[#f2f2f2] cursor-pointer rounded-full mt-3 inline-block`} onClick={e => handleAddressUpdate(e)} > Guardar</a>
                         </div>
                     </div>
 

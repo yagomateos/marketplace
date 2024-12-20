@@ -15,17 +15,23 @@ import { useRouter } from 'next/navigation'
 export default function Vender() {
 
     const [step, setStep] = useState(0)
-    const { data: session } = useSession()
+    const { data: session , status } = useSession()
     const [reason, setReason] = useState(null)
     const [options, setOptions] = useState([])
 
     const router = useRouter()
 
-    useEffect(() => {
-        if (!session) {
-            router.push('/')
-        }
-    }, [session])
+ useEffect(() => {
+    if (status === "loading") {
+      // Session is still being fetched, no action needed yet
+      return;
+    }
+
+    if (status === "unauthenticated") {
+      // If the user is not logged in, redirect them to the login page or home
+      router.push("/");
+    }
+  }, [status, router]);
 
     const scrollToTop = () => {
         window.scrollTo({

@@ -12,7 +12,7 @@ import { updateUserFunc } from '../../../lib/actions/users/updateUser'
 import { createNewProduct } from '../../../lib/actions/products/createProduct'
 import { useRouter } from 'next/navigation'
 import { createStr } from '../../../lib/actions/stores/createStore'
-import { UploadMultipleImgs , UploadImg } from '../../../lib/utils/uploadImg'
+import { UploadMultipleImgs, UploadImg } from '../../../lib/utils/uploadImg'
 
 
 export default function Storesetup({ reason, options }) {
@@ -198,37 +198,32 @@ export default function Storesetup({ reason, options }) {
 
 
                                 const productData = {
-                                    firstPart: productInfo1, secondPart: productInfo2, userId: userId, storeId: storeCreated
+                                    firstPart: productInfo1, secondPart: productInfo2.filter((_, index) => index !== 2), userId: userId, storeId: storeCreated
                                 }
 
                                 // images object
                                 console.log('cariya')
-                                console.log(productInfo2)
+                                console.log(productData)
 
                                 const fileObjectsFormDta = new FormData();
-                                fileObjectsFormDta.append('file' , productInfo2[2][0])
-                                // productInfo2[2].forEach((file, index) => {
-                                //     fileObjectsFormDta.append('file' , file); // `file1`, `file2`, etc.
-                                // });
+                                // fileObjectsFormDta.append('file', productInfo2[2][0])
+                                productInfo2[2].forEach((file, index) => {
+                                    fileObjectsFormDta.append(`file${index}` , file); // `file1`, `file2`, etc.
+                                });
 
+                                // const uploadedImages = await UploadMultipleImgs(fileObjectsFormDta)
+                                // console.clear();
+                                // console.log(uploadedImages)
+                                // create product
                                 try {
-                                    const uploadedImages = await UploadImg(fileObjectsFormDta)
-                                    console.clear();
-                                    console.log(uploadedImages)
-                                    // create product
-                                    try {
-                                        const productInserted = await createNewProduct(productData)
-                                        console.log(productInserted)
-                                        if (productInserted) {
-                                            router.push('/registrado-en-la-tienda')
-                                        }
-                                    } catch (error) {
-                                        console.log(error)
+                                    const productInserted = await createNewProduct(productData, fileObjectsFormDta)
+                                    console.log(productInserted)
+                                    if (productInserted) {
+                                        router.push('/registrado-en-la-tienda')
                                     }
                                 } catch (error) {
                                     console.log(error)
                                 }
-
 
                             }
 

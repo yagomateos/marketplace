@@ -6,7 +6,7 @@ import Orders from './pages/orders'
 import Settings from './pages/settings'
 import { useState } from 'react'
 
-export default function PageContainer({ refreshStr, setRefreshStr, storeDta, setStep, step, userData, searchOpen, setSearchOpen, storeOpen, setStoreOpen }) {
+export default function PageContainer({ sidebarOpen , refreshStr, setRefreshStr, storeDta, setStep, step, userData, searchOpen, setSearchOpen, storeOpen, setStoreOpen }) {
 
   const [settingPage, setSettingsPage] = useState(1)
 
@@ -28,7 +28,7 @@ export default function PageContainer({ refreshStr, setRefreshStr, storeDta, set
   }
 
   return (
-    <div className='p-2 lg:p-6 flex items-start w-full justify-center relative'>
+    <div className={`${sidebarOpen? 'hidden' : ''} p-2 lg:p-6 flex items-start w-full justify-center relative`}>
       {searchOpen &&
         <div className='absolute bg-[#00000061] w-full h-full left-0 top-0 z-10'>
           <div className='bg-white lg:w-[35%] p-4 lg:p-8 pt-20 lg:pt-8 h-full relative'>

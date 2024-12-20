@@ -46,10 +46,42 @@ export default function Sidebar({ userData, stores, sidebarOpen, setSidebarOpen,
                         <li><a onClick={(e) => { e.preventDefault(); setSearchOpen(false); setSidebarOpen(false); setStep(4) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-list-64.png" /> &nbsp;&nbsp;Pedidos y entregas</a></li>
                         <li><a target="_blank" href="/Ayuda" className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-help-50.png" /> &nbsp;&nbsp; Ayuda</a></li>
                         <li><a onClick={(e) => { e.preventDefault(); setSidebarOpen(false); setStoreOpen(!storeOpen); setStep(5) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-gear-50.png" /> &nbsp;&nbsp;Ajustes</a></li>
+                        <li className="lg:hidden p-4">
+                            {stores &&
+                                <a href="#" className="flex max-w-[100%] items-center gap-4">
+                                    <img className="w-16" src={stores.logo} alt={`${stores.store_name} logo`} />
+                                    <p>{stores.store_name}</p>
+                                    <span className="p-2 border border-[#ccc]">
+                                        <svg style={{ width: '20px' }} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                                            <polygon points="4.583 17.193 4 19.967 6.704 19.315 17.916 8.182 15.794 6.061 4.583 17.193"></polygon>
+                                            <path d="M19.683,5l-0.707-.707a1,1,0,0,0-1.414,0L16.855,5l2.121,2.121,0.707-.707A1,1,0,0,0,19.683,5Z"></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                            }
+                        </li>
                     </ul>
+
+                    <div className="p-4 mt-2 relative lg:hidden">
+                        {userData && (
+                            <div className="flex max-w-[100%] items-center gap-4 ">
+                                <img className="w-10 h-10 rounded-full" src={userData[0]?.identity_url || ''} alt="User Avatar" />
+                                <p>{userData[0]?.username || 'Nombre de usuario'}</p>
+                                {userMenuOpen &&
+                                    <div className="w-[90%] border border-[#ccc] bg-white absolute bottom-[130%] py-5">
+                                        <ul className="w-full margin-0">
+                                            <li><a className="block p-3 hover:bg-[#f6f6f6]" href="/configuracion_de_la_cuenta">Tu perfil</a></li>
+                                            <li><a className="block p-3 hover:bg-[#f6f6f6]" href="#" onClick={e => signOutUser(e)}>Desconectar</a></li>
+                                        </ul>
+                                    </div>
+                                }
+                                <img onClick={e => { e.preventDefault(); setUserMenuOpen(!userMenuOpen) }} class="-rotate-90 w-4 ml-4 block cursor-pointer" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/caret-right.svg" />
+                            </div>
+                        )}
+                    </div>
                 </div>
 
-                <div className="fixed bottom-0 w-full p-4 max-w-[17vw]">
+                <div className="hidden lg:block fixed bottom-0 w-full p-4 max-w-[17vw]">
                     <h3 className="font-semibold mb-5">Canales de venta</h3>
                     {stores &&
                         <a href="#" className="flex max-w-[100%] items-center gap-4">
@@ -76,7 +108,7 @@ export default function Sidebar({ userData, stores, sidebarOpen, setSidebarOpen,
                                     <div className="w-full border border-[#ccc] bg-white absolute bottom-[130%] py-5">
                                         <ul className="w-full margin-0">
                                             <li><a className="block p-3 hover:bg-[#f6f6f6]" href="/configuracion_de_la_cuenta">Tu perfil</a></li>
-                                            <li><a className="block p-3 hover:bg-[#f6f6f6]" href="#" onClick={e=>signOutUser(e)}>Desconectar</a></li>
+                                            <li><a className="block p-3 hover:bg-[#f6f6f6]" href="#" onClick={e => signOutUser(e)}>Desconectar</a></li>
                                         </ul>
                                     </div>
                                 }

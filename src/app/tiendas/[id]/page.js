@@ -114,8 +114,8 @@ export default function Viveres({ params }) {
                 <div className='p-4 flex gap-6 flex-wrap' id='listings'>
                     {storeData && storeData.map((listing, key) => {
                         return <a key={key} className='block w-full lg:w-[23%] hover:border hover:shadow-xl shadow-[#ccc] rounded-md p-4 border-[#ccc]' href={`/listado?pid=${listing.id}`}>
-                            <div className='w-full h-[220px] bg-[#f8f8f8]'>
-                                <img className='w-full h-full block' src={listing.main_image_url} />
+                            <div className='w-full h-[220px] lg:h-[300px] bg-[#f8f8f8]'>
+                                <img className='w-full h-full  block object-cover' src={listing.main_image_url} />
                             </div>
                             <h3>
                                 {listing.name.length > 90

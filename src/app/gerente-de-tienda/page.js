@@ -131,7 +131,7 @@ export default function ShopDashboard() {
 
             <div className="flex">
                 <Sidebar userData={userData} stores={stores} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} setStep={setStep} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
-                <PageContainer refreshStr = {refreshStr }  setRefreshStr = {setRefreshStr} storeDta = {{stores , listings , activeListings , expiredListings, soldOutListings}} setStep={setStep} step={step} userData={userData} searchOpen={searchOpen} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
+                <PageContainer sidebarOpen={sidebarOpen} refreshStr = {refreshStr }  setRefreshStr = {setRefreshStr} storeDta = {{stores , listings , activeListings , expiredListings, soldOutListings}} setStep={setStep} step={step} userData={userData} searchOpen={searchOpen} setSearchOpen={setSearchOpen} storeOpen={storeOpen} setStoreOpen={setStoreOpen} />
             </div>
         </>
     )

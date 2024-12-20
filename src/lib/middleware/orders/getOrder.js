@@ -13,7 +13,9 @@ export const getOrder = async (userId) => {
     GROUP_CONCAT(oi.product_id SEPARATOR ', ') AS item_names, -- Aggregates item names from order_items
     GROUP_CONCAT(p.name SEPARATOR ', ') AS product_names, -- Aggregates product names from products
     GROUP_CONCAT(oi.qty SEPARATOR ', ') AS item_quantities, -- Aggregates item quantities
-    GROUP_CONCAT(p.regular_price SEPARATOR ', ') AS product_prices -- Aggregates product prices
+    GROUP_CONCAT(p.regular_price SEPARATOR ', ') AS product_prices, -- Aggregates product prices
+    GROUP_CONCAT(p.main_image_url SEPARATOR ', ') AS product_images,
+    GROUP_CONCAT(p.description SEPARATOR ', ') AS product_desc
 FROM 
     marketplace.orders o
 LEFT JOIN 

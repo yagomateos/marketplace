@@ -449,7 +449,7 @@ function ListingFunc() {
                                                 {moreInfoOpened && (
                                                     <div className='p-4 mt-3'>
                                                         <h3 className='text-md font-semibold'>Puntos destacables</h3>
-                                                        <p>Hecho por <a className='underline' href={`/almacenar/${product[0] && product[0].store_name}`}>{product[0] && product[0].store_name}</a></p>
+                                                        <p>Hecho por <a className='underline' href={`/tiendas/${product[0] && product[0].store_id}`}>{product[0] && product[0].store_name}</a></p>
                                                         <h3 className='text-md font-semibold mt-3'>Sobre este artículo</h3>
                                                         {product[0] && product[0].description}
                                                     </div>
