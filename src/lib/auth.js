@@ -2,13 +2,13 @@ import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import FacebookProvider from "next-auth/providers/facebook"
 import CredentialsProvider from "next-auth/providers/credentials";
-import {findUser} from "../lib/middleware/user";
+import { findUser, createNew } from "../lib/middleware/user";
 
 const userLogin = async (credentials) => {
     try {
         const user = await findUser(credentials.email, credentials.password);
-        
-        if(user){
+
+        if (user) {
             user.keepMeLoggedIn = credentials.keepMeLoggedIn;
             // console.log('hkpn')
             console.log(user)
@@ -16,6 +16,30 @@ const userLogin = async (credentials) => {
         }
     } catch (error) {
         console.log(error.message)
+    }
+}
+
+const findOrCreateUser = async (user) => {
+    try {
+        const Extuser = await findUser(user.email);
+        if (Extuser) {
+            return Extuser.id;
+        } else {
+            try {
+                const newUser = await createNew(user.name.split(" ")[0], user.email, user.id, 'buyer', user.image)
+                if (newUser) {
+                    return newUser
+                } else {
+                    return false
+                }
+            } catch (error) {
+                console.log(error.message)
+                return false
+            }
+        }
+    } catch (error) {
+        console.log(error.message)
+        return false
     }
 }
 
@@ -48,9 +72,9 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
 
                 try {
                     const userav = await userLogin(credentials);
-// console.log(userav.identity_url)
+                    // console.log(userav.identity_url)
                     if (userav) {
-                        const user = { id: userav.id, name: userav.username, email: credentials.email , image:userav.identity_url , keepMeLoggedIn: userav.keepMeLoggedIn }
+                        const user = { id: userav.id, name: userav.username, email: credentials.email, image: userav.identity_url, keepMeLoggedIn: userav.keepMeLoggedIn }
 
                         if (user) {
                             return Promise.resolve(user)
@@ -82,10 +106,10 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 session.user.email = token.email;
                 session.user.image = token.image
                 session.user.providers = token.providers || [];
-                session.maxAge = token.keepMeLoggedIn=='true' ? 30 * 24 * 60 * 60 : 0;
+                session.maxAge = token.keepMeLoggedIn == 'true' ? 30 * 24 * 60 * 60 : 0;
                 console.log(session.maxAge)
-            }else{
-                session.maxAge =  0;
+            } else {
+                session.maxAge = 0;
             }
             return session;
         },
@@ -93,12 +117,29 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
 
             console.log('comes there')
             console.log(user)
+
+
             if (user) {
-                token.id = user.id;
+
+                console.clear();
+                console.log('here it comes')
+                try {
+                    const sessionUserId = await findOrCreateUser(user);
+                    if (sessionUserId) {
+                        token.id = sessionUserId;
+                    }else{
+                        token.id = null;
+                    }
+                } catch (error) {
+                    console.error(error)
+                    token.id = null;
+                }
+
+                // token.id = user.id;
                 token.name = user.name;
                 token.email = user.email;
-                 // Conditionally assign token.image based on the provider
-                 if (account && account.provider === 'Credentials') {
+                // Conditionally assign token.image based on the provider
+                if (account && account.provider === 'Credentials') {
                     token.image = user.identity_url; // Use identity_url for CredentialsProvider
                 } else {
                     token.image = user.image; // Use image for other providers
@@ -114,9 +155,9 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
                 const provider = account.provider;
                 token.providers = token.providers || [];
                 if (!token.providers.includes(provider)) {
-                  token.providers.push(provider); // Add provider to token if not already there
+                    token.providers.push(provider); // Add provider to token if not already there
                 }
-              }
+            }
             return token;
         }
     },

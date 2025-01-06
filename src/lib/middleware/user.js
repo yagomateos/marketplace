@@ -1,11 +1,15 @@
 
 import dbConnection from '../base/db'
 
-export const findUser = async (email, password) => {
+export const findUser = async (email, password = null) => {
     try {
         const db = await dbConnection();
+        let sql = `SELECT * FROM users where email_address='${email}' and password='${password}'`
+        if (password==null) {
+            sql = `SELECT * FROM users where email_address='${email}'`
+        } 
 
-        const [results] = await db.execute(`SELECT * FROM users where email_address='${email}' and password='${password}'`);
+        const [results] = await db.execute(sql);
         await db.end();
         if (results.length > 0) {
             // console.log(results[0])
@@ -19,14 +23,20 @@ export const findUser = async (email, password) => {
     }
 }
 
-export const createNew = async (username, email, password, userType) => {
+export const createNew = async (username, email, password, userType, userImage=null) => {
     try {
         const db = await dbConnection();
-        const [results] = await db.execute(`INSERT INTO marketplace.users (username, password, email_address, usertype, accesslevel) VALUES ('${username}', '${password}', '${email}', '${userType}', '4');`);
+        let sql = `INSERT INTO marketplace.users (username, password, email_address, usertype, accesslevel) VALUES ('${username}', '${password}', '${email}', '${userType}', '4');`
+        
+        if(userImage){
+            sql = `INSERT INTO marketplace.users (username, password, email_address, usertype, accesslevel , identity_url) VALUES ('${username}', '${password}', '${email}', '${userType}', '4' , '${userImage}');`
+        }
+        
+        const [results] = await db.execute(sql);
         await db.end();
         console.log(results);
         if (results.affectedRows && results.affectedRows > 0) {
-            return true
+            return results.insertId
         } else {
             throw new Error('something went wrong');
         }
@@ -104,7 +114,7 @@ export const updatePasswordByEmail = async (email, password) => {
         if (result.affectedRows && result.affectedRows > 0) {
             return true
         } else {
-            
+
             throw new Error('old password wrong');
         }
     } catch (error) {
@@ -149,20 +159,20 @@ export const updateEmail = async (userId, emailAddress, password) => {
 
         // First, check if the new email address already exists in the database
         const [existingEmailCheck] = await db.execute(`SELECT COUNT(*) as count FROM marketplace.users WHERE email_address = ?`, [emailAddress]);
-        
+
         if (existingEmailCheck[0].count > 0) {
             throw new Error('Email address already exists');
         }
-        
+
         // Proceed with updating the email address if it's not already in use
         const [result] = await db.execute(`UPDATE marketplace.users SET email_address = ? WHERE id = ? AND password = ?`, [emailAddress, userId, password]);
-        
+
         if (result.affectedRows && result.affectedRows > 0) {
             return true;
         } else {
             throw new Error('Password incorrect or no matching user found');
         }
-        
+
     } catch (error) {
         console.error(error)
         throw error;
@@ -293,7 +303,7 @@ export const updateUserEmailVerificationSt = async (email) => {
 
         if (updatedUser.affectedRows && updatedUser.affectedRows > 0) {
             return true;
-        }else{
+        } else {
             return new Error('email not updated!')
         }
 
