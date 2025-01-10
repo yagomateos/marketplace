@@ -121,7 +121,7 @@ export default function CreateListng({ userData, createPopup, setCreatePopup, se
         const fileObjectsFormData = new FormData();
 
         // Loop through all files and append each to the FormData object
-        fileObjects.forEach((file, index) => {
+        fileObjects&&fileObjects.forEach((file, index) => {
             fileObjectsFormData.append(`file${index}`, file);
         });
 
