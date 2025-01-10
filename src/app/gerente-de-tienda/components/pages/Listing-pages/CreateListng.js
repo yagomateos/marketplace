@@ -226,7 +226,7 @@ export default function CreateListng({ userData, createPopup, setCreatePopup, se
                             <div className='border border-dashed border-[#ccc] round-md p-6 relative'>
                                 <div class="file-upload-wrapper w-full flex flex-col items-center justify-center ">
                                     <p className='text-center'>Arrastra y suelta, o bien</p>
-                                    {/* <FileUploader setPhotos={setPhotos} setFileObjects={setFileObjects} /> */}
+                                    <FileUploader setPhotos={setPhotos} setFileObjects={setFileObjects} />
 
                                 </div>
                             </div>
