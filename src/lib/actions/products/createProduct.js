@@ -45,10 +45,10 @@ export async function createNewProduct(productDta, imgFormDta) {
     // }
 
     try {
-        // const imageUploaded = await UploadMultipleImgs(imgFormDta)
-        // console.log(imageUploaded[0])
-        // productData.main_image_url = imageUploaded[0];
-        productData.main_image_url = '';
+        const imageUploaded = await UploadMultipleImgs(imgFormDta)
+        console.log(imageUploaded[0])
+        productData.main_image_url = imageUploaded[0];
+        // productData.main_image_url = '';
         try {
             const newProduct = await createProduct(productData);
 
