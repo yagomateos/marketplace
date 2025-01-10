@@ -1,3 +1,4 @@
+import { Readable } from 'stream';
 import AWS from 'aws-sdk';
 
 export default async function UploadImg(imgFormDta) {
@@ -38,18 +39,18 @@ export default async function UploadImg(imgFormDta) {
 
 
 export async function UploadMultipleImgs(formData) {
-    // Initialize AWS S3 client with environment variables
     const s3 = new AWS.S3({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        region: 'eu-west-2', // Set your region here
+        region: 'eu-west-2', // Your region
     });
 
     try {
-        // Extract files from FormData and validate them
         const filesArray = [];
+        
+        // Collect all file-like entries
         for (let [key, value] of formData.entries()) {
-            if (value instanceof File) { // Only handle file entries
+            if (value && typeof value === 'object' && value.arrayBuffer) {
                 filesArray.push(value);
             }
         }
@@ -58,29 +59,23 @@ export async function UploadMultipleImgs(formData) {
             throw new Error('No valid files found in the FormData object.');
         }
 
-        // Array to hold the S3 URLs of uploaded images
         const uploadedLocations = [];
 
-        // Loop through each file and upload to S3
         for (const file of filesArray) {
             const fileBuffer = await file.arrayBuffer();
 
-            // Define S3 upload parameters for each file
             const uploadParams = {
                 Bucket: 'bucket-qlrc5d', // Your S3 bucket name
-                Key: file.name, // File name to save as in S3
-                Body: Buffer.from(fileBuffer), // Convert arrayBuffer to Buffer
-                ContentType: file.type, // Set the content type
+                Key: file.name, // File name for S3
+                Body: Buffer.from(fileBuffer),
+                ContentType: file.type, // Content type
             };
 
-            // Upload the file and add the result URL to the list
             const uploadResult = await s3.upload(uploadParams).promise();
             uploadedLocations.push(uploadResult.Location);
         }
 
         console.log('All images uploaded successfully:', uploadedLocations);
-
-        // Return the array of S3 URLs for the uploaded images
         return uploadedLocations;
 
     } catch (error) {
