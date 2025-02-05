@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation'
 
 export default function Vender() {
 
-  return <div>comes here</div>
+  return <div>comes here</div> 
 
 //     const [step, setStep] = useState(0)
 //     const { data: session , status } = useSession()
