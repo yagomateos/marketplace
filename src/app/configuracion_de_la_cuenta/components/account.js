@@ -258,16 +258,16 @@ export default function Account({ setStep, userInfo, userId }) {
 
             {/* fifth box */}
             <div className="p-4 rounded-lg border border-[#ccc]  mb-4">
-                <h3 className="text-2xl font-semibold mb-4">Comunicación de Etsy</h3>
+                <h3 className="text-2xl font-semibold mb-4">Comunicación de Vendalia</h3>
                 <div className="mb-4">
                     <label className="block font-semibold mb-3">Correo postal</label>
                     <input checked={emailAllowed} onClick={(e) => setEmailAllowed(!emailAllowed)} type="radio" />
-                    <p className="inline-block ml-3">Permitir que Etsy me envíe correo postal</p>
+                    <p className="inline-block ml-3">Permitir que Vendalia me envíe correo postal</p>
                 </div>
                 <div className="mb-4">
                     <label className="block font-semibold mb-3">Llamadas telefónicas</label>
                     <input checked={phoneAllowed} onClick={(e) => setPhoneAllowed(!phoneAllowed)} type="radio" />
-                    <p className="inline-block ml-3">Permitir que Etsy contacte conmigo por teléfono</p>
+                    <p className="inline-block ml-3">Permitir que Vendalia contacte conmigo por teléfono</p>
                 </div>
                 <a onClick={(e) => handleCommunicationupdate(e)} className="mb-3 rounded-full p-2 text-center lg:p-3 bg-black text-white font-semibold inline-block cursor-pointer">Guardar preferencias de comunicación</a>
                 {communicationError && <div className='mt-3 text-sm text-red-700'>{communicationError}</div>}
