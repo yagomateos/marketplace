@@ -174,8 +174,11 @@ export default function Storesetup({ reason, options }) {
           identityInfo: identityInfo,
         };
 
+        console.log('first point')
+
         try {
           const userUpdated = await updateUserFunc(userData);
+          console.log('first second')
           console.log(userUpdated);
           if (userUpdated) {
             console.log(productInfo1, productInfo2);
