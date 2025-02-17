@@ -174,11 +174,11 @@ export default function Storesetup({ reason, options }) {
           identityInfo: identityInfo,
         };
 
-        console.log('first point')
+        console.log("first point");
 
         try {
           const userUpdated = await updateUserFunc(userData);
-          console.log('first second')
+          console.log("first second");
           console.log(userUpdated);
           if (userUpdated) {
             console.log(productInfo1, productInfo2);
@@ -228,8 +228,18 @@ export default function Storesetup({ reason, options }) {
                   );
                   console.log(productInserted);
                   if (productInserted) {
-                    sendEmail(session.user.email, "storesuccess");
-                    router.push("/registrado-en-la-tienda");
+                    const mailSent = sendEmail(
+                      session.user.email,
+                      "storesuccess"
+                    );
+                    console.clear();
+                    console.log('mail test')
+                    console.log(session.user.email);
+                    console.log(mailSent);
+
+                    if (mailSent) {
+                      router.push("/registrado-en-la-tienda");
+                    }
                   }
                 } catch (error) {
                   console.log(error);
