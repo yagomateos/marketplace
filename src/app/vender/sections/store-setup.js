@@ -228,7 +228,9 @@ export default function Storesetup({ reason, options }) {
                   );
                   console.log(productInserted);
                   if (productInserted) {
-                    const mailSent = sendEmail(
+
+                    try {
+                       const mailSent = await sendEmail(
                       session.user.email,
                       "storesuccess"
                     );
@@ -236,6 +238,12 @@ export default function Storesetup({ reason, options }) {
                     console.log('mail test')
                     console.log(session.user.email);
                     console.log(mailSent);
+                    } catch (error) {
+                      console.clear();
+                      console.log(error)
+                    }
+
+                   
 
                     if (mailSent) {
                       router.push("/registrado-en-la-tienda");
