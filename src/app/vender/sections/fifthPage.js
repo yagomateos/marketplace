@@ -3,7 +3,7 @@ import React from 'react'
 export default function FifthPage({ setStep }) {
     return (
         <div className='flex'>
-            <div className='w-[50%] fifthpage-left bg-cover bg-center hidden lg:block'>
+            <div className='w-[50%] fifthpage-left bg-cover bg-center lg:block'>
 
             </div>
             <div className='w-full lg:w-[50%] py-12 px-[12%] flex flex-col justify-center min-h-[80vh]'>

@@ -145,9 +145,9 @@ export default function CartPage() {
     }, [cartDta])
 
 
-    const qtyChange = (e, key) => {
-        e.preventDefault();
-        const val = e.target.value;
+    const qtyChange = (val, key , prodId) => {
+        // e.preventDefault();
+        // const val = e.target.value;
         console.clear();
         console.log(val)
 
@@ -155,7 +155,8 @@ export default function CartPage() {
         if (val > 1) {
             cartQtyInst[key].qty = val
         } else {
-            cartQtyInst[key].qty = 1
+            // cartQtyInst[key].qty = 1
+            deleteFromCart(prodId)
         }
 
 
@@ -252,7 +253,7 @@ export default function CartPage() {
                                                     <h3 className='pl-4'><a href={`listado?pid=${prod.item_id && prod.item_id}`}>{prod.name && prod.name}</a></h3>
                                                     <div className='mt-5'>
                                                         <form onSubmit={e => chageCartQty(e, prod.item_id)}>
-                                                            <input type='number' className='border p-2 border-[#000] ml-4' min="0" value={cartQtys[key].qty} onChange={(e) => qtyChange(e, key)} />
+                                                            <input type='number' className='border p-2 border-[#000] ml-4' min="0" value={cartQtys[key].qty} onChange={(e) =>{e.preventDefault(); qtyChange(e.target.value, key , prod.Id)}} />
                                                             <button type='submit' className='text-sm ml-4 font-semibold '>Actualización de la compra</button>
                                                         </form>
                                                         {updateSuccess && <div className='p-4'><small className='text-green-700 mt-6'>{updateSuccess}</small></div>}
@@ -279,10 +280,14 @@ export default function CartPage() {
                                             </div>
                                             <div className='lg:text-right '>
                                                 <a href="" className='hidden lg:block text-md font-semibold' onClick={(e) => { goToCheckout(prod.item_id, prod.sale_price, prod.regular_price, prod.cartQuantity, prod.name, e) }}>Pagar solo lo de esta tienda &nbsp; <img className='w-[15px] inline' src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/right-arrow.svg" /></a>
-                                                <div className='lg:hidden'>
-                                                    <form onSubmit={e => chageCartQty(e, prod.item_id)}>
-                                                        <input type='number' className='border p-1 border-[#000] ml-0' min="0" value={cartQtys[key].qty} onChange={(e) => qtyChange(e, key)} />
-                                                        <button type='submit' className='text-sm ml-4 font-semibold '>ahorrar</button>
+                                                <div className='lg:hidden mt-2'>
+                                                    <form className='flex' onSubmit={e => chageCartQty(e, prod.item_id)}>
+                                                        <div>
+                                                            <a className='pr-2 text-xl' data-value={cartQtys[key].qty} onClick={(e)=>{e.preventDefault(); qtyChange(cartQtys[key].qty-1, key , prod.Id)}}>-</a>
+                                                                <input type='number' className='text-center border p-1 border-[#000] ml-0' min="0" value={cartQtys[key].qty} onChange={(e) => {e.preventDefault(); qtyChange(e.target.value, key , prod.Id)}} />
+                                                            <a className='pl-2 text-xl' data-value={cartQtys[key].qty} onClick={(e)=>{e.preventDefault();qtyChange(cartQtys[key].qty+1, key , prod.Id)}}>+</a>
+                                                        </div>
+                                                        <button type='submit' className='text-sm ml-4 font-semibold '>actualizar</button>
                                                     </form>
                                                 </div>
                                                 <div className='my-3'>

@@ -8,6 +8,7 @@ import { PasswordSuccessEmailTemplate } from './mailTemplates/passwordSuccess'
 import { EmailSuccessEmailTemplate } from './mailTemplates/emailSuccess'
 import { TokenManager } from './tokenManager'
 import { successOrderTemplate } from './mailTemplates/orderSuccess';
+import { StoreCreationSuccessEmailTemplate } from './mailTemplates/storeSuccess';
 
 
 async function sendMailFunc(email, subject, emailBody) {
@@ -101,6 +102,19 @@ export default async function sendEmail(email, what) {
 
       }
       break;
+      case 'storesuccess':
+        {
+          try {
+            const strSucessEmail = StoreCreationSuccessEmailTemplate()
+            const sendEmailFunc = sendMailFunc(email, strSucessEmail.subject, strSucessEmail.body)
+            return sendEmailFunc;
+          } catch (error) {
+            console.log(error)
+          }
+  
+        }
+        break;
+  
 
     case 'orderSuccess':
       {

@@ -5,12 +5,24 @@ export default function PaymentSecondStep({ setIdentityInfo }) {
     const [fileUrl, setFileUrl] = useState(null);
     const fileInputRef = useRef(null);
     const [idType, setIdType] = useState(null)
+    const [fileErr , setFileErr] = useState(null)
 
     const handleFileInputClick = (e) => {
+
+        console.clear();
+        console.log(idType)
+
         e.preventDefault();
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
+
+        if(idType){
+            setFileErr(null)
+            if (fileInputRef.current) {
+                fileInputRef.current.click();
+            }
+        }else{
+            setFileErr('Por favor, seleccione primero el tipo de archivo')
         }
+
     };
 
     const handleFileChange = (e) => {
@@ -72,10 +84,14 @@ export default function PaymentSecondStep({ setIdentityInfo }) {
                             </select>
                         </div>
                         <div>
-                            <input type='file' ref={fileInputRef} className='hidden' onChange={handleFileChange} />
+                            <input type='file'  ref={fileInputRef} className='hidden' onChange={handleFileChange} />
                             <a className='p-2 border border-[#ccc] rounded-lg w-full' href='/' onClick={e => { e.preventDefault(); handleFileInputClick(e) }}>Elige un archivo</a>
                         </div>
+                        <div>
+                            {fileUrl && (<img className='w-[100px] h-[100px] object-cover rounded-full' src={fileUrl} />) }
+                        </div>
                     </div>
+                    {fileErr && (<div className='lg:max-w-7xl ml-auto mr-auto mt-3 err-wrapper text-red-700 text-sm'>{(fileErr)}</div>)}
                 </div>
             </div>
         </div>

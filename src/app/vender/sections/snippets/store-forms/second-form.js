@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { searchStoreFunc } from '../../../../../lib/actions/search/storeSearch'
 
-export default function SecondStoreStepForm({ setStoreName }) {
+export default function SecondStoreStepForm({ storeName , setStoreName }) {
 
     const [err, setErr] = useState(null)
 
@@ -42,7 +42,7 @@ export default function SecondStoreStepForm({ setStoreName }) {
                 <div className='left w-full text-sm'>
                     <form>
                         <div className='lg:flex gap-4 flex-wrap mb-6'>
-                            <input className="border border[#f2f2f2] w-full p-3" onChange={e => storeNameFunctionality(e)} placeholder="Escribe el nombre de tu tienda" />
+                            <input className="border border[#f2f2f2] w-full p-3" value={storeName} onChange={e => storeNameFunctionality(e)} placeholder="Escribe el nombre de tu tienda" />
                         </div>
                     </form>
                 </div>

@@ -24,7 +24,7 @@ export default function FourthPage({ setStep, options, setOptions }) {
 
     return (
         <div className='flex'>
-            <div className='w-[50%] fourthpage-left bg-cover bg-center hidden lg:block'>
+            <div className='w-[50%] fourthpage-left bg-cover bg-center  lg:block'>
 
             </div>
             <div className='w-full lg:w-[50%] py-12 px-[12%]'>
