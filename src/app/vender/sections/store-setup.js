@@ -234,20 +234,16 @@ export default function Storesetup({ reason, options }) {
                       session.user.email,
                       "storesuccess"
                     );
-                    console.clear();
-                    console.log('mail test')
-                    console.log(session.user.email);
-                    console.log(mailSent);
+                    // console.clear();
+                    // console.log('mail test')
+                    // console.log(session.user.email);
+                    // console.log(mailSent);
+                    router.push("/registrado-en-la-tienda");
                     } catch (error) {
                       console.clear();
                       console.log(error)
                     }
 
-                   
-
-                    if (mailSent) {
-                      router.push("/registrado-en-la-tienda");
-                    }
                   }
                 } catch (error) {
                   console.log(error);
