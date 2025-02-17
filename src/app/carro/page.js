@@ -152,7 +152,7 @@ export default function CartPage() {
         console.log(val)
 
         let cartQtyInst = [...cartQtys];
-        if (val > 1) {
+        if (val >= 1) {
             cartQtyInst[key].qty = val
         } else {
             // cartQtyInst[key].qty = 1
