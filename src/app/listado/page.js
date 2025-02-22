@@ -26,6 +26,7 @@ function ListingFunc() {
 
     const [mainImg, setMainImg] = useState(null);
     const [galleryImgs, setGalleryImgs] = useState([])
+    const [allImages , setAllImages] = useState([])
 
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [lightboxImages, setLightboxImages] = useState([]);
@@ -126,16 +127,29 @@ function ListingFunc() {
                     // Set lightbox images
                     if (productInst && productInst[0] && productInst[0].main_image_url) {
 
+                        const allImgs = []
                         setMainImg(productInst[0].main_image_url)
-                        // get other images
-                        try {
-                            const galleryImages = await getProductImages(`${pid}`)
-                            console.clear()
-                            console.log(galleryImages)
-                            setGalleryImgs([{ image_url: productInst[0].main_image_url }, ...galleryImages])
-                        } catch (err) {
-                            console.log(err)
+                        allImgs.push(productInst[0].main_image_url)
+
+                        if(productInst[0].gallery_images){
+                            const galleryImgs = productInst[0].gallery_images.split(",")
+                            setGalleryImgs(galleryImgs)
+                            allImgs.push(...galleryImgs)
                         }
+
+
+                        console.clear()
+                        console.log(allImgs)
+                        setAllImages(allImgs)
+                        // get other images
+                        // try {
+                        //     const galleryImages = await getProductImages(`${pid}`)
+                        //     console.clear()
+                        //     console.log(galleryImages)
+                        //     setGalleryImgs([{ image_url: productInst[0].main_image_url }, ...galleryImages])
+                        // } catch (err) {
+                        //     console.log(err)
+                        // }
 
                     }
                 } catch (error) {
@@ -169,7 +183,7 @@ function ListingFunc() {
             if (lightboxImages.length < 2) {
                 galleryImgs.forEach(galImg => {
                     lightBoxImgs.push({
-                        src: galImg.image_url,
+                        src: galImg,
                         alt: ''
                     })
                 })
@@ -380,11 +394,11 @@ function ListingFunc() {
                                     <div className='lg:px-12'>
                                         <div className='flex flex-row'>
 
-                                            <div className='gallery-imgs-wrapper w-[20%] lg:max-h-[600px] max-h-[460px] overflow-hidden lg:pr-5 pr-3'>
+                                            <div className='gallery-imgs-wrapper w-[20%] lg:h-[600px] max-h-[460px] overflow-hidden lg:pr-5 pr-3'>
                                                 <div className="swiper-wrapper">
-                                                    {galleryImgs && galleryImgs.map((galImg, key) => (
+                                                    {allImages && allImages.map((galImg, key) => (
                                                         <div key={key} className='swiper-slide'>
-                                                            <a href="/" onClick={(e) => { e.preventDefault(); setMainImg(galImg.image_url); sortLightBox(galImg.image_url) }}><img src={galImg.image_url} className='w-full h-auto max-h-[100%]' /></a>
+                                                            <a href="/" onClick={(e) => { e.preventDefault(); setMainImg(galImg); sortLightBox(galImg) }}><img src={galImg} className='w-full h-[100px] object-cover' /></a>
                                                         </div>
                                                     ))}
                                                 </div>

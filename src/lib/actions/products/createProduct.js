@@ -32,6 +32,7 @@ export async function createNewProduct(productDta, imgFormDta) {
         festivity: productDta.secondPart[9],
         tags: productDta.secondPart[10] ? productDta.secondPart[10].join(',') : '',
         materials: productDta.secondPart[11] ? productDta.secondPart[11].join(',') : '',
+        galleryImages : null
     }
 
     // console.log(productData)
@@ -50,6 +51,10 @@ export async function createNewProduct(productDta, imgFormDta) {
         console.clear();
         console.log(imageUploaded)
         productData.main_image_url = imageUploaded[0];
+        const galleryImages = imageUploaded;
+        galleryImages.shift()
+        const galleryImgString = galleryImages.join(",")
+        productData.galleryImages = galleryImgString;
         // productData.main_image_url = '';
         try {
             const newProduct = await createProduct(productData);
