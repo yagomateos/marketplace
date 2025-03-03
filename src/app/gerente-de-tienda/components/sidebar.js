@@ -34,7 +34,7 @@ export default function Sidebar({ userData, stores, sidebarOpen, setSidebarOpen,
                 
                 {stores.map((store,key) =>{
 
-                    return <li className="py-4 border-b border-gray-200"><a key={key} href={`tienda_de_edicio/${store.id}`} className="flex w-[100%] items-center justify-between gap-4">
+                    return <li className="py-4 border-b border-gray-200" key={key} ><a href={`tienda_de_edicio/${store.id}`} className="flex w-[100%] items-center justify-between gap-4">
                         <img className="w-16" src={store.logo} alt={`${store.store_name} logo`} />
                         <p>{store.store_name}</p>
                         <span className="p-2 border border-[#ccc]">
