@@ -5,16 +5,52 @@ export default function Sidebar({ userData, stores, sidebarOpen, setSidebarOpen,
 
     const [showdropDown, setShowDropdown] = useState(false)
     const [userMenuOpen, setUserMenuOpen] = useState(false)
+    const [allStrOpen , setAllStrOpen] = useState(false)
 
     useEffect(() => {
         console.clear()
-        console.log(userData)
-    }, [userData])
+        console.log(stores)
+    }, [stores])
 
     const signOutUser = async (e) => {
         e.preventDefault();
         // signOut({ redirect: false });
         await signOut({ callbackUrl: '/' });
+    }
+
+    const returnStoreEditor = (stores)=>{
+        return <div>
+        <a href="#" className="flex w-[100%] items-center justify-between gap-4" onClick={e=>{e.preventDefault(); setAllStrOpen(!allStrOpen)}}>
+            <img className="w-16" src={stores[0].logo} alt={`${stores[0].store_name} logo`} />
+            <p>{stores[0].store_name}</p>
+            <span className="p-2 border border-[#ccc]">
+                <img className={`${!allStrOpen&& 'rotate-180'} w-[15px]`} src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-arrow-down-30.png"/>
+            </span>
+        </a>
+
+        {allStrOpen&&
+        <div className="max-h-[300px] overflow-y-auto p-5 my-5 absolute bottom-[120px] left-0 w-[96%] bg-white border border-slate-200">
+        <ul>
+                
+                {stores.map((store,key) =>{
+
+                    return <li className="py-4 border-b border-gray-200"><a key={key} href={`tienda_de_edicio/${store.id}`} className="flex w-[100%] items-center justify-between gap-4">
+                        <img className="w-16" src={store.logo} alt={`${store.store_name} logo`} />
+                        <p>{store.store_name}</p>
+                        <span className="p-2 border border-[#ccc]">
+                            <svg style={{ width: '20px' }} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                                <polygon points="4.583 17.193 4 19.967 6.704 19.315 17.916 8.182 15.794 6.061 4.583 17.193"></polygon>
+                                <path d="M19.683,5l-0.707-.707a1,1,0,0,0-1.414,0L16.855,5l2.121,2.121,0.707-.707A1,1,0,0,0,19.683,5Z"></path>
+                            </svg>
+                        </span>
+                    </a></li>
+                })}
+        </ul>
+        </div>
+        }
+        
+        
+        </div>
     }
 
 
@@ -47,18 +83,10 @@ export default function Sidebar({ userData, stores, sidebarOpen, setSidebarOpen,
                         <li><a target="_blank" href="/Ayuda" className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-help-50.png" /> &nbsp;&nbsp; Ayuda</a></li>
                         <li><a onClick={(e) => { e.preventDefault(); setSidebarOpen(false); setStoreOpen(!storeOpen); setStep(5) }} className="flex p-4 hover:bg-[#f2f2f2] cursor-pointer"><img className="w-6" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/icons8-gear-50.png" /> &nbsp;&nbsp;Ajustes</a></li>
                         <li className="lg:hidden p-4">
-                            {stores &&
-                                <a href="#" className="flex max-w-[100%] items-center gap-4">
-                                    <img className="w-16" src={stores.logo} alt={`${stores.store_name} logo`} />
-                                    <p>{stores.store_name}</p>
-                                    <span className="p-2 border border-[#ccc]">
-                                        <svg style={{ width: '20px' }} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
-                                            <polygon points="4.583 17.193 4 19.967 6.704 19.315 17.916 8.182 15.794 6.061 4.583 17.193"></polygon>
-                                            <path d="M19.683,5l-0.707-.707a1,1,0,0,0-1.414,0L16.855,5l2.121,2.121,0.707-.707A1,1,0,0,0,19.683,5Z"></path>
-                                        </svg>
-                                    </span>
-                                </a>
-                            }
+                        {stores && 
+                    
+                    returnStoreEditor(stores)
+                    }
                         </li>
                     </ul>
 
@@ -83,17 +111,9 @@ export default function Sidebar({ userData, stores, sidebarOpen, setSidebarOpen,
 
                 <div className="hidden lg:block fixed bottom-0 w-full p-4 max-w-[17vw]">
                     <h3 className="font-semibold mb-5">Canales de venta</h3>
-                    {stores &&
-                        <a href="#" className="flex max-w-[100%] items-center gap-4">
-                            <img className="w-16" src={stores.logo} alt={`${stores.store_name} logo`} />
-                            <p>{stores.store_name}</p>
-                            <span className="p-2 border border-[#ccc]">
-                                <svg style={{ width: '20px' }} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
-                                    <polygon points="4.583 17.193 4 19.967 6.704 19.315 17.916 8.182 15.794 6.061 4.583 17.193"></polygon>
-                                    <path d="M19.683,5l-0.707-.707a1,1,0,0,0-1.414,0L16.855,5l2.121,2.121,0.707-.707A1,1,0,0,0,19.683,5Z"></path>
-                                </svg>
-                            </span>
-                        </a>
+                    {stores && 
+                    
+                    returnStoreEditor(stores)
                     }
 
                     <hr className="mt-4" />

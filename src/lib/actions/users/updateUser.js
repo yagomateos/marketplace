@@ -39,6 +39,7 @@ export const updateUserPartial = async (userData, imgFormDta) => {
 
     try {
         const imageUploaded = await UploadImg(imgFormDta)
+        console.log(imageUploaded)
         if (imageUploaded) {
             userData.identityUrl = imageUploaded;
             try {

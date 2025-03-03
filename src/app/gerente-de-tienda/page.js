@@ -6,6 +6,7 @@ import PageContainer from "./components/pageContainer";
 import { GetUserInfo } from '../../lib/actions/users/getUserInfo'
 import { useEffect, useState } from "react";
 import { getStrByUserId } from "../../lib/actions/stores/getStores";
+import Listing from "../listado/page";
 
 export default function ShopDashboard() {
 
@@ -63,12 +64,23 @@ export default function ShopDashboard() {
             console.clear()
             try {
                 const Listings = await getStrByUserId(userId)
-
+                console.clear();
                 console.log(listings)
 
                 setListings(Listings)
-                const str = { count: Listings[0].store_count, store_name: Listings[0].store_name , logo :  Listings[0].s_logo , id : Listings[0].s_id , delivery_dates : Listings[0].delivery_dates}
-                setStores(str)
+                // const str = { count: Listings[0].store_count, store_name: Listings[0].store_name , logo :  Listings[0].s_logo , id : Listings[0].s_id , delivery_dates : Listings[0].delivery_dates}
+                
+                const allStores = [];
+
+                Listings.forEach(listing=>{
+                    if (!allStores.some((item) => item.id === listing.s_id)) {
+                        allStores.push({ count: listing.store_count, store_name: listing.store_name , logo :  listing.s_logo , id : listing.s_id , delivery_dates : listing.delivery_dates});
+                      }
+                })
+
+                console.log(allStores)
+                
+                setStores(allStores)
 
                 const activeListingsObg = []
                 const expiredListingsObg = []
@@ -102,7 +114,7 @@ export default function ShopDashboard() {
         }
 
         userId && getStores()
-    }, [userId , refreshStr])
+    }, [userId , refreshStr ])
 
 
 

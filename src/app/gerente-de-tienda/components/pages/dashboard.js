@@ -16,7 +16,8 @@ export default function Dashboard({ storeDta, userData, setSettingsPage }) {
   useEffect(() => {
     // console.clear()
     console.log(storeDta)
-    storeDta.stores && setStores(storeDta.stores)
+
+    storeDta.stores && setStores(storeDta.stores[0])
     storeDta.activeListings && setActiveListings(storeDta.activeListings)
     storeDta.expiredListings && setExpiredListings(storeDta.expiredListings)
     storeDta.soldOutListings && setSoldOutListings(storeDta.soldOutListings)

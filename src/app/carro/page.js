@@ -38,6 +38,7 @@ export default function CartPage() {
                 const cartInfo = await getCartFunc(session.user.id);
                 console.clear();
                 console.log(cartInfo);
+                setCartFetched(true)
                 if (cartInfo) {
                     setCartDta(cartInfo);
                     let qty = 0;
@@ -47,12 +48,12 @@ export default function CartPage() {
                         cartQtyInst.push({ id: cartInf.Id, qty: cartInf.cartQuantity });
                     });
                    
-                    setCartFetched(true)
+                    // setCartFetched(true)
                     setCartQty(qty);
                     setCartQtys(cartQtyInst);
                 }
             } catch (error) {
-                console.log(error);
+                console.log(error)
             }
         };
 
