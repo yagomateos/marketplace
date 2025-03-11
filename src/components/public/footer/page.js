@@ -24,11 +24,11 @@ export default function Footer() {
                         <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/plusicon.svg" className="w-5" />
                     </div>
                     <ul className={`text-sm leading-loose ${openMenu == 'gtk' ? '' : 'hidden'} lg:block`}>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Sobre Nosotros</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Noticias y Blog</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Trabajos</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Inversores</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Contáctanos</a></li>
+                    <li><a href="/sobre_nosotros" className="text-gray-800 hover:text-gray-800 p-2 block">Sobre Nosotros</a></li>
+                    <li><a href="/blog" className="text-gray-800 hover:text-gray-800 p-2 block">Noticias y Blog</a></li>
+                    <li><a href="/trabajos" className="text-gray-800 hover:text-gray-800 p-2 block">Trabajos</a></li>
+                    <li><a href="/Inversores" className="text-gray-800 hover:text-gray-800 p-2 block">Inversores</a></li>
+                    <li><a href="/contactanos" className="text-gray-800 hover:text-gray-800 p-2 block">Contáctanos</a></li>
  
                     </ul>
                 </div>
@@ -40,12 +40,12 @@ export default function Footer() {
                         <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/plusicon.svg" className="w-5" />
                     </div>
                     <ul className={`text-sm leading-loose ${openMenu == 'cs' ? '' : 'hidden'} lg:block`}>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Centro de Ayuda</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Preguntas Frecuentes</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Accesibilidad</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Comentarios</a></li>
+                    <li><a href="/Ayuda" className="text-gray-800 hover:text-gray-800 p-2 block">Centro de Ayuda</a></li>
+                    <li><a href="/faq" className="text-gray-800 hover:text-gray-800 p-2 block">Preguntas Frecuentes</a></li>
+                    <li><a href="/accesibilidad" className="text-gray-800 hover:text-gray-800 p-2 block">Accesibilidad</a></li>
+                    <li><a href="/comentarios" className="text-gray-800 hover:text-gray-800 p-2 block">Comentarios</a></li>
                     <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Guía de Tallas</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Método de Pago</a></li>
+                    <li><a href="/metodo_de_Pago" className="text-gray-800 hover:text-gray-800 p-2 block">Método de Pago</a></li>
 
                     </ul>
                 </div>
