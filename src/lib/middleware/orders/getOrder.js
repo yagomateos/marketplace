@@ -1,10 +1,10 @@
-import dbConnection from '../../base/db';
+import dbConnection from "../../base/db";
 
 export const getOrder = async (userId) => {
-    try {
-        const db = await dbConnection();
-        // change this later
-        const [results] = await db.execute(`SELECT 
+  try {
+    const db = await dbConnection();
+    // change this later
+    const [results] = await db.execute(`SELECT 
     o.id AS order_id,
     o.user_id,
     o.date_time,
@@ -31,14 +31,30 @@ WHERE
 GROUP BY 
     o.id, o.user_id;
 `);
-        await db.end();
+    await db.end();
 
-        if (results.length > 0) {
-            return results;
-        } else {
-            throw new Error('no orders found');
-        }
-    } catch (error) {
-        throw error;
+    if (results.length > 0) {
+      return results;
+    } else {
+      throw new Error("no orders found");
     }
-}
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getOrderStatus = async (orderId) => {
+  try {
+    const db = await dbConnection();
+    const [results] = await db.execute(`SELECT * FROM  marketplace.orders WHERE ID = ${orderId}`);
+    await db.end();
+
+    if (results.length > 0) {
+      return results;
+    } else {
+      throw new Error("no orders found");
+    }
+  } catch (error) {
+    throw error;
+  }
+};

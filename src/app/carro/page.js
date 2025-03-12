@@ -54,6 +54,7 @@ export default function CartPage() {
                 }
             } catch (error) {
                 console.log(error)
+                setCartFetched(true)
             }
         };
 
@@ -62,6 +63,10 @@ export default function CartPage() {
             getCartInfo();
             setIsCartInfoFetched(true); // Prevent re-runs
             setUserId(session?.user?.id)
+        }
+
+        if(!session?.user?.id){
+            router.push('/')
         }
     }, [session, isCartInfoFetched]);
 

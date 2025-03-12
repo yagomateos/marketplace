@@ -57,10 +57,10 @@ export default function Footer() {
                         <img src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/plusicon.svg" className="w-5" />
                     </div>
                     <ul className={`text-sm leading-loose ${openMenu == 'or' ? '' : 'hidden'} lg:block`}>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Rastrear Pedido</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Envío y Entrega</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Devoluciones y Cambios</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Garantía de Igualación de Precios</a></li>
+                    <li><a href="/rastrear_pedido" className="text-gray-800 hover:text-gray-800 p-2 block">Rastrear Pedido</a></li>
+                    <li><a href="/envio_y_entrega" className="text-gray-800 hover:text-gray-800 p-2 block">Envío y Entrega</a></li>
+                    <li><a href="/devoluciones_y_cambios" className="text-gray-800 hover:text-gray-800 p-2 block">Devoluciones y Cambios</a></li>
+                    <li><a href="/garantia_de_igualacion_de_precios" className="text-gray-800 hover:text-gray-800 p-2 block">Garantía de Igualación de Precios</a></li>
                     </ul>
                 </div>
                 <div>
@@ -72,16 +72,16 @@ export default function Footer() {
                     </div>
 
                     <ul className={`text-sm leading-loose ${openMenu == 'ql' ? '' : 'hidden'} lg:block`}>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Política de Privacidad</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Términos de Uso</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Aviso Legal</a></li>
-                    <li><a href="#" className="text-gray-800 hover:text-gray-800 p-2 block">Mapa del Sitio</a></li>
+                    <li><a href="/politica_de_privacidad" className="text-gray-800 hover:text-gray-800 p-2 block">Política de Privacidad</a></li>
+                    <li><a href="/terminos_de_uso" className="text-gray-800 hover:text-gray-800 p-2 block">Términos de Uso</a></li>
+                    <li><a href="/aviso_legal" className="text-gray-800 hover:text-gray-800 p-2 block">Aviso Legal</a></li>
+                    <li><a href="/mapa_del_sitio" className="text-gray-800 hover:text-gray-800 p-2 block">Mapa del Sitio</a></li>
 
                     </ul>
                 </div>
             </div>
             <div className="container mx-auto mt-8 flex flex-col lg:flex-row justify-between items-center pt-4">
-                <p className="text-gray-600 text-sm">&copy; 2024 Vendalia. Todos los derechos reservados.</p>
+                <p className="text-gray-600 text-sm">&copy; 2025 Vendalia. Todos los derechos reservados.</p>
                 <div className="flex space-x-4 justify-between w-full items-center mt-4 lg:w-auto px-12 lg:px-0">
                     <a href="#" className="text-gray-600 hover:text-gray-800"><img className="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/twitter.svg" /></a>
                     <a href="#" className="text-gray-600 hover:text-gray-800"><img className="w-4" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/facebook.svg" /></a>

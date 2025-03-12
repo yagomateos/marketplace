@@ -3,8 +3,12 @@ import PublicPageContainer from "../../components/containers/publicPageContainer
 export default function About() {
   return (
     <PublicPageContainer>
-      <div className="max-w-7xl mx-auto flex flex-wrap py-9 px-4">
-        <div className="lg:w-1/2"></div>
+      <div className="max-w-7xl mx-auto flex flex-wrap py-9 px-4 items-center">
+        <div className="lg:w-1/2">
+        
+        <img className="w-full" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/uploads/5155714_2672290.svg"/>
+
+        </div>
         <div className="lg:w-1/2">
           <h2 className="text-5xl mb-3">Bienvenidos a Vendalia.es</h2>
           <p>
@@ -20,7 +24,7 @@ export default function About() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto flex flex-wrap my-9 px-4">
+      <div className="max-w-7xl mx-auto flex flex-wrap my-9 px-4 items-center">
         <div className="lg:w-1/2">
           <h2 className="text-4xl mb-3">Qué Nos Hace Especiales</h2>
          <ul>
@@ -35,7 +39,11 @@ export default function About() {
          <p>Te invitamos a explorar nuestro mercado, descubrir creadores increíbles y formar parte de una comunidad que valora la creatividad y la autenticidad. En Vendalia.es, cada pieza tiene una historia y cada historia merece ser contada.</p>
          
          </div>
-        <div className="lg:w-1/2"></div>
+        <div className="lg:w-1/2">
+        
+        <img className="w-full" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/uploads/4167276_18771.svg"/>
+
+        </div>
       </div>
     </PublicPageContainer>
   );

@@ -71,14 +71,14 @@ export default function TopMenu({ cartUpdated, session, setOpenedPopup, userPopu
                     </span>
                 </span>
             </li>
-            <li>
+            {/* <li>
                 <span className='tooltip-nav-item relative'>
                     <a className="tooltip-trigger flex items-center justify-center w-10 h-10 rounded-full hover:bg-green-200"><img className="w-5" src="https://bucket-qlrc5d.s3.eu-west-2.amazonaws.com/assets/gift.svg" /></a>
                     <span className='kd-tooltip absolute left-1/2 bg-green-500 text-white rounded-lg p-3 -bottom-12 w-max'>
                         Buscador de regalos
                     </span>
                 </span>
-            </li>
+            </li> */}
             {
                 session && (
                     <>

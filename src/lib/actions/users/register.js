@@ -18,6 +18,11 @@ export const registerUser = async (formData) => {
         return;
     }
 
+    if (typeof username === "string"){
+        throw new Error('Por favor, utilice un nombre de usuario válido')
+        return;
+    }
+
     if (!email) {
         throw new Error('Correo electrónico vacío')
         return;
