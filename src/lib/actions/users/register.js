@@ -18,7 +18,7 @@ export const registerUser = async (formData) => {
         return;
     }
 
-    if (typeof username === "string"){
+    if (typeof username != "string"){
         throw new Error('Por favor, utilice un nombre de usuario válido')
         return;
     }
